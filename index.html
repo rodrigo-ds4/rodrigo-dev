@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="es" data-lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rodrigo de Sarasqueta — AI Engineering</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #070709;
+  --bg2: #0e0e12;
+  --card: #141418;
+  --card-hi: #1c1c22;
+  --line: #222228;
+  --text: #f0f0f2;
+  --muted: #888899;
+  --accent: #a78bfa;
+  --accent2: #67e8f9;
+  --accent3: #fbbf24;
+  --green: #6ee7b7;
+  --radius: 20px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:auto;overflow-x:hidden;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;overflow-x:hidden;line-height:1.6;}
+::selection{background:rgba(167,139,250,.3);}
+a{color:inherit;text-decoration:none;}
+
+#three-canvas{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:0;pointer-events:none;opacity:.6;}
+
+/* top bar */
+.top-bar{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:16px 28px;background:linear-gradient(180deg,rgba(7,7,9,.95),transparent);transition:transform .4s cubic-bezier(.22,1,.36,1),background .3s;backdrop-filter:blur(16px);}
+.top-bar.hidden{transform:translateY(-120%);}
+.top-bar .logo{font-weight:700;font-size:.82rem;letter-spacing:-.02em;color:var(--muted);}
+.top-bar .logo span{color:var(--accent);}
+.top-bar nav{display:flex;align-items:center;gap:6px;}
+.lang-btn{background:none;border:none;color:var(--muted);font-size:.68rem;font-weight:600;padding:4px 10px;border-radius:6px;cursor:pointer;transition:.2s;font-family:'Inter',sans-serif;text-transform:uppercase;letter-spacing:.08em;}
+.lang-btn:hover{color:var(--text);background:rgba(255,255,255,.06);}
+.lang-btn.active{color:var(--accent);background:rgba(167,139,250,.1);}
+.contact-btn{background:linear-gradient(135deg,var(--accent),#7c3aed);color:#fff;border:none;padding:6px 18px;border-radius:8px;font-size:.76rem;font-weight:600;cursor:pointer;transition:.3s;font-family:'Inter',sans-serif;}
+.contact-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(167,139,250,.35);}
+
+section{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;justify-content:flex-start;padding:100px 28px;}
+.section-inner{max-width:1200px;margin:0 auto;width:100%;perspective:1200px;}
+
+/* ===== HERO ===== */
+#hero,#contact{justify-content:center;}
+#hero{padding-top:140px;min-height:100vh;perspective:1000px;}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+@media(max-width:860px){.hero-grid{grid-template-columns:1fr;gap:40px;}}
+.hero-left .badge{display:inline-block;padding:4px 16px;border-radius:999px;font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.14em;background:rgba(167,139,250,.1);color:var(--accent);margin-bottom:18px;border:1px solid rgba(167,139,250,.12);}
+.hero-left h1{font-size:clamp(3.4rem,9vw,7rem);font-weight:900;line-height:.88;letter-spacing:-.05em;margin-bottom:14px;}
+.hero-left h1 .line{display:block;overflow:visible;perspective:800px;}
+.hero-left h1 .line span{display:inline-block;transform-style:preserve-3d;}
+.hero-left h1 .grad{background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 50%,var(--accent3) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hero-left .tagline{font-size:clamp(.95rem,1.4vw,1.1rem);color:var(--muted);max-width:500px;line-height:1.7;margin-bottom:28px;}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;}
+.hero-cta .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 30px;border-radius:14px;font-weight:600;font-size:.88rem;transition:.4s cubic-bezier(.22,1,.36,1);cursor:pointer;border:none;font-family:'Inter',sans-serif;}
+.hero-cta .btn.primary{background:linear-gradient(135deg,var(--accent),#7c3aed);color:#fff;box-shadow:0 4px 24px rgba(167,139,250,.25);}
+.hero-cta .btn.primary:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(167,139,250,.4);}
+.hero-cta .btn.secondary{background:var(--card);color:var(--text);border:1px solid var(--line);}
+.hero-cta .btn.secondary:hover{background:var(--card-hi);transform:translateY(-4px);}
+.hero-right{display:flex;justify-content:center;align-items:center;}
+.hero-orb{width:clamp(200px,26vw,400px);height:clamp(200px,26vw,400px);border-radius:50%;background:radial-gradient(circle at 35% 35%,rgba(167,139,250,.3),rgba(103,232,249,.1),transparent 70%);animation:orb-pulse 5s ease-in-out infinite;filter:blur(3px);position:relative;}
+.hero-orb::after{content:'';position:absolute;inset:-20%;border-radius:50%;background:radial-gradient(circle at 65% 65%,rgba(251,191,36,.06),transparent 60%);animation:orb-pulse 7s ease-in-out infinite reverse;}
+@keyframes orb-pulse{0%,100%{transform:scale(1) rotate(0deg);opacity:.7;}50%{transform:scale(1.08) rotate(4deg);opacity:1;}}
+
+.section-label{font-size:.68rem;text-transform:uppercase;letter-spacing:.25em;color:var(--accent);margin-bottom:6px;font-weight:600;}
+.section-title{font-size:clamp(2.6rem,6vw,4.8rem);font-weight:900;letter-spacing:-.04em;margin-bottom:8px;line-height:1.02;}
+.section-title .grad{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.section-sub{color:var(--muted);font-size:.95rem;max-width:580px;margin-bottom:40px;}
+
+/* about text */
+.about-text{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:32px;margin-bottom:36px;transform-style:preserve-3d;}
+.about-text p{color:var(--muted);font-size:.9rem;line-height:1.8;margin-bottom:12px;}
+.about-text p:last-child{margin-bottom:0;}
+.about-text strong{color:var(--text);}
+.tag-group{display:flex;flex-wrap:wrap;gap:5px;margin-top:16px;}
+.tag{display:inline-block;padding:3px 12px;border-radius:999px;font-size:.7rem;font-weight:500;background:rgba(167,139,250,.08);color:var(--accent);border:1px solid rgba(167,139,250,.12);transition:.3s;}
+.tag:hover{background:rgba(167,139,250,.18);transform:translateY(-2px);}
+.tag.green{background:rgba(110,231,183,.08);color:var(--green);border-color:rgba(110,231,183,.12);}
+.tag.blue{background:rgba(103,232,249,.08);color:var(--accent2);border-color:rgba(103,232,249,.12);}
+.tag.gold{background:rgba(251,191,36,.08);color:var(--accent3);border-color:rgba(251,191,36,.12);}
+
+/* methods */
+.methods-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:12px;}
+.method-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;transition:.5s cubic-bezier(.22,1,.36,1);position:relative;overflow:hidden;transform-style:preserve-3d;}
+.method-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:.4s;}
+.method-card:hover::before{opacity:1;}
+.method-card:hover{border-color:rgba(167,139,250,.2);transform:translateY(-6px) rotateX(2deg);box-shadow:0 24px 48px rgba(0,0,0,.3);}
+.method-card .icon{font-size:1.6rem;margin-bottom:10px;}
+.method-card h4{font-size:.95rem;font-weight:700;margin-bottom:6px;}
+.method-card p{font-size:.82rem;color:var(--muted);line-height:1.6;}
+
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:32px;}
+.stat-card{text-align:center;padding:22px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);transition:.4s;}
+.stat-card:hover{border-color:rgba(167,139,250,.15);transform:translateY(-4px);}
+.stat-card .num{font-size:2.2rem;font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.stat-card .lbl{font-size:.76rem;color:var(--muted);margin-top:2px;}
+
+/* projects */
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px;}
+.project-card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;transition:.5s cubic-bezier(.22,1,.36,1);display:flex;flex-direction:column;transform-style:preserve-3d;}
+.project-card:hover{transform:translateY(-8px) rotateX(3deg);border-color:rgba(167,139,250,.2);box-shadow:0 30px 60px rgba(0,0,0,.5);}
+.project-card .thumb{height:190px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.project-card .thumb .overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,var(--card));}
+.project-card .thumb .bg-pulse{position:absolute;inset:-30%;background:radial-gradient(circle at 50% 50%,rgba(167,139,250,.15),transparent 60%);transition:.8s;}
+.project-card:hover .thumb .bg-pulse{transform:scale(1.4);}
+.project-card .body{padding:20px;flex:1;display:flex;flex-direction:column;}
+.project-card .body .cat{font-size:.62rem;text-transform:uppercase;letter-spacing:.14em;color:var(--accent);font-weight:600;margin-bottom:4px;}
+.project-card .body h3{font-size:1.1rem;font-weight:700;margin-bottom:6px;}
+.project-card .body p{font-size:.82rem;color:var(--muted);line-height:1.6;margin-bottom:12px;flex:1;}
+.project-card .body .tech{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:12px;}
+.project-card .body .tech span{padding:2px 8px;border-radius:6px;font-size:.62rem;font-weight:500;background:var(--bg2);color:var(--muted);border:1px solid var(--line);}
+.project-card .body .links a{font-size:.78rem;font-weight:600;color:var(--accent);transition:.3s;display:inline-flex;align-items:center;gap:4px;}
+.project-card .body .links a:hover{color:var(--accent2);gap:8px;}
+
+/* process */
+.process-steps{display:flex;flex-direction:column;gap:0;position:relative;padding-left:40px;}
+.process-steps::before{content:'';position:absolute;left:15px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--accent),var(--accent2),transparent);}
+.process-step{position:relative;padding:20px 0 20px 30px;transform-origin:left;transform-style:preserve-3d;}
+.process-step .dot{position:absolute;left:-33px;top:26px;width:12px;height:12px;border-radius:50%;background:var(--accent);border:3px solid var(--bg);box-shadow:0 0 20px rgba(167,139,250,.2);}
+.process-step .dot.alt{background:var(--accent2);box-shadow:0 0 20px rgba(103,232,249,.2);}
+.process-step .dot.alt2{background:var(--accent3);box-shadow:0 0 20px rgba(251,191,36,.2);}
+.process-step h4{font-size:1.05rem;font-weight:700;margin-bottom:4px;}
+.process-step p{font-size:.85rem;color:var(--muted);max-width:500px;}
+
+/* contact */
+#contact{min-height:auto;padding:70px 28px;text-align:center;}
+#contact h2{font-size:clamp(2.4rem,5.5vw,4.5rem);font-weight:900;letter-spacing:-.04em;margin-bottom:8px;}
+#contact p{color:var(--muted);font-size:.95rem;margin-bottom:24px;}
+.social-links{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;}
+.social-links a{display:flex;align-items:center;gap:8px;padding:10px 26px;border-radius:14px;background:var(--card);border:1px solid var(--line);color:var(--text);font-weight:600;font-size:.85rem;transition:.4s cubic-bezier(.22,1,.36,1);}
+.social-links a:hover{background:var(--card-hi);transform:translateY(-4px);border-color:var(--accent);box-shadow:0 12px 32px rgba(167,139,250,.15);}
+.social-links a .ico{font-size:1.1rem;}
+
+footer{text-align:center;padding:30px;color:var(--muted);font-size:.78rem;border-top:1px solid var(--line);position:relative;z-index:1;}
+
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px;}
+
+#loader{position:fixed;inset:0;z-index:999;background:var(--bg);display:flex;align-items:center;justify-content:center;transition:opacity .5s;}
+#loader.hidden{opacity:0;pointer-events:none;}
+#loader .spinner{width:24px;height:24px;border-radius:50%;border:2px solid var(--line);border-top-color:var(--accent);animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:860px){
+  section{padding:70px 20px;}
+  #hero{padding-top:110px;}
+  .hero-left .badge{margin-bottom:12px;}
+  .hero-left h1{font-size:clamp(2.8rem,10vw,4.2rem);}
+  .hero-right{display:none;}
+  .hero-cta .btn{padding:10px 22px;font-size:.82rem;}
+  .projects-grid{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));}
+  .stats-row{grid-template-columns:repeat(3,1fr);}
+}
+@media(max-width:600px){
+  section{padding:50px 14px;min-height:auto;}
+  #hero{padding-top:90px;min-height:100vh;}
+  .hero-left h1{font-size:clamp(2.2rem,13vw,2.8rem);}
+  .hero-left .tagline{font-size:.88rem;}
+  .hero-cta{flex-direction:column;}
+  .hero-cta .btn{width:100%;justify-content:center;}
+  .top-bar{padding:10px 14px;}
+  .top-bar .logo{font-size:.72rem;}
+  .lang-btn{padding:3px 7px;font-size:.62rem;}
+  .contact-btn{padding:5px 14px;font-size:.7rem;}
+  .section-title{font-size:clamp(1.8rem,10vw,2.6rem);}
+  .section-sub{font-size:.85rem;}
+  .about-text{padding:20px;}
+  .about-text p{font-size:.82rem;}
+  .methods-grid{grid-template-columns:1fr;}
+  .method-card{padding:18px;}
+  .stats-row{grid-template-columns:1fr;gap:8px;}
+  .projects-grid{grid-template-columns:1fr;}
+  .project-card .thumb{height:140px;}
+  .process-steps{padding-left:28px;}
+  .process-step{padding:14px 0 14px 22px;}
+  .process-step h4{font-size:.95rem;}
+  .process-step p{font-size:.8rem;}
+  #contact{padding:50px 14px;}
+  #contact h2{font-size:clamp(1.8rem,8vw,2.4rem);}
+  .social-links a{padding:8px 18px;font-size:.8rem;width:100%;justify-content:center;}
+  .section-inner{perspective:800px;}
+}
+@media(max-width:400px){
+  section{padding:40px 10px;}
+  .top-bar{padding:8px 10px;flex-wrap:wrap;gap:6px;}
+  .hero-left h1{font-size:clamp(1.8rem,11vw,2.2rem);}
+}
+</style>
+</head>
+<body>
+
+<div id="loader"><div class="spinner"></div></div>
+<canvas id="three-canvas"></canvas>
+
+<div class="top-bar" id="topBar">
+  <div class="logo">rodrigo<span>·</span>dev</div>
+  <nav>
+    <button class="lang-btn active" data-lang="es">ES</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="de">DE</button>
+    <span style="width:1px;height:14px;background:var(--line);margin:0 6px;"></span>
+    <a href="#contact" class="contact-btn" data-i18n="nav_contact">Contacto</a>
+  </nav>
+</div>
+
+<section id="hero">
+  <div class="section-inner">
+    <div class="hero-grid">
+      <div class="hero-left">
+        <div class="badge" data-i18n="hero_badge">AI · Backend · Creative Engineering</div>
+        <h1>
+          <div class="line"><span class="line-1" data-i18n="hero_hi">Rodrigo de</span></div>
+          <div class="line"><span class="line-2 grad" data-i18n="hero_name">Sarasqueta</span></div>
+        </h1>
+        <p class="tagline" data-i18n="hero_tagline">Brindo soluciones especializadas en agentes inteligentes, RAG, microservicios y diseño de sistemas fiables. Creo herramientas con propósito, no por hype.</p>
+        <div class="hero-cta">
+          <a href="#projects" class="btn primary" data-i18n="hero_work">Ver proyectos</a>
+          <a href="#contact" class="btn secondary" data-i18n="hero_contact">Contactarme</a>
+        </div>
+      </div>
+      <div class="hero-right"><div class="hero-orb"></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="section-inner">
+    <div class="section-label" data-i18n="about_label">Mi enfoque</div>
+    <div class="section-title-wrap"><h2 class="section-title" data-i18n="about_title">Ingeniería con <span class="grad">propósito</span></h2></div>
+    <div class="about-text" id="aboutText">
+      <p data-i18n="about_p1">Diseño y construyo <strong>agentes de IA</strong> que resuelven problemas reales. Mi stack combina <strong>modelos locales (Ollama)</strong> con proveedores cloud para optimizar costos — cada token cuenta. Implemento <strong>sistemas RAG extremo a extremo</strong> con control de alucinaciones, chunking semántico y recuperación híbrida.</p>
+      <p data-i18n="about_p2">Creo en la <strong>creatividad para tiempos cambiantes</strong>: elegir la herramienta correcta para el objetivo, no por moda. Mis sistemas priorizan <strong>fiabilidad, estabilidad y uso inteligente de datos</strong>. Cada solución pasa por <strong>testing riguroso de agentes</strong> y validación continua.</p>
+      <p data-i18n="about_p3">Mi proceso: <strong>entender las necesidades del cliente</strong>, diseñar posibles soluciones, prototipar rápido e iterar. Pongo atención al detalle en el <strong>frontend moderno</strong> y en la experiencia de uso. No construyo tecnología por construir — construyo para <strong>generar valor</strong>.</p>
+      <div class="tag-group">
+        <span class="tag">Agentes IA</span>
+        <span class="tag">RAG</span>
+        <span class="tag green">Ollama</span>
+        <span class="tag blue">Microservicios</span>
+        <span class="tag gold">End-to-End</span>
+        <span class="tag">ChromaDB</span>
+        <span class="tag green">FastAPI</span>
+        <span class="tag">LangChain</span>
+        <span class="tag blue">LangGraph</span>
+        <span class="tag gold">smolagents</span>
+        <span class="tag">Testing</span>
+        <span class="tag green">Frontend</span>
+        <span class="tag">Optimización Tokens</span>
+      </div>
+    </div>
+    <div class="section-label" style="margin-top:32px;" data-i18n="methods_label">Mis métodos</div>
+    <div class="methods-grid">
+      <div class="method-card"><div class="icon">🎯</div><h4 data-i18n="m1_title">Entender el problema</h4><p data-i18n="m1_desc">Cada proyecto empieza escuchando. Analizo las necesidades reales del cliente antes de escribir código.</p></div>
+      <div class="method-card"><div class="icon">🧠</div><h4 data-i18n="m2_title">Diseñar la solución</h4><p data-i18n="m2_desc">Exploro múltiples arquitecturas. Elijo la combinación óptima de herramientas según el objetivo.</p></div>
+      <div class="method-card"><div class="icon">⚡</div><h4 data-i18n="m3_title">Prototipar rápido</h4><p data-i18n="m3_desc">Construyo MVPs funcionales en días. Itero con feedback real hasta ajustar la solución.</p></div>
+      <div class="method-card"><div class="icon">🔬</div><h4 data-i18n="m4_title">Testear y validar</h4><p data-i18n="m4_desc">Testing riguroso de agentes, control de alucinaciones, validación RAG. Fiabilidad.</p></div>
+      <div class="method-card"><div class="icon">📦</div><h4 data-i18n="m5_title">Desplegar y escalar</h4><p data-i18n="m5_desc">Docker, APIs, serverless. Arquitecturas que crecen sin reescribir, resilientes.</p></div>
+      <div class="method-card"><div class="icon">🎨</div><h4 data-i18n="m6_title">Frontend con detalle</h4><p data-i18n="m6_desc">Atención al detalle en cada interfaz. Experiencias modernas que responden al instante.</p></div>
+    </div>
+    <div class="stats-row">
+      <div class="stat-card"><div class="num">10+</div><div class="lbl" data-i18n="stat1">Proyectos entregados</div></div>
+      <div class="stat-card"><div class="num">4</div><div class="lbl" data-i18n="stat2">Arquitecturas activas</div></div>
+      <div class="stat-card"><div class="num">∞</div><div class="lbl" data-i18n="stat3">Enfoque en calidad</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="section-inner">
+    <div class="section-label" data-i18n="proj_label">Proyectos</div>
+    <h2 class="section-title" data-i18n="proj_title">Trabajos <span class="grad">seleccionados</span></h2>
+    <p class="section-sub" data-i18n="proj_sub">Agentes inteligentes, sistemas RAG y herramientas creativas — cada uno resuelve un problema real.</p>
+    <div class="projects-grid" id="projectsGrid"></div>
+  </div>
+</section>
+
+<section id="process">
+  <div class="section-inner">
+    <div class="section-label" data-i18n="process_label">Cómo trabajo</div>
+    <h2 class="section-title" data-i18n="process_title">De la idea a la <span class="grad">solución</span></h2>
+    <p class="section-sub" data-i18n="process_sub">Un proceso iterativo que garantiza resultados sólidos desde el día uno.</p>
+    <div class="process-steps">
+      <div class="process-step"><div class="dot"></div><h4 data-i18n="ps1_title">Escuchar y entender</h4><p data-i18n="ps1_desc">Entrevista con el cliente. Problema real, intentos previos, métricas de éxito.</p></div>
+      <div class="process-step"><div class="dot alt"></div><h4 data-i18n="ps2_title">Diseñar la arquitectura</h4><p data-i18n="ps2_desc">Componentes, flujos, proveedores IA, estrategia RAG, testing y deploy.</p></div>
+      <div class="process-step"><div class="dot alt2"></div><h4 data-i18n="ps3_title">Prototipar y validar</h4><p data-i18n="ps3_desc">MVP funcional, validación contra casos reales, ajuste hasta cumplir objetivos.</p></div>
+      <div class="process-step"><div class="dot"></div><h4 data-i18n="ps4_title">Producir y monitorear</h4><p data-i18n="ps4_desc">Docker, CI/CD, monitoreo de rendimiento y calidad. Iteración continua.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="section-inner">
+    <h2 data-i18n="contact_title">¿Hablamos?</h2>
+    <p data-i18n="contact_sub">Estoy abierto a proyectos freelance, colaboraciones y roles desafiantes.</p>
+    <div class="social-links">
+      <a href="mailto:rodrigo@sarasqueta.dev" target="_blank"><span class="ico">✉️</span> rodrigo@sarasqueta.dev</a>
+      <a href="https://github.com/rotpando" target="_blank"><span class="ico">🐙</span> GitHub</a>
+      <a href="https://linkedin.com/in/rodrigo-sarasqueta" target="_blank"><span class="ico">💼</span> LinkedIn</a>
+    </div>
+  </div>
+</section>
+
+<footer><span data-i18n="footer">© 2026 Rodrigo de Sarasqueta — Hecho con propósito</span></footer>
+
+<script>setTimeout(function(){var l=document.getElementById('loader');if(l)l.classList.add('hidden')},2500);</script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" onerror="console.warn('Three fail')"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" onerror="window.gsapFail=1"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" onerror="console.warn('ScrollTrigger fail')"></script>
+<script>
+// ===== I18N =====
+var i18n={es:{
+nav_contact:'Contacto',hero_badge:'AI · Backend · Creative Engineering',
+hero_hi:'Rodrigo de',hero_name:'Sarasqueta',
+hero_tagline:'Brindo soluciones especializadas en agentes inteligentes, RAG, microservicios y diseño de sistemas fiables. Creo herramientas con propósito, no por hype.',
+hero_work:'Ver proyectos',hero_contact:'Contactarme',
+about_label:'Mi enfoque',about_title:'Ingeniería con propósito',
+about_p1:'Diseño y construyo <strong>agentes de IA</strong> que resuelven problemas reales. Mi stack combina <strong>modelos locales (Ollama)</strong> con proveedores cloud para optimizar costos — cada token cuenta. Implemento <strong>sistemas RAG extremo a extremo</strong> con control de alucinaciones, chunking semántico y recuperación híbrida.',
+about_p2:'Creo en la <strong>creatividad para tiempos cambiantes</strong>: elegir la herramienta correcta para el objetivo, no por moda. Mis sistemas priorizan <strong>fiabilidad, estabilidad y uso inteligente de datos</strong>. Cada solución pasa por <strong>testing riguroso de agentes</strong> y validación continua.',
+about_p3:'Mi proceso: <strong>entender las necesidades del cliente</strong>, diseñar posibles soluciones, prototipar rápido e iterar. Pongo atención al detalle en el <strong>frontend moderno</strong> y en la experiencia de uso. No construyo tecnología por construir — construyo para <strong>generar valor</strong>.',
+methods_label:'Mis métodos',
+m1_title:'Entender el problema',m1_desc:'Cada proyecto empieza escuchando. Analizo las necesidades reales del cliente antes de escribir código.',
+m2_title:'Diseñar la solución',m2_desc:'Exploro múltiples arquitecturas. Elijo la combinación óptima de herramientas según el objetivo.',
+m3_title:'Prototipar rápido',m3_desc:'Construyo MVPs funcionales en días. Itero con feedback real hasta ajustar la solución.',
+m4_title:'Testear y validar',m4_desc:'Testing riguroso de agentes, control de alucinaciones, validación RAG. Fiabilidad.',
+m5_title:'Desplegar y escalar',m5_desc:'Docker, APIs, serverless. Arquitecturas que crecen sin reescribir, resilientes.',
+m6_title:'Frontend con detalle',m6_desc:'Atención al detalle en cada interfaz. Experiencias modernas que responden al instante.',
+stat1:'Proyectos entregados',stat2:'Arquitecturas activas',stat3:'Enfoque en calidad',
+proj_label:'Proyectos',proj_title:'Trabajos seleccionados',
+proj_sub:'Agentes inteligentes, sistemas RAG y herramientas creativas — cada uno resuelve un problema real.',
+process_label:'Cómo trabajo',process_title:'De la idea a la solución',
+process_sub:'Un proceso iterativo que garantiza resultados sólidos desde el día uno.',
+ps1_title:'Escuchar y entender',ps1_desc:'Entrevista con el cliente. Problema real, intentos previos, métricas de éxito.',
+ps2_title:'Diseñar la arquitectura',ps2_desc:'Componentes, flujos, proveedores IA, estrategia RAG, testing y deploy.',
+ps3_title:'Prototipar y validar',ps3_desc:'MVP funcional, validación contra casos reales, ajuste hasta cumplir objetivos.',
+ps4_title:'Producir y monitorear',ps4_desc:'Docker, CI/CD, monitoreo de rendimiento y calidad. Iteración continua.',
+contact_title:'¿Hablamos?',contact_sub:'Estoy abierto a proyectos freelance, colaboraciones y roles desafiantes.',
+footer:'© 2026 Rodrigo de Sarasqueta — Hecho con propósito',
+proj_1_title:'IndieBot',proj_1_desc:'Agente RAG multi-LLM con Ollama, OpenAI y DeepSeek. Memoria dual, PDFs, ChromaDB, evaluación integrada.',
+proj_1_tech:'Python · FastAPI · ChromaDB · Ollama · smolagents · Docker',proj_1_link:'Ver repositorio',
+proj_2_title:'Salidas Bot',proj_2_desc:'Agente para descubrir lugares en Buenos Aires. 8 tools, memoria persistente, FAQ vectorial, CLI+FastAPI+Gradio.',
+proj_2_tech:'Python · smolagents · Groq · FastAPI · ChromaDB · Gradio',proj_2_link:'Ver repositorio',
+proj_3_title:'ShopAgent',proj_3_desc:'Asistente e-commerce con LangGraph. 49k productos, búsqueda semántica, recomendaciones contextuales.',
+proj_3_tech:'Python · LangChain · LangGraph · ChromaDB · Streamlit',proj_3_link:'Ver repositorio',
+proj_4_title:'SoundGraph DJ',proj_4_desc:'Visualizador 3D de audio. Transforma canciones en superficie topográfica interactiva con WebGL + DSP.',
+proj_4_tech:'Python · Flask · Librosa · Plotly.js · NumPy · DSP',proj_4_link:'Ver repositorio',
+},en:{
+nav_contact:'Contact',hero_badge:'AI · Backend · Creative Engineering',
+hero_hi:'Rodrigo de',hero_name:'Sarasqueta',
+hero_tagline:'I deliver specialized solutions in AI agents, RAG, microservices, and reliable system design. I build tools with purpose, not hype.',
+hero_work:'View projects',hero_contact:'Get in touch',
+about_label:'My approach',about_title:'Engineering with purpose',
+about_p1:'I design and build <strong>AI agents</strong> that solve real problems. My stack combines <strong>local models (Ollama)</strong> with cloud providers to optimize costs. I build <strong>end-to-end RAG systems</strong> with hallucination control, semantic chunking, and hybrid retrieval.',
+about_p2:'I believe in <strong>creativity for changing times</strong>: the right tool for the goal, not the trend. My systems prioritize <strong>reliability, stability, and intelligent data use</strong>. Every solution undergoes <strong>rigorous agent testing</strong> and continuous validation.',
+about_p3:'My process: <strong>understand the client\'s needs</strong>, design solutions, prototype fast, iterate. I focus on detail in <strong>modern frontend</strong> and UX. I build to <strong>generate value</strong>.',
+methods_label:'My methods',
+m1_title:'Understand the problem',m1_desc:'Every project starts by listening. I analyze real needs before writing code.',
+m2_title:'Design the solution',m2_desc:'I explore architectures. I choose the optimal tools for the goal.',
+m3_title:'Prototype fast',m3_desc:'I build functional MVPs in days and iterate with real feedback.',
+m4_title:'Test and validate',m4_desc:'Rigorous testing, hallucination control, RAG validation. Reliability first.',
+m5_title:'Deploy and scale',m5_desc:'Docker, APIs, serverless. Architectures that grow without rewrites.',
+m6_title:'Frontend with detail',m6_desc:'Attention to detail in every interface. Modern, responsive experiences.',
+stat1:'Projects delivered',stat2:'Active architectures',stat3:'Quality focus',
+proj_label:'Projects',proj_title:'Selected work',
+proj_sub:'AI agents, RAG systems, and creative tools — each solving a real problem.',
+process_label:'How I work',process_title:'From idea to solution',
+process_sub:'An iterative process that guarantees solid results from day one.',
+ps1_title:'Listen and understand',ps1_desc:'Client interview. Real problem, past attempts, success metrics.',
+ps2_title:'Design architecture',ps2_desc:'Components, flows, AI providers, RAG strategy, testing, deploy.',
+ps3_title:'Prototype and validate',ps3_desc:'Functional MVP, real-case validation, adjust until goals are met.',
+ps4_title:'Produce and monitor',ps4_desc:'Docker, CI/CD, performance monitoring, response quality, iteration.',
+contact_title:"Let's talk?",contact_sub:'Open to freelance, collaborations, and challenging roles.',
+footer:'© 2026 Rodrigo de Sarasqueta — Built with purpose',
+proj_1_title:'IndieBot',proj_1_desc:'Multi-LLM RAG agent with Ollama, OpenAI, DeepSeek. Dual memory, PDFs, ChromaDB, built-in eval.',
+proj_1_tech:'Python · FastAPI · ChromaDB · Ollama · smolagents · Docker',proj_1_link:'View repository',
+proj_2_title:'Salidas Bot',proj_2_desc:'Smart agent for Buenos Aires places. 8 tools, persistent memory, vector FAQ, CLI+FastAPI+Gradio.',
+proj_2_tech:'Python · smolagents · Groq · FastAPI · ChromaDB · Gradio',proj_2_link:'View repository',
+proj_3_title:'ShopAgent',proj_3_desc:'E-commerce assistant with LangGraph. 49k products, semantic search, contextual recommendations.',
+proj_3_tech:'Python · LangChain · LangGraph · ChromaDB · Streamlit',proj_3_link:'View repository',
+proj_4_title:'SoundGraph DJ',proj_4_desc:'Real-time 3D audio visualizer. Turns songs into interactive topographic surfaces via WebGL + DSP.',
+proj_4_tech:'Python · Flask · Librosa · Plotly.js · NumPy · DSP',proj_4_link:'View repository',
+},de:{
+nav_contact:'Kontakt',hero_badge:'KI · Backend · Creative Engineering',
+hero_hi:'Rodrigo de',hero_name:'Sarasqueta',
+hero_tagline:'Ich biete spezialisierte Lösungen in KI-Agenten, RAG, Mikroservices und zuverlässigem Systemdesign. Purpose, nicht Hype.',
+hero_work:'Projekte ansehen',hero_contact:'Kontakt',
+about_label:'Mein Ansatz',about_title:'Engineering mit Sinn',
+about_p1:'Ich entwickle <strong>KI-Agenten</strong> für echte Probleme. Mein Stack kombiniert <strong>lokale Modelle (Ollama)</strong> mit Cloud zur Kostenoptimierung. <strong>End-to-End-RAG</strong> mit Halluzinationskontrolle.',
+about_p2:'<strong>Kreativität für wandelnde Zeiten</strong>: das richtige Werkzeug für das Ziel. Meine Systeme priorisieren <strong>Zuverlässigkeit, Stabilität</strong>. Jede Lösung durchläuft <strong>rigorose Tests</strong>.',
+about_p3:'Mein Prozess: <strong>Kundenbedürfnisse verstehen</strong>, Lösungen entwerfen, schnell prototypisieren, iterieren. Fokus auf <strong>modernes Frontend</strong> und Nutzererfahrung.',
+methods_label:'Meine Methoden',
+m1_title:'Problem verstehen',m1_desc:'Jedes Projekt beginnt mit Zuhören. Analyse der echten Bedürfnisse vor dem Code.',
+m2_title:'Lösung entwerfen',m2_desc:'Mehrere Architekturen prüfen. Optimale Werkzeuge für das Ziel wählen.',
+m3_title:'Schnell prototypisieren',m3_desc:'MVPs in Tagen, Iteration mit echtem Feedback.',
+m4_title:'Testen und validieren',m4_desc:'Rigorose Tests, Halluzinationskontrolle, RAG-Validierung. Zuverlässigkeit.',
+m5_title:'Bereitstellen und skalieren',m5_desc:'Docker, APIs, Serverless. Architekturen die wachsen ohne Neuschreiben.',
+m6_title:'Frontend mit Detail',m6_desc:'Detailverliebte Oberflächen. Moderne Erlebnisse, die sofort reagieren.',
+stat1:'Projekte geliefert',stat2:'Aktive Architekturen',stat3:'Qualitätsfokus',
+proj_label:'Projekte',proj_title:'Ausgewählte Arbeiten',
+proj_sub:'KI-Agenten, RAG-Systeme und kreative Tools — jedes löst ein echtes Problem.',
+process_label:'Wie ich arbeite',process_title:'Von der Idee zur Lösung',
+process_sub:'Ein iterativer Prozess für solide Ergebnisse ab Tag eins.',
+ps1_title:'Zuhören und verstehen',ps1_desc:'Kundengespräch: echtes Problem, frühere Versuche, Erfolgsmetriken.',
+ps2_title:'Architektur entwerfen',ps2_desc:'Komponenten, Datenflüsse, KI-Anbieter, RAG-Strategie, Tests, Deploy.',
+ps3_title:'Prototyp und Validierung',ps3_desc:'MVP bauen, gegen echte Fälle validieren, anpassen bis Ziele erreicht.',
+ps4_title:'Produktion und Monitoring',ps4_desc:'Docker, CI/CD, Leistungsüberwachung, Antwortqualität. Kontinuierlich.',
+contact_title:'Reden wir?',contact_sub:'Offen für Freiberuflichkeit, Kooperationen, herausfordernde Rollen.',
+footer:'© 2026 Rodrigo de Sarasqueta — Mit Sinn gebaut',
+proj_1_title:'IndieBot',proj_1_desc:'Multi-LLM RAG-Agent mit Ollama, OpenAI, DeepSeek. Dualer Speicher, PDFs, ChromaDB, Evaluierung.',
+proj_1_tech:'Python · FastAPI · ChromaDB · Ollama · smolagents · Docker',proj_1_link:'Repository ansehen',
+proj_2_title:'Salidas Bot',proj_2_desc:'Agent für Buenos Aires. 8 Tools, persistenter Speicher, Vektor-FAQ, CLI+FastAPI+Gradio.',
+proj_2_tech:'Python · smolagents · Groq · FastAPI · ChromaDB · Gradio',proj_2_link:'Repository ansehen',
+proj_3_title:'ShopAgent',proj_3_desc:'E-Commerce-Assistent mit LangGraph. 49k Produkte, semantische Suche, Empfehlungen.',
+proj_3_tech:'Python · LangChain · LangGraph · ChromaDB · Streamlit',proj_3_link:'Repository ansehen',
+proj_4_title:'SoundGraph DJ',proj_4_desc:'3D-Audio-Visualizer. Verwandelt Songs in interaktive topografische Oberflächen mit WebGL + DSP.',
+proj_4_tech:'Python · Flask · Librosa · Plotly.js · NumPy · DSP',proj_4_link:'Repository ansehen',
+}};
+
+var projects=[
+  {id:'p1',emoji:'🤖',gradient:'linear-gradient(135deg,#1a1a2e,#16213e)',repo:'https://github.com/rotpando/indiebot-clean',keys:['proj_1_title','proj_1_desc','proj_1_tech','proj_1_link']},
+  {id:'p2',emoji:'🗺️',gradient:'linear-gradient(135deg,#1e1b4b,#312e81)',repo:'https://github.com/rotpando/salidas-bot',keys:['proj_2_title','proj_2_desc','proj_2_tech','proj_2_link']},
+  {id:'p3',emoji:'🛒',gradient:'linear-gradient(135deg,#0f172a,#1e293b)',repo:'https://github.com/rotpando/shopagent',keys:['proj_3_title','proj_3_desc','proj_3_tech','proj_3_link']},
+  {id:'p4',emoji:'🎵',gradient:'linear-gradient(135deg,#0c0a1d,#1a0a2e)',repo:'https://github.com/rotpando/soundgraphdj',keys:['proj_4_title','proj_4_desc','proj_4_tech','proj_4_link']}
+];
+
+function renderProjects(lang){
+  var g=document.getElementById('projectsGrid');if(!g)return;g.innerHTML='';
+  projects.forEach(function(p,i){
+    var c=document.createElement('div');c.className='project-card';
+    c.innerHTML='<div class="thumb" style="background:'+p.gradient+'"><div class="bg-pulse"></div><span style="font-size:3.5rem;opacity:.6;position:relative;z-index:1;">'+p.emoji+'</span><div class="overlay"></div></div><div class="body"><div class="cat">'+(i+1).toString().padStart(2,'0')+'</div><h3>'+i18n[lang][p.keys[0]]+'</h3><p>'+i18n[lang][p.keys[1]]+'</p><div class="tech">'+i18n[lang][p.keys[2]].split('·').map(function(t){return '<span>'+t.trim()+'</span>'}).join('')+'</div><div class="links"><a href="'+p.repo+'" target="_blank">→ '+i18n[lang][p.keys[3]]+'</a></div></div>';
+    g.appendChild(c);
+  });
+}
+
+var currentLang='es';
+function setLang(lang){
+  currentLang=lang;
+  document.documentElement.lang=lang;
+  document.querySelectorAll('.lang-btn').forEach(function(b){b.classList.toggle('active',b.dataset.lang===lang)});
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var k=el.dataset.i18n;if(i18n[lang]&&i18n[lang][k])el.innerHTML=i18n[lang][k];
+  });
+  renderProjects(lang);
+}
+document.querySelectorAll('.lang-btn').forEach(function(b){b.addEventListener('click',function(){setLang(b.dataset.lang)})});
+document.addEventListener('keydown',function(e){if(e.key==='1')setLang('es');if(e.key==='2')setLang('en');if(e.key==='3')setLang('de')});
+
+renderProjects('es');
+document.getElementById('loader').classList.add('hidden');
+
+// ===== GSAP — 3D DISTORTION & PLASTIC EFFECTS =====
+function initGSAP(){
+  if(typeof gsap==='undefined'||window.gsapFail) return;
+  if(typeof ScrollTrigger!=='undefined') gsap.registerPlugin(ScrollTrigger);
+
+  // === 1. HERO: 3D folding text reveal ===
+  // Each letter of "Rodrigo de" and "Sarasqueta" folds in from 3D space
+  var spans=document.querySelectorAll('.line-1, .line-2');
+  if(spans.length){
+    gsap.from(spans,{
+      rotationX:-120,
+      rotationY:30,
+      z:-100,
+      opacity:0,
+      duration:1.4,
+      stagger:.12,
+      ease:'back.out(1.2)',
+      delay:.1,
+    });
+  }
+
+  // === 2. ENHANCED SCROLL-TRIGGERED ANIMATIONS ===
+  if(typeof ScrollTrigger!=='undefined'){
+    // Section titles with velocity-based skew and 3D perspective
+    gsap.utils.toArray('.section-title').forEach(function(t,i){
+      gsap.fromTo(t,{skewX:-15,scale:.8,opacity:0,rotationX:20},{skewX:0,scale:1,opacity:1,rotationX:0,ease:'power2.out',
+        scrollTrigger:{trigger:t,start:'top 85%',end:'top 35%',scrub:1.5}});
+    });
+
+    // Hero text reveals with stagger and 3D depth
+    gsap.from('.hero-left h1 .line',{transformStyle:'preserve-3d',rotationX:90,opacity:0,duration:1.2,delay:0.2,stagger:.08,ease:'back.out(1.5)'});
+    gsap.from('.hero-left .tagline',{y:30,opacity:0,duration:.8,ease:'power2.out',scrollTrigger:{trigger:'#hero',start:'top 70%',end:'top 40%',scrub:1.5}});
+    gsap.from('.hero-left .badge',{y:20,opacity:0,duration:.6,ease:'power2.out',scrollTrigger:{trigger:'#hero',start:'top 60%',end:'top 40%',scrub:1.5}});
+
+    // About text with cinematic entrance
+    gsap.fromTo('.about-text',{rotateX:15,scale:.88,opacity:0,y:60},
+      {rotateX:0,scale:1,opacity:1,y:0,ease:'power2.out',scrollTrigger:{trigger:'#about',start:'top 70%',end:'top 40%',scrub:1.5}});
+
+    // Method cards — staggered vertical entrance with elastic
+    gsap.from('.method-card',{y:80,scale:.9,rotateX:10,rotateY:-5,opacity:0,
+      duration:.7,stagger:.05,ease:'back.out(1.5)',
+      scrollTrigger:{trigger:'#about',start:'bottom 85%',toggleActions:'play none none none'}});
+
+    // Stat cards — micro-reveal with detail
+    gsap.utils.toArray('.stat-card').forEach(function(card,i){
+      gsap.fromTo(card,
+        {y:50,scale:.8,opacity:0},
+        {
+          y:0,scale:1,opacity:1,
+          ease:'power2.out',
+          scrollTrigger:{trigger:'.stats-row',start:'top 80%',end:'bottom 80%',scrub:2}
+        }
+      );
+    });
+
+    // Projects — dynamic staggered reveal with 3D depth
+    gsap.utils.toArray('.project-card').forEach(function(card,i){
+      gsap.fromTo(card,
+        {y:100,scale:.85,rotationX:20,rotationY:-15,opacity:0},
+        {
+          y:0,scale:1,rotationX:0,rotationY:0,opacity:1,
+          ease:'power3.out',
+          scrollTrigger:{trigger:'#projects',start:'top 75%',end:'top 35%',scrub:1.8}
+        }
+      );
+    });
+
+    // Process steps — flowing timeline with velocity
+    gsap.utils.toArray('.process-step').forEach(function(step,i){
+      gsap.fromTo(step,
+        {x:-80,opacity:0,scale:.85,rotationY:10},
+        {
+          x:0,opacity:1,scale:1,rotationY:0,
+          ease:'power2.out',
+          scrollTrigger:{trigger:'.process-steps',start:'top 80%',end:'bottom 80%',scrub:2}
+        }
+      );
+    });
+
+    // Contact — smooth fade and slide up
+    gsap.from('#contact > div',{y:60,opacity:0,duration:.8,ease:'power2.out',
+      scrollTrigger:{trigger:'#contact',start:'top 80%',end:'top 40%',scrub:1.5}});
+
+    // === 4. ENHANCED SECTION EXIT ANIMATIONS ===
+    // Each section slides up, fades, and distorts elegantly when scrolling past
+    gsap.utils.toArray('section').forEach(function(section){
+      gsap.to(section,{
+        yPercent:-40,
+        scale:.95,
+        filter:'blur(2px)',
+        opacity:0,
+        ease:'power2.in',
+        scrollTrigger:{
+          trigger:section,
+          start:'bottom bottom-=15%',
+          end:'bottom top+=10%',
+          scrub:1.5,
+        }
+      });
+    });
+
+    // === 5. ENHANCED PARALLAX ON SECTION INNER ===
+    gsap.utils.toArray('.section-inner').forEach(function(inner,i){
+      gsap.fromTo(inner,{y:0},{y:(i%2===0?-30:-15),ease:'none',scrollTrigger:{trigger:inner.parentElement,start:'top bottom',end:'bottom top',scrub:2.5}});
+    });
+  }
+
+}
+function initThree(){
+  try{if(typeof THREE==='undefined')return;
+  var c=document.getElementById('three-canvas');if(!c)return;
+  var s=new THREE.Scene(),cam=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,.1,200);
+  cam.position.z=32;
+  var r=new THREE.WebGLRenderer({canvas:c,alpha:true,antialias:true});
+  r.setSize(window.innerWidth,window.innerHeight);
+  r.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  var n=3000,pos=new Float32Array(n*3),col=new Float32Array(n*3);
+  for(var i=0;i<n;i++){pos[i*3]=(Math.random()-.5)*100;pos[i*3+1]=(Math.random()-.5)*100;pos[i*3+2]=(Math.random()-.5)*60;var t=Math.random();col[i*3]=.45+t*.35;col[i*3+1]=.38+t*.35;col[i*3+2]=.75+t*.25;}
+  var g=new THREE.BufferGeometry();
+  g.setAttribute('position',new THREE.BufferAttribute(pos,3));g.setAttribute('color',new THREE.BufferAttribute(col,3));
+  var m=new THREE.PointsMaterial({size:.14,vertexColors:true,transparent:true,opacity:.45,blending:THREE.AdditiveBlending,sizeAttenuation:true,depthWrite:false});
+  var p=new THREE.Points(g,m);s.add(p);
+  var mx=0,my=0,tx=0,ty=0;
+  document.addEventListener('mousemove',function(e){tx=(e.clientX/window.innerWidth)*2-1;ty=-(e.clientY/window.innerHeight)*2+1;});
+  !function animate(){requestAnimationFrame(animate);mx+=(tx-mx)*.04;my+=(ty-my)*.04;p.rotation.x+=.00025+my*.0005;p.rotation.y+=.0004+mx*.0005;r.render(s,cam)}();
+  window.addEventListener('resize',function(){cam.aspect=window.innerWidth/window.innerHeight;cam.updateProjectionMatrix();r.setSize(window.innerWidth,window.innerHeight)});
+}catch(e){console.warn('Three:',e)}}
+function boot(){initThree();initGSAP()}
+if(document.readyState==='complete') boot();else window.addEventListener('load',boot);
+
+// Top bar hide + magnetic scroll indicator
+var lastS=0,tb=document.getElementById('topBar');
+window.addEventListener('scroll',function(){
+  var s=window.scrollY;if(s>lastS&&s>120)tb.classList.add('hidden');else tb.classList.remove('hidden');lastS=s;
+});
+
+// ===== LUSION.INspired Interactive Elements (runs after GSAP loads) =====
+window.addEventListener('load',function(){
+try{
+  // Enhanced Card Interactions
+  document.querySelectorAll('.method-card, .project-card').forEach(function(card){
+    card.addEventListener('mouseenter',function(e){
+      gsap.to(card,{scale:1.05,duration:.4,ease:'back.out(1.2)',zIndex:10});
+    });
+    card.addEventListener('mouseleave',function(){
+      gsap.to(card,{scale:1,duration:.4,ease:'power2.out',zIndex:1});
+    });
+  });
+
+  // Sticky Section Labels
+  gsap.utils.toArray('.section-label').forEach(function(label){
+    gsap.fromTo(label,
+      {opacity:0.3,y:10},
+      {
+        opacity:1,y:0,
+        scrollTrigger:{
+          trigger:label.parentElement,
+          start:'top 80%',
+          end:'top 20%',
+          scrub:1,
+        }
+      }
+    );
+  });
+
+  // Sticky Method Cards at Top
+  document.querySelectorAll('.methods-grid .method-card').forEach(function(card,i){
+    gsap.fromTo(card,
+      {rotateX:10,transformOrigin:'top center'},
+      {
+        rotateX:0,
+        scrollTrigger:{
+          trigger:card,
+          start:'top bottom+=80',
+          end:'top top+=20',
+          scrub:1.2,
+        }
+      }
+    );
+  });
+
+  // Enhanced 3D Tilt on Mouse Move
+  document.addEventListener('mousemove',function(e){
+    var tiltX=(e.clientY/window.innerHeight-0.5)*8;
+    var tiltY=(e.clientX/window.innerWidth-0.5)*-8;
+    document.querySelectorAll('.hero-left h1 .line span').forEach(function(span){
+      gsap.to(span,{rotationX:tiltX*0.1,rotationY:tiltY*0.1,duration:1,ease:'power2.out'});
+    });
+  });
+
+}catch(e){console.warn('Lusion Effects:',e)}});
+</script>
+</body>
+</html>
