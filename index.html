@@ -602,35 +602,46 @@ function initGSAP(){
     });
   }
 
-  // === 3. PROJECTS — pinned horizontal scroll ===
+  // === 3. PROJECTS — carrusel: cards de centro a derecha, scrollear centra cada una ===
   var projSec=document.getElementById('projects');
   var projGrid=document.getElementById('projectsGrid');
-  if(projSec&&projGrid&&projGrid.children.length){
-    var scrollDist=projGrid.scrollWidth-window.innerWidth+80;
-    var pinEnd=Math.max(window.innerHeight, scrollDist);
-    ScrollTrigger.create({trigger:projSec,pin:true,pinSpacing:true,start:'top top',end:function(){return '+='+pinEnd},invalidateOnRefresh:true});
-    // Header entrances (always, within first 45% of pin or less)
-    var hEnd=Math.min(pinEnd*.45, window.innerHeight*.45);
-    gsap.from(projSec.querySelector('.section-label'),{opacity:0,x:-20,ease:'power2.out',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+Math.min(pinEnd*.2,hEnd*.44)},scrub:1}});
-    gsap.from(projSec.querySelector('.section-title'),{x:-vw,opacity:0,ease:'power4.out',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+hEnd},scrub:1.5}});
-    gsap.from(projSec.querySelector('.section-sub'),{y:30,opacity:0,ease:'power2.out',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+Math.min(pinEnd*.3,hEnd*.66)},scrub:1.2}});
-    // Horizontal scroll (only if grid overflows)
-    if(scrollDist>100){
-      gsap.to(projGrid,{x:-scrollDist,ease:'none',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+scrollDist},scrub:1.5,invalidateOnRefresh:true}});
-      gsap.utils.toArray('.project-card').forEach(function(c,i){
-        var dir=i%2===0?1:-1;
-        gsap.fromTo(c,
-          {rotationZ:32*dir,rotationY:35,y:100,scale:.7,skewX:18*dir,opacity:0,transformOrigin:'50% 100%'},
-          {rotationZ:0,rotationY:0,y:0,scale:1,skewX:0,opacity:1,ease:'power3.out',
-           scrollTrigger:{trigger:c,start:'left 95%',end:'left 45%',scrub:1.2,horizontal:true}});
-      });
-    }else{
-      // Cards entrance (no horizontal scroll needed)
-      gsap.utils.toArray('.project-card').forEach(function(c,i){
-        var dir=i%2===0?1:-1;
-        gsap.fromTo(c,{y:80,rotationZ:18*dir,scale:.85,opacity:0,transformOrigin:'50% 100%'},{y:0,rotationZ:0,scale:1,opacity:1,ease:'power3.out',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+pinEnd*.7},scrub:1.5}});
-      });
-    }
+  if(projSec&&projGrid&&projGrid.children.length&&window.innerWidth>=600){
+    var cards=gsap.utils.toArray('.project-card');
+    var n=cards.length;
+    var cardW=cards[0].offsetWidth;
+    var gap=20;
+    var vpC=window.innerWidth/2;
+    // startX: first card's left edge at viewport center
+    var startX=vpC;
+    // endX: last card centered
+    var endX=vpC-(n-1)*(cardW+gap)-cardW/2;
+    var scrollDist=Math.max(window.innerHeight,startX-endX);
+    ScrollTrigger.create({trigger:projSec,pin:true,pinSpacing:true,start:'top top',end:function(){return '+='+scrollDist},invalidateOnRefresh:true});
+    // Header entrances (first portion of pin)
+    var hEnd=Math.min(scrollDist*.4,window.innerHeight*.4);
+    gsap.from(projSec.querySelector('.section-label'),{opacity:0,x:-20,ease:'power2.out',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+Math.min(scrollDist*.15,hEnd*.37)},scrub:1}});
+    gsap.from(projSec.querySelector('.section-title'),{x:-window.innerWidth,opacity:0,ease:'power4.out',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+hEnd},scrub:1.5}});
+    gsap.from(projSec.querySelector('.section-sub'),{y:30,opacity:0,ease:'power2.out',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+Math.min(scrollDist*.25,hEnd*.62)},scrub:1.2}});
+    // Set initial position: first card starts at viewport center
+    gsap.set(projGrid,{x:startX});
+    // Animate to final position (last card centered)
+    gsap.to(projGrid,{x:endX,ease:'none',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+scrollDist},scrub:1.5,invalidateOnRefresh:true}});
+    // Cards 3D entrance (subtle rotation + scale that resolves as they approach center)
+    cards.forEach(function(c,i){
+      var dir=i%2===0?1:-1;
+      gsap.fromTo(c,{rotationZ:28*dir,rotationY:30,y:80,scale:.65,skewX:15*dir,transformOrigin:'50% 100%'},{rotationZ:0,rotationY:0,y:0,scale:1,skewX:0,ease:'power3.out',scrollTrigger:{trigger:c,start:'left 110%',end:'left 40%',scrub:1.2,horizontal:true}});
+    });
+  }else if(projSec&&projGrid&&projGrid.children.length){
+    // Mobile: simple pin + entrance
+    var mEnd=window.innerHeight*1.2;
+    ScrollTrigger.create({trigger:projSec,pin:true,pinSpacing:true,start:'top top',end:function(){return '+='+mEnd},invalidateOnRefresh:true});
+    gsap.from(projSec.querySelector('.section-label'),{opacity:0,x:-20,ease:'power2.out',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+mEnd*.15},scrub:1}});
+    gsap.from(projSec.querySelector('.section-title'),{x:-vw,opacity:0,ease:'power4.out',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+mEnd*.35},scrub:1.5}});
+    gsap.from(projSec.querySelector('.section-sub'),{y:30,opacity:0,ease:'power2.out',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+mEnd*.28},scrub:1.2}});
+    gsap.utils.toArray('.project-card').forEach(function(c,i){
+      var dir=i%2===0?1:-1;
+      gsap.fromTo(c,{y:80,rotationZ:18*dir,scale:.85,opacity:0,transformOrigin:'50% 100%'},{y:0,rotationZ:0,scale:1,opacity:1,ease:'power3.out',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+mEnd*.8},scrub:1.5}});
+    });
   }
 
   // === 5. EXPERIENCE — pinned horizontal scroll ===
