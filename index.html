@@ -584,7 +584,7 @@ function initGSAP(){
     });
   }
 
-  // === 2. WORK — pinned, method cards distorted on entry ===
+  // === 2. WORK — pinned, method cards fade+lift on entry ===
   var workSec=document.getElementById('work');
   if(workSec){
     var wkEnd=window.innerHeight*1.3;
@@ -592,11 +592,9 @@ function initGSAP(){
     gsap.from(workSec.querySelector('.section-label'),{opacity:0,x:-20,ease:'power2.out',scrollTrigger:{trigger:workSec,start:'top top',end:function(){return '+='+wkEnd*.2},scrub:1}});
     gsap.from(workSec.querySelector('.section-title'),{x:-vw,opacity:0,ease:'power4.out',scrollTrigger:{trigger:workSec,start:'top top',end:function(){return '+='+wkEnd*.35},scrub:1.5}});
     gsap.from(workSec.querySelector('.section-sub'),{y:30,opacity:0,ease:'power2.out',scrollTrigger:{trigger:workSec,start:'top top',end:function(){return '+='+wkEnd*.3},scrub:1.2}});
-    gsap.from('.method-card',{
-      y:80,scale:.7,rotateX:30,rotateY:-20,skewX:12,opacity:0,
-      duration:.5,stagger:.05,ease:'power3.out',
-      scrollTrigger:{trigger:workSec,start:'top top',end:function(){return '+='+wkEnd*.65},scrub:1.5,toggleActions:'play none none none'},
-      onComplete:function(){gsap.set('.method-card',{skewX:0,rotateX:0,rotateY:0});}
+    gsap.utils.toArray('.method-card').forEach(function(c,i){
+      var dir=i%2===0?1:-1;
+      gsap.fromTo(c,{y:60*dir,opacity:0,scale:.85,rotationZ:8*dir,skewX:5*dir},{y:0,opacity:1,scale:1,rotationZ:0,skewX:0,ease:'power3.out',scrollTrigger:{trigger:workSec,start:'top top',end:function(){return '+='+wkEnd*.7},scrub:1.2}});
     });
     gsap.utils.toArray('.process-step').forEach(function(s,i){
       var dir=i%2===0?1:-1;
