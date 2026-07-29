@@ -602,7 +602,7 @@ function initGSAP(){
     });
   }
 
-  // === 3. PROJECTS — spotlight carousel: center card straight, sides distorted ===
+  // === 3. PROJECTS — spotlight carousel: each card gets equal scroll time in center ===
   var projSec=document.getElementById('projects');
   var projGrid=document.getElementById('projectsGrid');
   if(projSec&&projGrid&&projGrid.children.length&&window.innerWidth>=600){
@@ -611,30 +611,43 @@ function initGSAP(){
     var cardW=cards[0].offsetWidth;
     var gap=20;
     var vpC=window.innerWidth/2;
-    // start: first card centered, end: last card centered
-    var startX=vpC-cardW/2;
-    var endX=vpC-cardW/2-(n-1)*(cardW+gap);
+    // Use getBoundingClientRect to get grid's natural position before any transform
+    var gridNat=projGrid.getBoundingClientRect();
+    var natCard0Ctr=gridNat.left+cardW/2;
+    var natLastCtr=gridNat.left+(n-1)*(cardW+gap)+cardW/2;
+    var startX=vpC-natCard0Ctr;
+    var endX=vpC-natLastCtr;
     var travel=startX-endX;
-    var scrollDist=Math.max(window.innerHeight*1.5,travel*1.3);
+    // Each card gets equal scroll time: 4x travel => ~1600px per card transition
+    var scrollDist=Math.max(window.innerHeight*3,travel*4);
     ScrollTrigger.create({trigger:projSec,pin:true,pinSpacing:true,start:'top top',end:function(){return '+='+scrollDist},invalidateOnRefresh:true});
     // Headers
-    var hEnd=Math.min(scrollDist*.35,window.innerHeight*.35);
+    var hEnd=Math.min(scrollDist*.3,window.innerHeight*.35);
     gsap.from(projSec.querySelector('.section-label'),{opacity:0,x:-20,ease:'power2.out',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+Math.min(scrollDist*.12,hEnd*.34)},scrub:1}});
     gsap.from(projSec.querySelector('.section-title'),{x:-window.innerWidth,opacity:0,ease:'power4.out',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+hEnd},scrub:1.5}});
     gsap.from(projSec.querySelector('.section-sub'),{y:30,opacity:0,ease:'power2.out',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+Math.min(scrollDist*.22,hEnd*.63)},scrub:1.2}});
-    // Grid animation
+    // Grid animation: move grid left so each card visits center
     gsap.set(projGrid,{x:startX});
-    gsap.to(projGrid,{x:endX,ease:'none',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+scrollDist},scrub:2,invalidateOnRefresh:true,
+    gsap.to(projGrid,{x:endX,ease:'none',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+scrollDist},scrub:2.5,invalidateOnRefresh:true,
       onUpdate:function(self){
         var p=self.progress;
         var curX=startX+(endX-startX)*p;
         for(var i=0;i<n;i++){
           var card=cards[i];
-          var ctr=curX+i*(cardW+gap)+cardW/2;
+          if(!card)continue;
+          var ctr=curX+gridNat.left+i*(cardW+gap)+cardW/2;
           var dist=ctr-vpC;
-          var f=Math.min(1,Math.abs(dist)/(window.innerWidth*0.55));
+          var absDist=Math.abs(dist);
+          var f=Math.min(1,absDist/(window.innerWidth*0.5));
           var sign=dist>=0?1:-1;
-          gsap.set(card,{rotationZ:f*22*sign,rotationY:f*18,skewX:f*12*sign,scale:1-f*0.22,opacity:1-f*0.35,zIndex:Math.round((1-f)*10)});
+          gsap.set(card,{
+            rotationZ:f*25*sign,
+            rotationY:f*20,
+            skewX:f*14*sign,
+            scale:1.06-f*0.36,
+            opacity:1-f*0.55,
+            zIndex:Math.round((1-f)*20)+1
+          });
         }
       }
     }});
