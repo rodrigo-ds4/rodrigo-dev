@@ -570,32 +570,34 @@ function initGSAP(){
   // === 1. ABOUT — pinned, title slides in, then card distorts & settles ===
   var aboutSec=document.getElementById('about');
   if(aboutSec){
-    ScrollTrigger.create({trigger:aboutSec,pin:true,pinSpacing:true,start:'top top',end:'+=130%',invalidateOnRefresh:true});
-    gsap.from(aboutSec.querySelector('.section-label'),{opacity:0,x:-20,ease:'power2.out',scrollTrigger:{trigger:aboutSec,start:'top top',end:'+=20%',scrub:1}});
-    gsap.from('.section-title-wrap',{x:-vw,opacity:0,ease:'power4.out',scrollTrigger:{trigger:aboutSec,start:'top top',end:'+=45%',scrub:1.5}});
-    gsap.from('.about-text',{rotateX:30,rotateY:-20,skewX:15,scale:.7,opacity:0,y:60,transformOrigin:'50% 100%',ease:'power3.out',scrollTrigger:{trigger:aboutSec,start:'+=15%',end:'+=85%',scrub:1.8}});
-    gsap.fromTo('.tag-group .tag',{scale:0,rotation:20,opacity:0},{scale:1,rotation:0,opacity:1,duration:.4,stagger:.03,ease:'back.out(2)',scrollTrigger:{trigger:aboutSec,start:'+=40%',end:'+=100%',scrub:1.2}});
+    var abEnd=window.innerHeight*1.3;
+    ScrollTrigger.create({trigger:aboutSec,pin:true,pinSpacing:true,start:'top top',end:function(){return '+='+abEnd},invalidateOnRefresh:true});
+    gsap.from(aboutSec.querySelector('.section-label'),{opacity:0,x:-20,ease:'power2.out',scrollTrigger:{trigger:aboutSec,start:'top top',end:abEnd*.2,scrub:1}});
+    gsap.from('.section-title-wrap',{x:-vw,opacity:0,ease:'power4.out',scrollTrigger:{trigger:aboutSec,start:'top top',end:abEnd*.4,scrub:1.5}});
+    gsap.from('.about-text',{rotateX:30,rotateY:-20,skewX:15,scale:.7,opacity:0,y:60,transformOrigin:'50% 100%',ease:'power3.out',scrollTrigger:{trigger:aboutSec,start:abEnd*.1,end:abEnd*.7,scrub:1.8}});
+    gsap.fromTo('.tag-group .tag',{scale:0,rotation:20,opacity:0},{scale:1,rotation:0,opacity:1,duration:.4,stagger:.03,ease:'back.out(2)',scrollTrigger:{trigger:aboutSec,start:abEnd*.3,end:abEnd*.8,scrub:1.2}});
     gsap.utils.toArray('.stat-card').forEach(function(c,i){
-      gsap.fromTo(c,{y:40,scale:.8,opacity:0},{y:0,scale:1,opacity:1,ease:'back.out(1.5)',scrollTrigger:{trigger:aboutSec,start:'+=70%',end:'+=120%',scrub:1.5}});
+      gsap.fromTo(c,{y:40,scale:.8,opacity:0},{y:0,scale:1,opacity:1,ease:'back.out(1.5)',scrollTrigger:{trigger:aboutSec,start:abEnd*.6,end:abEnd*1.1,scrub:1.5}});
     });
   }
 
   // === 2. WORK — pinned, method cards distorted on entry ===
   var workSec=document.getElementById('work');
   if(workSec){
-    ScrollTrigger.create({trigger:workSec,pin:true,pinSpacing:true,start:'top top',end:'+=140%',invalidateOnRefresh:true});
-    gsap.from(workSec.querySelector('.section-label'),{opacity:0,x:-20,ease:'power2.out',scrollTrigger:{trigger:workSec,start:'top top',end:'+=20%',scrub:1}});
-    gsap.from(workSec.querySelector('.section-title'),{x:-vw,opacity:0,ease:'power4.out',scrollTrigger:{trigger:workSec,start:'top top',end:'+=40%',scrub:1.5}});
-    gsap.from(workSec.querySelector('.section-sub'),{y:30,opacity:0,ease:'power2.out',scrollTrigger:{trigger:workSec,start:'+=10%',end:'+=35%',scrub:1.2}});
+    var wkEnd=window.innerHeight*1.3;
+    ScrollTrigger.create({trigger:workSec,pin:true,pinSpacing:true,start:'top top',end:function(){return '+='+wkEnd},invalidateOnRefresh:true});
+    gsap.from(workSec.querySelector('.section-label'),{opacity:0,x:-20,ease:'power2.out',scrollTrigger:{trigger:workSec,start:'top top',end:wkEnd*.2,scrub:1}});
+    gsap.from(workSec.querySelector('.section-title'),{x:-vw,opacity:0,ease:'power4.out',scrollTrigger:{trigger:workSec,start:'top top',end:wkEnd*.35,scrub:1.5}});
+    gsap.from(workSec.querySelector('.section-sub'),{y:30,opacity:0,ease:'power2.out',scrollTrigger:{trigger:workSec,start:wkEnd*.08,end:wkEnd*.3,scrub:1.2}});
     gsap.from('.method-card',{
       y:80,scale:.7,rotateX:30,rotateY:-20,skewX:12,opacity:0,
       duration:.5,stagger:.05,ease:'power3.out',
-      scrollTrigger:{trigger:workSec,start:'+=15%',end:'+=70%',scrub:1.5,toggleActions:'play none none none'},
+      scrollTrigger:{trigger:workSec,start:wkEnd*.12,end:wkEnd*.65,scrub:1.5,toggleActions:'play none none none'},
       onComplete:function(){gsap.set('.method-card',{skewX:0,rotateX:0,rotateY:0});}
     });
     gsap.utils.toArray('.process-step').forEach(function(s,i){
       var dir=i%2===0?1:-1;
-      gsap.fromTo(s,{x:-60*dir,opacity:0,scale:.8,rotationY:15*dir},{x:0,opacity:1,scale:1,rotationY:0,ease:'power3.out',scrollTrigger:{trigger:workSec,start:'+=60%',end:'+=130%',scrub:1.5}});
+      gsap.fromTo(s,{x:-60*dir,opacity:0,scale:.8,rotationY:15*dir},{x:0,opacity:1,scale:1,rotationY:0,ease:'power3.out',scrollTrigger:{trigger:workSec,start:wkEnd*.5,end:wkEnd*1.2,scrub:1.5}});
     });
   }
 
@@ -607,9 +609,11 @@ function initGSAP(){
     if(grid&&grid.children.length&&projSec){
       var endPx=Math.max(1,grid.scrollWidth-window.innerWidth+80);
       ScrollTrigger.create({trigger:projSec,pin:true,pinSpacing:true,start:'top top',end:function(){return '+='+endPx},invalidateOnRefresh:true});
-      gsap.from(projSec.querySelector('.section-label'),{opacity:0,x:-20,ease:'power2.out',scrollTrigger:{trigger:projSec,start:'top top',end:'+=15%',scrub:1}});
-      gsap.from(projSec.querySelector('.section-title'),{x:-vw,opacity:0,ease:'power4.out',scrollTrigger:{trigger:projSec,start:'top top',end:'+=35%',scrub:1.5}});
-      gsap.from(projSec.querySelector('.section-sub'),{y:30,opacity:0,ease:'power2.out',scrollTrigger:{trigger:projSec,start:'+=8%',end:'+=30%',scrub:1.2}});
+      if(endPx>100){
+        gsap.from(projSec.querySelector('.section-label'),{opacity:0,x:-20,ease:'power2.out',scrollTrigger:{trigger:projSec,start:'top top',end:Math.min(endPx*.15,window.innerHeight*.15),scrub:1}});
+        gsap.from(projSec.querySelector('.section-title'),{x:-vw,opacity:0,ease:'power4.out',scrollTrigger:{trigger:projSec,start:'top top',end:Math.min(endPx*.35,window.innerHeight*.35),scrub:1.5}});
+        gsap.from(projSec.querySelector('.section-sub'),{y:30,opacity:0,ease:'power2.out',scrollTrigger:{trigger:projSec,start:'top top',end:Math.min(endPx*.25,window.innerHeight*.25),scrub:1.2}});
+      }
       gsap.to(grid,{x:-endPx,ease:'none',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+endPx},scrub:1.5,invalidateOnRefresh:true}});
       gsap.utils.toArray('.project-card').forEach(function(c,i){
         var dir=i%2===0?1:-1;
@@ -620,13 +624,14 @@ function initGSAP(){
       });
     }
   }else if(projSec){
-    ScrollTrigger.create({trigger:projSec,pin:true,pinSpacing:true,start:'top top',end:'+=120%',invalidateOnRefresh:true});
-    gsap.from(projSec.querySelector('.section-label'),{opacity:0,x:-20,ease:'power2.out',scrollTrigger:{trigger:projSec,start:'top top',end:'+=15%',scrub:1}});
-    gsap.from(projSec.querySelector('.section-title'),{x:-vw,opacity:0,ease:'power4.out',scrollTrigger:{trigger:projSec,start:'top top',end:'+=40%',scrub:1.5}});
-    gsap.from(projSec.querySelector('.section-sub'),{y:30,opacity:0,ease:'power2.out',scrollTrigger:{trigger:projSec,start:'+=10%',end:'+=35%',scrub:1.2}});
+    var mEnd=window.innerHeight*1.2;
+    ScrollTrigger.create({trigger:projSec,pin:true,pinSpacing:true,start:'top top',end:function(){return '+='+mEnd},invalidateOnRefresh:true});
+    gsap.from(projSec.querySelector('.section-label'),{opacity:0,x:-20,ease:'power2.out',scrollTrigger:{trigger:projSec,start:'top top',end:mEnd*.15,scrub:1}});
+    gsap.from(projSec.querySelector('.section-title'),{x:-vw,opacity:0,ease:'power4.out',scrollTrigger:{trigger:projSec,start:'top top',end:mEnd*.35,scrub:1.5}});
+    gsap.from(projSec.querySelector('.section-sub'),{y:30,opacity:0,ease:'power2.out',scrollTrigger:{trigger:projSec,start:mEnd*.08,end:mEnd*.28,scrub:1.2}});
     gsap.utils.toArray('.project-card').forEach(function(c,i){
       var dir=i%2===0?1:-1;
-      gsap.fromTo(c,{y:80,rotationZ:18*dir,scale:.85,opacity:0,transformOrigin:'50% 100%'},{y:0,rotationZ:0,scale:1,opacity:1,ease:'power3.out',scrollTrigger:{trigger:projSec,start:'+=25%',end:'+=100%',scrub:1.5}});
+      gsap.fromTo(c,{y:80,rotationZ:18*dir,scale:.85,opacity:0,transformOrigin:'50% 100%'},{y:0,rotationZ:0,scale:1,opacity:1,ease:'power3.out',scrollTrigger:{trigger:projSec,start:mEnd*.18,end:mEnd*.8,scrub:1.5}});
     });
   }
 
@@ -637,9 +642,11 @@ function initGSAP(){
   if(!expIsMobile&&expSteps&&expSteps.children.length&&expSec){
     var expEndPx=Math.max(1,expSteps.scrollWidth-window.innerWidth+80);
     ScrollTrigger.create({trigger:expSec,pin:true,pinSpacing:true,start:'top top',end:function(){return '+='+expEndPx},invalidateOnRefresh:true});
-    gsap.from(expSec.querySelector('.section-label'),{opacity:0,x:-20,ease:'power2.out',scrollTrigger:{trigger:expSec,start:'top top',end:'+=15%',scrub:1}});
-    gsap.from(expSec.querySelector('.section-title'),{x:-vw,opacity:0,ease:'power4.out',scrollTrigger:{trigger:expSec,start:'top top',end:'+=35%',scrub:1.5}});
-    gsap.from(expSec.querySelector('.section-sub'),{y:30,opacity:0,ease:'power2.out',scrollTrigger:{trigger:expSec,start:'+=8%',end:'+=28%',scrub:1.2}});
+    if(expEndPx>100){
+      gsap.from(expSec.querySelector('.section-label'),{opacity:0,x:-20,ease:'power2.out',scrollTrigger:{trigger:expSec,start:'top top',end:Math.min(expEndPx*.15,window.innerHeight*.15),scrub:1}});
+      gsap.from(expSec.querySelector('.section-title'),{x:-vw,opacity:0,ease:'power4.out',scrollTrigger:{trigger:expSec,start:'top top',end:Math.min(expEndPx*.35,window.innerHeight*.35),scrub:1.5}});
+      gsap.from(expSec.querySelector('.section-sub'),{y:30,opacity:0,ease:'power2.out',scrollTrigger:{trigger:expSec,start:'top top',end:Math.min(expEndPx*.25,window.innerHeight*.25),scrub:1.2}});
+    }
     gsap.to(expSteps,{x:-expEndPx,ease:'none',scrollTrigger:{trigger:expSec,start:'top top',end:function(){return '+='+expEndPx},scrub:1.5,invalidateOnRefresh:true}});
     gsap.utils.toArray('.exp-step').forEach(function(s,i){
       var dir=i%2===0?1:-1;
@@ -649,29 +656,24 @@ function initGSAP(){
       gsap.fromTo(d,{scale:0},{scale:1,ease:'back.out(3)',scrollTrigger:{trigger:d,start:'left 90%',end:'left 60%',scrub:1,horizontal:true}});
     });
   }else if(expSec){
-    ScrollTrigger.create({trigger:expSec,pin:true,pinSpacing:true,start:'top top',end:'+=130%',invalidateOnRefresh:true});
-    gsap.from(expSec.querySelector('.section-label'),{opacity:0,x:-20,ease:'power2.out',scrollTrigger:{trigger:expSec,start:'top top',end:'+=15%',scrub:1}});
-    gsap.from(expSec.querySelector('.section-title'),{x:-vw,opacity:0,ease:'power4.out',scrollTrigger:{trigger:expSec,start:'top top',end:'+=40%',scrub:1.5}});
-    gsap.from(expSec.querySelector('.section-sub'),{y:30,opacity:0,ease:'power2.out',scrollTrigger:{trigger:expSec,start:'+=10%',end:'+=35%',scrub:1.2}});
+    var eEnd=window.innerHeight*1.3;
+    ScrollTrigger.create({trigger:expSec,pin:true,pinSpacing:true,start:'top top',end:function(){return '+='+eEnd},invalidateOnRefresh:true});
+    gsap.from(expSec.querySelector('.section-label'),{opacity:0,x:-20,ease:'power2.out',scrollTrigger:{trigger:expSec,start:'top top',end:eEnd*.15,scrub:1}});
+    gsap.from(expSec.querySelector('.section-title'),{x:-vw,opacity:0,ease:'power4.out',scrollTrigger:{trigger:expSec,start:'top top',end:eEnd*.35,scrub:1.5}});
+    gsap.from(expSec.querySelector('.section-sub'),{y:30,opacity:0,ease:'power2.out',scrollTrigger:{trigger:expSec,start:eEnd*.08,end:eEnd*.28,scrub:1.2}});
     gsap.utils.toArray('.exp-step').forEach(function(s,i){
       var dir=i%2===0?1:-1;
-      gsap.fromTo(s,{x:-70*dir,y:20,opacity:0,scale:.85,rotationX:12,transformOrigin:'left center'},{x:0,y:0,opacity:1,scale:1,rotationX:0,ease:'power3.out',scrollTrigger:{trigger:expSec,start:'+=25%',end:'+=110%',scrub:1.3}});
+      gsap.fromTo(s,{x:-70*dir,y:20,opacity:0,scale:.85,rotationX:12,transformOrigin:'left center'},{x:0,y:0,opacity:1,scale:1,rotationX:0,ease:'power3.out',scrollTrigger:{trigger:expSec,start:eEnd*.2,end:eEnd*1.0,scrub:1.3}});
     });
     gsap.utils.toArray('.exp-dot').forEach(function(d){
-      gsap.fromTo(d,{scale:0},{scale:1,ease:'back.out(3)',scrollTrigger:{trigger:expSec,start:'+=30%',end:'+=90%',scrub:1}});
+      gsap.fromTo(d,{scale:0},{scale:1,ease:'back.out(3)',scrollTrigger:{trigger:expSec,start:eEnd*.25,end:eEnd*.8,scrub:1}});
     });
   }
 
-  // === 6. CONTACT — pinned ===
-  var contactSec=document.getElementById('contact');
-  if(contactSec){
-    ScrollTrigger.create({trigger:contactSec,pin:true,pinSpacing:true,start:'top top',end:'+=90%',invalidateOnRefresh:true});
-    gsap.fromTo('#contact h2',{y:60,opacity:0,filter:'blur(12px)'},{y:0,opacity:1,filter:'blur(0px)',ease:'power3.out',scrollTrigger:{trigger:contactSec,start:'top top',end:'+=35%',scrub:1.5}});
-    gsap.fromTo('#contact p',{y:30,opacity:0},{y:0,opacity:1,ease:'power2.out',scrollTrigger:{trigger:contactSec,start:'+=15%',end:'+=50%',scrub:1.5}});
-    gsap.fromTo('.contact-form .field',{y:24,opacity:0},{y:0,opacity:1,duration:.5,stagger:.08,ease:'power2.out',scrollTrigger:{trigger:contactSec,start:'+=25%',end:'+=65%',scrub:1.2}});
-    gsap.fromTo('.social-links a',{y:20,opacity:0,scale:.9},{y:0,opacity:1,scale:1,duration:.4,stagger:.06,ease:'back.out(1.5)',scrollTrigger:{trigger:contactSec,start:'+=50%',end:'+=85%',scrub:1.2}});
-  }
-  // remove section exit (replaced by pins)
+  // === 6. CONTACT — simple entrance (no pin, last section) ===
+  gsap.fromTo('#contact h2',{y:60,opacity:0,filter:'blur(12px)'},{y:0,opacity:1,filter:'blur(0px)',ease:'power3.out',scrollTrigger:{trigger:'#contact',start:'top 80%',end:'top 40%',scrub:1.5}});
+  gsap.fromTo('#contact p',{y:30,opacity:0},{y:0,opacity:1,ease:'power2.out',scrollTrigger:{trigger:'#contact',start:'top 75%',end:'top 45%',scrub:1.5}});
+  gsap.fromTo('.social-links a',{y:20,opacity:0,scale:.9},{y:0,opacity:1,scale:1,duration:.4,stagger:.06,ease:'back.out(1.5)',scrollTrigger:{trigger:'#contact',start:'top 70%',end:'top 40%',scrub:1.2}});
 
   // === 7. 3D EDGE DISTORTION ===
   gsap.utils.toArray('.method-card, .project-card, .stat-card, .about-text, .process-step, .exp-step').forEach(function(el,i){
