@@ -30,7 +30,18 @@ a{color:inherit;text-decoration:none;}
 
 #three-canvas{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:0;pointer-events:none;opacity:.6;}
 
-/* top bar */
+#grain{position:fixed;inset:0;z-index:998;pointer-events:none;opacity:.035;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+
+#progressBar{position:fixed;top:0;left:0;height:2px;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent3));z-index:200;transform-origin:left;box-shadow:0 0 12px rgba(167,139,250,.6);}
+
+.cursor-dot,.cursor-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:997;border-radius:50%;transform:translate(-50%,-50%);will-change:transform;}
+.cursor-dot{width:6px;height:6px;background:var(--accent2);}
+.cursor-ring{width:34px;height:34px;border:1px solid rgba(167,139,250,.35);transition:width .3s,height .3s,border-color .3s,background .3s;}
+.cursor-ring.big{width:64px;height:64px;background:rgba(167,139,250,.08);border-color:rgba(167,139,250,.6);}
+@media(hover:none),(max-width:860px){.cursor-dot,.cursor-ring{display:none;}}
+
+.magnetic{will-change:transform;}
+
 .top-bar{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:16px 28px;background:linear-gradient(180deg,rgba(7,7,9,.95),transparent);transition:transform .4s cubic-bezier(.22,1,.36,1),background .3s;backdrop-filter:blur(16px);}
 .top-bar.hidden{transform:translateY(-120%);}
 .top-bar .logo{font-weight:700;font-size:.82rem;letter-spacing:-.02em;color:var(--muted);}
@@ -39,15 +50,16 @@ a{color:inherit;text-decoration:none;}
 .lang-btn{background:none;border:none;color:var(--muted);font-size:.68rem;font-weight:600;padding:4px 10px;border-radius:6px;cursor:pointer;transition:.2s;font-family:'Inter',sans-serif;text-transform:uppercase;letter-spacing:.08em;}
 .lang-btn:hover{color:var(--text);background:rgba(255,255,255,.06);}
 .lang-btn.active{color:var(--accent);background:rgba(167,139,250,.1);}
+.cv-btn{background:transparent;color:var(--accent);border:1px solid var(--accent);padding:4px 14px;border-radius:8px;font-size:.7rem;font-weight:600;cursor:pointer;transition:.3s;font-family:'Inter',sans-serif;text-transform:uppercase;letter-spacing:.06em;}
+.cv-btn:hover{background:rgba(167,139,250,.1);}
 .contact-btn{background:linear-gradient(135deg,var(--accent),#7c3aed);color:#fff;border:none;padding:6px 18px;border-radius:8px;font-size:.76rem;font-weight:600;cursor:pointer;transition:.3s;font-family:'Inter',sans-serif;}
-.contact-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(167,139,250,.35);}
+.contact-btn:hover{box-shadow:0 8px 28px rgba(167,139,250,.35);}
 
 section{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;justify-content:flex-start;padding:100px 28px;}
 .section-inner{max-width:1200px;margin:0 auto;width:100%;perspective:1200px;}
 
 /* ===== HERO ===== */
-#hero,#contact{justify-content:center;}
-#hero{padding-top:140px;min-height:100vh;perspective:1000px;}
+#hero{justify-content:center;padding-top:140px;min-height:100vh;perspective:1000px;}
 .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
 @media(max-width:860px){.hero-grid{grid-template-columns:1fr;gap:40px;}}
 .hero-left .badge{display:inline-block;padding:4px 16px;border-radius:999px;font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.14em;background:rgba(167,139,250,.1);color:var(--accent);margin-bottom:18px;border:1px solid rgba(167,139,250,.12);}
@@ -55,13 +67,13 @@ section{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction
 .hero-left h1 .line{display:block;overflow:visible;perspective:800px;}
 .hero-left h1 .line span{display:inline-block;transform-style:preserve-3d;}
 .hero-left h1 .grad{background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 50%,var(--accent3) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.hero-left .tagline{font-size:clamp(.95rem,1.4vw,1.1rem);color:var(--muted);max-width:500px;line-height:1.7;margin-bottom:28px;}
+.hero-left .tagline{font-size:clamp(.95rem,1.4vw,1.1rem);color:var(--muted);max-width:540px;line-height:1.7;margin-bottom:28px;}
 .hero-cta{display:flex;gap:12px;flex-wrap:wrap;}
 .hero-cta .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 30px;border-radius:14px;font-weight:600;font-size:.88rem;transition:.4s cubic-bezier(.22,1,.36,1);cursor:pointer;border:none;font-family:'Inter',sans-serif;}
 .hero-cta .btn.primary{background:linear-gradient(135deg,var(--accent),#7c3aed);color:#fff;box-shadow:0 4px 24px rgba(167,139,250,.25);}
-.hero-cta .btn.primary:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(167,139,250,.4);}
+.hero-cta .btn.primary:hover{box-shadow:0 16px 40px rgba(167,139,250,.4);}
 .hero-cta .btn.secondary{background:var(--card);color:var(--text);border:1px solid var(--line);}
-.hero-cta .btn.secondary:hover{background:var(--card-hi);transform:translateY(-4px);}
+.hero-cta .btn.secondary:hover{background:var(--card-hi);}
 .hero-right{display:flex;justify-content:center;align-items:center;}
 .hero-orb{width:clamp(200px,26vw,400px);height:clamp(200px,26vw,400px);border-radius:50%;background:radial-gradient(circle at 35% 35%,rgba(167,139,250,.3),rgba(103,232,249,.1),transparent 70%);animation:orb-pulse 5s ease-in-out infinite;filter:blur(3px);position:relative;}
 .hero-orb::after{content:'';position:absolute;inset:-20%;border-radius:50%;background:radial-gradient(circle at 65% 65%,rgba(251,191,36,.06),transparent 60%);animation:orb-pulse 7s ease-in-out infinite reverse;}
@@ -105,8 +117,8 @@ section{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction
 .projects-header{margin-bottom:32px;flex-shrink:0;}
 .projects-track-wrap{overflow:visible;width:100%;}
 .projects-grid{display:flex;flex-wrap:nowrap;gap:20px;width:max-content;padding-bottom:16px;will-change:transform;}
-.project-card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;transition:.5s cubic-bezier(.22,1,.36,1);display:flex;flex-direction:column;transform-style:preserve-3d;min-width:380px;width:380px;flex-shrink:0;}
-.project-card:hover{transform:translateY(-8px) rotateX(3deg);border-color:rgba(167,139,250,.2);box-shadow:0 30px 60px rgba(0,0,0,.5);}
+.project-card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;transition:border-color .5s,box-shadow .5s;display:flex;flex-direction:column;transform-style:preserve-3d;min-width:380px;width:380px;flex-shrink:0;will-change:transform,opacity;}
+.project-card:hover{border-color:rgba(167,139,250,.25);box-shadow:0 30px 70px rgba(0,0,0,.55),0 0 0 1px rgba(167,139,250,.08);}
 .project-card .thumb{height:190px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;}
 .project-card .thumb .overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,var(--card));}
 .project-card .thumb .bg-pulse{position:absolute;inset:-30%;background:radial-gradient(circle at 50% 50%,rgba(167,139,250,.15),transparent 60%);transition:.8s;}
@@ -130,13 +142,37 @@ section{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction
 .process-step h4{font-size:1.05rem;font-weight:700;margin-bottom:4px;}
 .process-step p{font-size:.85rem;color:var(--muted);max-width:500px;}
 
-/* contact */
+/* experience timeline */
+.exp-steps{display:flex;flex-direction:column;gap:0;position:relative;padding-left:40px;}
+.exp-steps::before{content:'';position:absolute;left:15px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--accent),var(--accent2),var(--accent3));}
+.exp-step{position:relative;padding:22px 0 22px 30px;transform-origin:left;transform-style:preserve-3d;}
+.exp-dot{position:absolute;left:-33px;top:28px;width:12px;height:12px;border-radius:50%;background:var(--accent);border:3px solid var(--bg);box-shadow:0 0 20px rgba(167,139,250,.25);}
+.exp-dot.alt{background:var(--accent2);box-shadow:0 0 20px rgba(103,232,249,.25);}
+.exp-dot.alt2{background:var(--accent3);box-shadow:0 0 20px rgba(251,191,36,.25);}
+.exp-period{font-size:.68rem;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);font-weight:700;margin-bottom:4px;}
+.exp-step h4{font-size:1.1rem;font-weight:700;margin-bottom:2px;}
+.exp-company{font-size:.82rem;color:var(--accent2);font-weight:600;margin-bottom:6px;}
+.exp-step p{font-size:.85rem;color:var(--muted);max-width:560px;line-height:1.65;}
+
+/* contact form */
+.contact-form{max-width:520px;margin:0 auto 40px;text-align:left;}
+.contact-form .field{position:relative;margin-bottom:26px;}
+.contact-form input,.contact-form textarea{width:100%;background:transparent;border:none;border-bottom:1px solid var(--line);color:var(--text);font-family:'Inter',sans-serif;font-size:.95rem;padding:10px 2px;outline:none;resize:none;transition:border-color .3s;}
+.contact-form textarea{min-height:90px;}
+.contact-form label{position:absolute;left:2px;top:11px;color:var(--muted);font-size:.95rem;pointer-events:none;transition:transform .25s cubic-bezier(.22,1,.36,1),color .25s,font-size .25s;transform-origin:left top;}
+.contact-form input:focus~label,.contact-form input:not(:placeholder-shown)~label,
+.contact-form textarea:focus~label,.contact-form textarea:not(:placeholder-shown)~label{transform:translateY(-20px) scale(.78);color:var(--accent);}
+.contact-form .field::after{content:'';position:absolute;left:0;bottom:0;height:1px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .35s cubic-bezier(.22,1,.36,1);}
+.contact-form .field.focused::after{width:100%;}
+.contact-form button{margin-top:6px;}
+.contact-form .form-note{font-size:.74rem;color:var(--muted);margin-top:10px;margin-bottom:0;}
+
 #contact{min-height:auto;padding:70px 28px;text-align:center;}
 #contact h2{font-size:clamp(2.4rem,5.5vw,4.5rem);font-weight:900;letter-spacing:-.04em;margin-bottom:8px;}
 #contact p{color:var(--muted);font-size:.95rem;margin-bottom:24px;}
 .social-links{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;}
 .social-links a{display:flex;align-items:center;gap:8px;padding:10px 26px;border-radius:14px;background:var(--card);border:1px solid var(--line);color:var(--text);font-weight:600;font-size:.85rem;transition:.4s cubic-bezier(.22,1,.36,1);}
-.social-links a:hover{background:var(--card-hi);transform:translateY(-4px);border-color:var(--accent);box-shadow:0 12px 32px rgba(167,139,250,.15);}
+.social-links a:hover{background:var(--card-hi);border-color:var(--accent);box-shadow:0 12px 32px rgba(167,139,250,.15);}
 .social-links a .ico{font-size:1.1rem;}
 
 footer{text-align:center;padding:30px;color:var(--muted);font-size:.78rem;border-top:1px solid var(--line);position:relative;z-index:1;}
@@ -172,6 +208,7 @@ footer{text-align:center;padding:30px;color:var(--muted);font-size:.78rem;border
   .top-bar{padding:10px 14px;}
   .top-bar .logo{font-size:.72rem;}
   .lang-btn{padding:3px 7px;font-size:.62rem;}
+  .cv-btn{font-size:.62rem;padding:3px 10px;}
   .contact-btn{padding:5px 14px;font-size:.7rem;}
   .section-title{font-size:clamp(1.8rem,10vw,2.6rem);}
   .section-sub{font-size:.85rem;}
@@ -187,6 +224,11 @@ footer{text-align:center;padding:30px;color:var(--muted);font-size:.78rem;border
   .process-step{padding:14px 0 14px 22px;}
   .process-step h4{font-size:.95rem;}
   .process-step p{font-size:.8rem;}
+  .exp-steps{padding-left:28px;}
+  .exp-step{padding:16px 0 16px 22px;}
+  .exp-step h4{font-size:.95rem;}
+  .exp-step p{font-size:.8rem;}
+  .contact-form{max-width:100%;}
   #contact{padding:50px 14px;}
   #contact h2{font-size:clamp(1.8rem,8vw,2.4rem);}
   .social-links a{padding:8px 18px;font-size:.8rem;width:100%;justify-content:center;}
@@ -203,15 +245,19 @@ footer{text-align:center;padding:30px;color:var(--muted);font-size:.78rem;border
 
 <div id="loader"><div class="spinner"></div></div>
 <canvas id="three-canvas"></canvas>
+<div id="grain"></div>
+<div id="progressBar"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="cursor-dot" id="cursorDot"></div>
 
 <div class="top-bar" id="topBar">
   <div class="logo">rodrigo<span>·</span>dev</div>
   <nav>
     <button class="lang-btn active" data-lang="es">ES</button>
     <button class="lang-btn" data-lang="en">EN</button>
-    <button class="lang-btn" data-lang="de">DE</button>
+    <a href="/cv.pdf" target="_blank" class="cv-btn" data-i18n="nav_cv">CV</a>
     <span style="width:1px;height:14px;background:var(--line);margin:0 6px;"></span>
-    <a href="#contact" class="contact-btn" data-i18n="nav_contact">Contacto</a>
+    <a href="#contact" class="contact-btn magnetic" data-i18n="nav_contact">Contacto</a>
   </nav>
 </div>
 
@@ -222,12 +268,12 @@ footer{text-align:center;padding:30px;color:var(--muted);font-size:.78rem;border
         <div class="badge" data-i18n="hero_badge">AI · Backend · Creative Engineering</div>
         <h1>
           <div class="line"><span class="line-1" data-i18n="hero_hi">Rodrigo de</span></div>
-          <div class="line"><span class="line-2 grad" data-i18n="hero_name">Sarasqueta</span></div>
+          <div class="line"><span class="line-2" data-i18n="hero_name">Sarasqueta</span></div>
         </h1>
-        <p class="tagline" data-i18n="hero_tagline">Brindo soluciones especializadas en agentes inteligentes, RAG, microservicios y diseño de sistemas fiables. Creo herramientas con propósito, no por hype.</p>
+        <p class="tagline" data-i18n="hero_tagline">Diseño soluciones y automatizaciones en un contexto cambiante. Mi stack varía según las necesidades, pensando en optimizar costos y resultados.</p>
         <div class="hero-cta">
-          <a href="#projects" class="btn primary" data-i18n="hero_work">Ver proyectos</a>
-          <a href="#contact" class="btn secondary" data-i18n="hero_contact">Contactarme</a>
+          <a href="#projects" class="btn primary magnetic" data-i18n="hero_work">Ver proyectos</a>
+          <a href="/cv.pdf" target="_blank" class="btn secondary magnetic" data-i18n="hero_cv">Descargar CV</a>
         </div>
       </div>
       <div class="hero-right"><div class="hero-orb"></div></div>
@@ -237,7 +283,7 @@ footer{text-align:center;padding:30px;color:var(--muted);font-size:.78rem;border
 
 <section id="about">
   <div class="section-inner">
-    <div class="section-label" data-i18n="about_label">Mi enfoque</div>
+    <div class="section-label" data-i18n="about_label">Soluciones</div>
     <div class="section-title-wrap"><h2 class="section-title" data-i18n="about_title">Ingeniería con <span class="grad">propósito</span></h2></div>
     <div class="about-text" id="aboutText">
       <p data-i18n="about_p1">Diseño y construyo <strong>agentes de IA</strong> que resuelven problemas reales. Mi stack combina <strong>modelos locales (Ollama)</strong> con proveedores cloud para optimizar costos — cada token cuenta. Implemento <strong>sistemas RAG extremo a extremo</strong> con control de alucinaciones, chunking semántico y recuperación híbrida.</p>
@@ -259,7 +305,19 @@ footer{text-align:center;padding:30px;color:var(--muted);font-size:.78rem;border
         <span class="tag">Optimización Tokens</span>
       </div>
     </div>
-    <div class="section-label" style="margin-top:32px;" data-i18n="methods_label">Mis métodos</div>
+    <div class="stats-row">
+      <div class="stat-card"><div class="num">10+</div><div class="lbl" data-i18n="stat1">Proyectos entregados</div></div>
+      <div class="stat-card"><div class="num">4</div><div class="lbl" data-i18n="stat2">Arquitecturas activas</div></div>
+      <div class="stat-card"><div class="num">∞</div><div class="lbl" data-i18n="stat3">Enfoque en calidad</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="section-inner">
+    <div class="section-label" data-i18n="work_label">Cómo trabajo</div>
+    <h2 class="section-title" data-i18n="work_title">Del problema a la <span class="grad">producción</span></h2>
+    <p class="section-sub" data-i18n="work_sub">Los métodos que aplico en cada proyecto, y el proceso paso a paso que los conecta.</p>
     <div class="methods-grid">
       <div class="method-card"><div class="icon">🎯</div><h4 data-i18n="m1_title">Entender el problema</h4><p data-i18n="m1_desc">Cada proyecto empieza escuchando. Analizo las necesidades reales del cliente antes de escribir código.</p></div>
       <div class="method-card"><div class="icon">🧠</div><h4 data-i18n="m2_title">Diseñar la solución</h4><p data-i18n="m2_desc">Exploro múltiples arquitecturas. Elijo la combinación óptima de herramientas según el objetivo.</p></div>
@@ -268,10 +326,12 @@ footer{text-align:center;padding:30px;color:var(--muted);font-size:.78rem;border
       <div class="method-card"><div class="icon">📦</div><h4 data-i18n="m5_title">Desplegar y escalar</h4><p data-i18n="m5_desc">Docker, APIs, serverless. Arquitecturas que crecen sin reescribir, resilientes.</p></div>
       <div class="method-card"><div class="icon">🎨</div><h4 data-i18n="m6_title">Frontend con detalle</h4><p data-i18n="m6_desc">Atención al detalle en cada interfaz. Experiencias modernas que responden al instante.</p></div>
     </div>
-    <div class="stats-row">
-      <div class="stat-card"><div class="num">10+</div><div class="lbl" data-i18n="stat1">Proyectos entregados</div></div>
-      <div class="stat-card"><div class="num">4</div><div class="lbl" data-i18n="stat2">Arquitecturas activas</div></div>
-      <div class="stat-card"><div class="num">∞</div><div class="lbl" data-i18n="stat3">Enfoque en calidad</div></div>
+    <div class="section-label" style="margin-top:40px;" data-i18n="process_steps_label">El proceso</div>
+    <div class="process-steps">
+      <div class="process-step"><div class="dot"></div><h4 data-i18n="ps1_title">Escuchar y entender</h4><p data-i18n="ps1_desc">Entrevista con el cliente. Problema real, intentos previos, métricas de éxito.</p></div>
+      <div class="process-step"><div class="dot alt"></div><h4 data-i18n="ps2_title">Diseñar la arquitectura</h4><p data-i18n="ps2_desc">Componentes, flujos, proveedores IA, estrategia RAG, testing y deploy.</p></div>
+      <div class="process-step"><div class="dot alt2"></div><h4 data-i18n="ps3_title">Prototipar y validar</h4><p data-i18n="ps3_desc">MVP funcional, validación contra casos reales, ajuste hasta cumplir objetivos.</p></div>
+      <div class="process-step"><div class="dot"></div><h4 data-i18n="ps4_title">Producir y monitorear</h4><p data-i18n="ps4_desc">Docker, CI/CD, monitoreo de rendimiento y calidad. Iteración continua.</p></div>
     </div>
   </div>
 </section>
@@ -289,16 +349,18 @@ footer{text-align:center;padding:30px;color:var(--muted);font-size:.78rem;border
   </div>
 </section>
 
-<section id="process">
+<section id="experience">
   <div class="section-inner">
-    <div class="section-label" data-i18n="process_label">Cómo trabajo</div>
-    <h2 class="section-title" data-i18n="process_title">De la idea a la <span class="grad">solución</span></h2>
-    <p class="section-sub" data-i18n="process_sub">Un proceso iterativo que garantiza resultados sólidos desde el día uno.</p>
-    <div class="process-steps">
-      <div class="process-step"><div class="dot"></div><h4 data-i18n="ps1_title">Escuchar y entender</h4><p data-i18n="ps1_desc">Entrevista con el cliente. Problema real, intentos previos, métricas de éxito.</p></div>
-      <div class="process-step"><div class="dot alt"></div><h4 data-i18n="ps2_title">Diseñar la arquitectura</h4><p data-i18n="ps2_desc">Componentes, flujos, proveedores IA, estrategia RAG, testing y deploy.</p></div>
-      <div class="process-step"><div class="dot alt2"></div><h4 data-i18n="ps3_title">Prototipar y validar</h4><p data-i18n="ps3_desc">MVP funcional, validación contra casos reales, ajuste hasta cumplir objetivos.</p></div>
-      <div class="process-step"><div class="dot"></div><h4 data-i18n="ps4_title">Producir y monitorear</h4><p data-i18n="ps4_desc">Docker, CI/CD, monitoreo de rendimiento y calidad. Iteración continua.</p></div>
+    <div class="section-label" data-i18n="exp_label">Experiencia previa</div>
+    <h2 class="section-title" data-i18n="exp_title">Antes de <span class="grad">llegar acá</span></h2>
+    <p class="section-sub" data-i18n="exp_sub">De mentor técnico a ingeniero de IA en producción — el camino recorrido.</p>
+    <div class="exp-steps">
+      <div class="exp-step"><div class="exp-dot"></div><div class="exp-period" data-i18n="exp1_period">2021 — 2022</div><h4 data-i18n="exp1_role">Mentor técnico</h4><div class="exp-company">CoderHouse &amp; Plataforma5</div><p data-i18n="exp1_desc">Guié a estudiantes en fullstack y backend (Node.js, Python). Revisé proyectos productivos y co-desarrollé material de curso.</p></div>
+      <div class="exp-step"><div class="exp-dot alt"></div><div class="exp-period" data-i18n="exp2_period">2022 — 2023</div><h4 data-i18n="exp2_role">Frontend &amp; Backend Developer</h4><div class="exp-company">Monytize · Pagie Portal · TotalAbogados</div><p data-i18n="exp2_desc">Reconstruí una app multimedia en React Native, diseñé APIs REST con Django y SQL, y migré frontends legacy a React para automatización legal.</p></div>
+      <div class="exp-step"><div class="exp-dot alt2"></div><div class="exp-period" data-i18n="exp3_period">Ene 2023 — Jul 2023</div><h4 data-i18n="exp3_role">Machine Learning Engineer</h4><div class="exp-company">AnyoneAI</div><p data-i18n="exp3_desc">Prompt engineering y análisis de datos para una app conversacional de seguros con GPT. Backend y frontend de un motor de riesgo crediticio (Python, Flask, Docker).</p></div>
+      <div class="exp-step"><div class="exp-dot"></div><div class="exp-period" data-i18n="exp4_period">Ago 2023 — Nov 2025</div><h4 data-i18n="exp4_role">Contributor &amp; Team Leader</h4><div class="exp-company">Scale AI</div><p data-i18n="exp4_desc">Lideré equipos de RLHF y evaluación para LLMs de punta. Auditoría técnica, escritura de rúbricas y evaluación de agentes conversacionales multi-turno.</p></div>
+      <div class="exp-step"><div class="exp-dot alt"></div><div class="exp-period" data-i18n="exp5_period">2025 — Presente</div><h4 data-i18n="exp5_role">Profesor de Machine Learning</h4><div class="exp-company">EducaciónIT</div><p data-i18n="exp5_desc">Dicto la 4ª cohorte de la especialización en Machine Learning: arquitecturas, pipelines de datos y evaluación de modelos.</p></div>
+      <div class="exp-step"><div class="exp-dot alt2"></div><div class="exp-period" data-i18n="exp6_period">2026 — Presente</div><h4 data-i18n="exp6_role">AI Engineer</h4><div class="exp-company">Sitch</div><p data-i18n="exp6_desc">Transformé un chatbot estándar en un agente autónomo con function calling. Diseñé un framework de evaluación LLM-as-a-judge y optimicé prompts contra alucinaciones.</p></div>
     </div>
   </div>
 </section>
@@ -307,10 +369,26 @@ footer{text-align:center;padding:30px;color:var(--muted);font-size:.78rem;border
   <div class="section-inner">
     <h2 data-i18n="contact_title">¿Hablamos?</h2>
     <p data-i18n="contact_sub">Estoy abierto a proyectos freelance, colaboraciones y roles desafiantes.</p>
+    <form class="contact-form" id="contactForm">
+      <div class="field">
+        <input type="text" id="cf-name" required autocomplete="name" placeholder=" ">
+        <label for="cf-name" data-i18n="form_name">Nombre</label>
+      </div>
+      <div class="field">
+        <input type="email" id="cf-email" required autocomplete="email" placeholder=" ">
+        <label for="cf-email" data-i18n="form_email">Email</label>
+      </div>
+      <div class="field">
+        <textarea id="cf-message" rows="4" required placeholder=" "></textarea>
+        <label for="cf-message" data-i18n="form_message">Mensaje</label>
+      </div>
+      <button type="submit" class="btn primary magnetic" data-i18n="form_submit">Enviar mensaje</button>
+      <p class="form-note" data-i18n="form_note">Se abre tu cliente de mail con todo esto ya escrito.</p>
+    </form>
     <div class="social-links">
-      <a href="mailto:rodrigo@sarasqueta.dev" target="_blank"><span class="ico">✉️</span> rodrigo@sarasqueta.dev</a>
-      <a href="https://github.com/rotpando" target="_blank"><span class="ico">🐙</span> GitHub</a>
-      <a href="https://linkedin.com/in/rodrigo-sarasqueta" target="_blank"><span class="ico">💼</span> LinkedIn</a>
+      <a href="mailto:rodrigo@sarasqueta.dev" target="_blank" class="magnetic"><span class="ico">✉️</span> rodrigo@sarasqueta.dev</a>
+      <a href="https://github.com/rotpando" target="_blank" class="magnetic"><span class="ico">🐙</span> GitHub</a>
+      <a href="https://linkedin.com/in/rodrigo-sarasqueta" target="_blank" class="magnetic"><span class="ico">💼</span> LinkedIn</a>
     </div>
   </div>
 </section>
@@ -321,18 +399,23 @@ footer{text-align:center;padding:30px;color:var(--muted);font-size:.78rem;border
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" onerror="console.warn('Three fail')"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" onerror="window.gsapFail=1"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" onerror="console.warn('ScrollTrigger fail')"></script>
+<script defer src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js" onerror="window.lenisFail=1"></script>
 <script>
 // ===== I18N =====
 var i18n={es:{
-nav_contact:'Contacto',hero_badge:'AI · Backend · Creative Engineering',
+nav_contact:'Contacto',nav_cv:'CV',
+hero_badge:'AI · Backend · Creative Engineering',
 hero_hi:'Rodrigo de',hero_name:'Sarasqueta',
-hero_tagline:'Brindo soluciones especializadas en agentes inteligentes, RAG, microservicios y diseño de sistemas fiables. Creo herramientas con propósito, no por hype.',
-hero_work:'Ver proyectos',hero_contact:'Contactarme',
-about_label:'Mi enfoque',about_title:'Ingeniería con propósito',
+hero_tagline:'Diseño soluciones y automatizaciones en un contexto cambiante. Mi stack varía según las necesidades, pensando en optimizar costos y resultados.',
+hero_work:'Ver proyectos',hero_cv:'Descargar CV',
+about_label:'Soluciones',about_title:'Ingeniería con propósito',
 about_p1:'Diseño y construyo <strong>agentes de IA</strong> que resuelven problemas reales. Mi stack combina <strong>modelos locales (Ollama)</strong> con proveedores cloud para optimizar costos — cada token cuenta. Implemento <strong>sistemas RAG extremo a extremo</strong> con control de alucinaciones, chunking semántico y recuperación híbrida.',
 about_p2:'Creo en la <strong>creatividad para tiempos cambiantes</strong>: elegir la herramienta correcta para el objetivo, no por moda. Mis sistemas priorizan <strong>fiabilidad, estabilidad y uso inteligente de datos</strong>. Cada solución pasa por <strong>testing riguroso de agentes</strong> y validación continua.',
 about_p3:'Mi proceso: <strong>entender las necesidades del cliente</strong>, diseñar posibles soluciones, prototipar rápido e iterar. Pongo atención al detalle en el <strong>frontend moderno</strong> y en la experiencia de uso. No construyo tecnología por construir — construyo para <strong>generar valor</strong>.',
 methods_label:'Mis métodos',
+work_label:'Cómo trabajo',work_title:'Del problema a la producción',
+work_sub:'Los métodos que aplico en cada proyecto, y el proceso paso a paso que los conecta.',
+process_steps_label:'El proceso',
 m1_title:'Entender el problema',m1_desc:'Cada proyecto empieza escuchando. Analizo las necesidades reales del cliente antes de escribir código.',
 m2_title:'Diseñar la solución',m2_desc:'Exploro múltiples arquitecturas. Elijo la combinación óptima de herramientas según el objetivo.',
 m3_title:'Prototipar rápido',m3_desc:'Construyo MVPs funcionales en días. Itero con feedback real hasta ajustar la solución.',
@@ -342,13 +425,21 @@ m6_title:'Frontend con detalle',m6_desc:'Atención al detalle en cada interfaz. 
 stat1:'Proyectos entregados',stat2:'Arquitecturas activas',stat3:'Enfoque en calidad',
 proj_label:'Proyectos',proj_title:'Trabajos seleccionados',
 proj_sub:'Agentes inteligentes, sistemas RAG y herramientas creativas — cada uno resuelve un problema real.',
-process_label:'Cómo trabajo',process_title:'De la idea a la solución',
-process_sub:'Un proceso iterativo que garantiza resultados sólidos desde el día uno.',
 ps1_title:'Escuchar y entender',ps1_desc:'Entrevista con el cliente. Problema real, intentos previos, métricas de éxito.',
 ps2_title:'Diseñar la arquitectura',ps2_desc:'Componentes, flujos, proveedores IA, estrategia RAG, testing y deploy.',
 ps3_title:'Prototipar y validar',ps3_desc:'MVP funcional, validación contra casos reales, ajuste hasta cumplir objetivos.',
 ps4_title:'Producir y monitorear',ps4_desc:'Docker, CI/CD, monitoreo de rendimiento y calidad. Iteración continua.',
+exp_label:'Experiencia previa',exp_title:'Antes de llegar acá',
+exp_sub:'De mentor técnico a ingeniero de IA en producción — el camino recorrido.',
+exp1_period:'2021 — 2022',exp1_role:'Mentor técnico',exp1_desc:'Guié a estudiantes en fullstack y backend (Node.js, Python). Revisé proyectos productivos y co-desarrollé material de curso.',
+exp2_period:'2022 — 2023',exp2_role:'Frontend & Backend Developer',exp2_desc:'Reconstruí una app multimedia en React Native, diseñé APIs REST con Django y SQL, y migré frontends legacy a React para automatización legal.',
+exp3_period:'Ene 2023 — Jul 2023',exp3_role:'Machine Learning Engineer',exp3_desc:'Prompt engineering y análisis de datos para una app conversacional de seguros con GPT. Backend y frontend de un motor de riesgo crediticio (Python, Flask, Docker).',
+exp4_period:'Ago 2023 — Nov 2025',exp4_role:'Contributor & Team Leader',exp4_desc:'Lideré equipos de RLHF y evaluación para LLMs de punta. Auditoría técnica, escritura de rúbricas y evaluación de agentes conversacionales multi-turno.',
+exp5_period:'2025 — Presente',exp5_role:'Profesor de Machine Learning',exp5_desc:'Dicto la 4ª cohorte de la especialización en Machine Learning: arquitecturas, pipelines de datos y evaluación de modelos.',
+exp6_period:'2026 — Presente',exp6_role:'AI Engineer',exp6_desc:'Transformé un chatbot estándar en un agente autónomo con function calling. Diseñé un framework de evaluación LLM-as-a-judge y optimicé prompts contra alucinaciones.',
 contact_title:'¿Hablamos?',contact_sub:'Estoy abierto a proyectos freelance, colaboraciones y roles desafiantes.',
+form_name:'Nombre',form_email:'Email',form_message:'Mensaje',form_submit:'Enviar mensaje',
+form_note:'Se abre tu cliente de mail con todo esto ya escrito.',
 footer:'© 2026 Rodrigo de Sarasqueta — Hecho con propósito',
 proj_1_title:'IndieBot',proj_1_desc:'Agente RAG multi-LLM con Ollama, OpenAI y DeepSeek. Memoria dual, PDFs, ChromaDB, evaluación integrada.',
 proj_1_tech:'Python · FastAPI · ChromaDB · Ollama · smolagents · Docker',proj_1_link:'Ver repositorio',
@@ -359,15 +450,19 @@ proj_3_tech:'Python · LangChain · LangGraph · ChromaDB · Streamlit',proj_3_l
 proj_4_title:'SoundGraph DJ',proj_4_desc:'Visualizador 3D de audio. Transforma canciones en superficie topográfica interactiva con WebGL + DSP.',
 proj_4_tech:'Python · Flask · Librosa · Plotly.js · NumPy · DSP',proj_4_link:'Ver repositorio',
 },en:{
-nav_contact:'Contact',hero_badge:'AI · Backend · Creative Engineering',
+nav_contact:'Contact',nav_cv:'CV',
+hero_badge:'AI · Backend · Creative Engineering',
 hero_hi:'Rodrigo de',hero_name:'Sarasqueta',
-hero_tagline:'I deliver specialized solutions in AI agents, RAG, microservices, and reliable system design. I build tools with purpose, not hype.',
-hero_work:'View projects',hero_contact:'Get in touch',
-about_label:'My approach',about_title:'Engineering with purpose',
+hero_tagline:'I design solutions and automations for a changing world. My stack adapts to each need, always optimizing for cost and results.',
+hero_work:'View projects',hero_cv:'Download CV',
+about_label:'Solutions',about_title:'Engineering with purpose',
 about_p1:'I design and build <strong>AI agents</strong> that solve real problems. My stack combines <strong>local models (Ollama)</strong> with cloud providers to optimize costs. I build <strong>end-to-end RAG systems</strong> with hallucination control, semantic chunking, and hybrid retrieval.',
 about_p2:'I believe in <strong>creativity for changing times</strong>: the right tool for the goal, not the trend. My systems prioritize <strong>reliability, stability, and intelligent data use</strong>. Every solution undergoes <strong>rigorous agent testing</strong> and continuous validation.',
 about_p3:'My process: <strong>understand the client\'s needs</strong>, design solutions, prototype fast, iterate. I focus on detail in <strong>modern frontend</strong> and UX. I build to <strong>generate value</strong>.',
 methods_label:'My methods',
+work_label:'How I work',work_title:'From problem to production',
+work_sub:'The methods I apply on every project, and the step-by-step process that connects them.',
+process_steps_label:'The process',
 m1_title:'Understand the problem',m1_desc:'Every project starts by listening. I analyze real needs before writing code.',
 m2_title:'Design the solution',m2_desc:'I explore architectures. I choose the optimal tools for the goal.',
 m3_title:'Prototype fast',m3_desc:'I build functional MVPs in days and iterate with real feedback.',
@@ -377,13 +472,21 @@ m6_title:'Frontend with detail',m6_desc:'Attention to detail in every interface.
 stat1:'Projects delivered',stat2:'Active architectures',stat3:'Quality focus',
 proj_label:'Projects',proj_title:'Selected work',
 proj_sub:'AI agents, RAG systems, and creative tools — each solving a real problem.',
-process_label:'How I work',process_title:'From idea to solution',
-process_sub:'An iterative process that guarantees solid results from day one.',
 ps1_title:'Listen and understand',ps1_desc:'Client interview. Real problem, past attempts, success metrics.',
 ps2_title:'Design architecture',ps2_desc:'Components, flows, AI providers, RAG strategy, testing, deploy.',
 ps3_title:'Prototype and validate',ps3_desc:'Functional MVP, real-case validation, adjust until goals are met.',
 ps4_title:'Produce and monitor',ps4_desc:'Docker, CI/CD, performance monitoring, response quality, iteration.',
+exp_label:'Previous experience',exp_title:'Before getting here',
+exp_sub:'From technical mentor to production AI engineer — the path so far.',
+exp1_period:'2021 — 2022',exp1_role:'Technical Mentor',exp1_desc:'Guided students through fullstack and backend paths (Node.js, Python). Reviewed production-ready projects and co-built curriculum.',
+exp2_period:'2022 — 2023',exp2_role:'Frontend & Backend Developer',exp2_desc:'Rebuilt a multimedia app in React Native, designed REST APIs with Django and SQL, and migrated legacy frontends to React for legal-tech automation.',
+exp3_period:'Jan 2023 — Jul 2023',exp3_role:'Machine Learning Engineer',exp3_desc:'Prompt engineering and data analysis for a GPT-powered insurance app. Built the backend and frontend of a credit-risk engine (Python, Flask, Docker).',
+exp4_period:'Aug 2023 — Nov 2025',exp4_role:'Contributor & Team Leader',exp4_desc:'Led RLHF and evaluation pipeline teams for frontier LLMs. Technical auditing, rubric writing, and multi-turn agent evaluation.',
+exp5_period:'2025 — Present',exp5_role:'Machine Learning Professor',exp5_desc:'Teaching the 4th cohort of the ML specialization: architectures, data pipelines, and model evaluation.',
+exp6_period:'2026 — Present',exp6_role:'AI Engineer',exp6_desc:'Turned a standard chatbot into an autonomous agent with function calling. Built an LLM-as-a-judge evaluation framework and optimized prompts against hallucinations.',
 contact_title:"Let's talk?",contact_sub:'Open to freelance, collaborations, and challenging roles.',
+form_name:'Name',form_email:'Email',form_message:'Message',form_submit:'Send message',
+form_note:'This opens your email client with everything pre-filled.',
 footer:'© 2026 Rodrigo de Sarasqueta — Built with purpose',
 proj_1_title:'IndieBot',proj_1_desc:'Multi-LLM RAG agent with Ollama, OpenAI, DeepSeek. Dual memory, PDFs, ChromaDB, built-in eval.',
 proj_1_tech:'Python · FastAPI · ChromaDB · Ollama · smolagents · Docker',proj_1_link:'View repository',
@@ -393,162 +496,152 @@ proj_3_title:'ShopAgent',proj_3_desc:'E-commerce assistant with LangGraph. 49k p
 proj_3_tech:'Python · LangChain · LangGraph · ChromaDB · Streamlit',proj_3_link:'View repository',
 proj_4_title:'SoundGraph DJ',proj_4_desc:'Real-time 3D audio visualizer. Turns songs into interactive topographic surfaces via WebGL + DSP.',
 proj_4_tech:'Python · Flask · Librosa · Plotly.js · NumPy · DSP',proj_4_link:'View repository',
-},de:{
-nav_contact:'Kontakt',hero_badge:'KI · Backend · Creative Engineering',
-hero_hi:'Rodrigo de',hero_name:'Sarasqueta',
-hero_tagline:'Ich biete spezialisierte Lösungen in KI-Agenten, RAG, Mikroservices und zuverlässigem Systemdesign. Purpose, nicht Hype.',
-hero_work:'Projekte ansehen',hero_contact:'Kontakt',
-about_label:'Mein Ansatz',about_title:'Engineering mit Sinn',
-about_p1:'Ich entwickle <strong>KI-Agenten</strong> für echte Probleme. Mein Stack kombiniert <strong>lokale Modelle (Ollama)</strong> mit Cloud zur Kostenoptimierung. <strong>End-to-End-RAG</strong> mit Halluzinationskontrolle.',
-about_p2:'<strong>Kreativität für wandelnde Zeiten</strong>: das richtige Werkzeug für das Ziel. Meine Systeme priorisieren <strong>Zuverlässigkeit, Stabilität</strong>. Jede Lösung durchläuft <strong>rigorose Tests</strong>.',
-about_p3:'Mein Prozess: <strong>Kundenbedürfnisse verstehen</strong>, Lösungen entwerfen, schnell prototypisieren, iterieren. Fokus auf <strong>modernes Frontend</strong> und Nutzererfahrung.',
-methods_label:'Meine Methoden',
-m1_title:'Problem verstehen',m1_desc:'Jedes Projekt beginnt mit Zuhören. Analyse der echten Bedürfnisse vor dem Code.',
-m2_title:'Lösung entwerfen',m2_desc:'Mehrere Architekturen prüfen. Optimale Werkzeuge für das Ziel wählen.',
-m3_title:'Schnell prototypisieren',m3_desc:'MVPs in Tagen, Iteration mit echtem Feedback.',
-m4_title:'Testen und validieren',m4_desc:'Rigorose Tests, Halluzinationskontrolle, RAG-Validierung. Zuverlässigkeit.',
-m5_title:'Bereitstellen und skalieren',m5_desc:'Docker, APIs, Serverless. Architekturen die wachsen ohne Neuschreiben.',
-m6_title:'Frontend mit Detail',m6_desc:'Detailverliebte Oberflächen. Moderne Erlebnisse, die sofort reagieren.',
-stat1:'Projekte geliefert',stat2:'Aktive Architekturen',stat3:'Qualitätsfokus',
-proj_label:'Projekte',proj_title:'Ausgewählte Arbeiten',
-proj_sub:'KI-Agenten, RAG-Systeme und kreative Tools — jedes löst ein echtes Problem.',
-process_label:'Wie ich arbeite',process_title:'Von der Idee zur Lösung',
-process_sub:'Ein iterativer Prozess für solide Ergebnisse ab Tag eins.',
-ps1_title:'Zuhören und verstehen',ps1_desc:'Kundengespräch: echtes Problem, frühere Versuche, Erfolgsmetriken.',
-ps2_title:'Architektur entwerfen',ps2_desc:'Komponenten, Datenflüsse, KI-Anbieter, RAG-Strategie, Tests, Deploy.',
-ps3_title:'Prototyp und Validierung',ps3_desc:'MVP bauen, gegen echte Fälle validieren, anpassen bis Ziele erreicht.',
-ps4_title:'Produktion und Monitoring',ps4_desc:'Docker, CI/CD, Leistungsüberwachung, Antwortqualität. Kontinuierlich.',
-contact_title:'Reden wir?',contact_sub:'Offen für Freiberuflichkeit, Kooperationen, herausfordernde Rollen.',
-footer:'© 2026 Rodrigo de Sarasqueta — Mit Sinn gebaut',
-proj_1_title:'IndieBot',proj_1_desc:'Multi-LLM RAG-Agent mit Ollama, OpenAI, DeepSeek. Dualer Speicher, PDFs, ChromaDB, Evaluierung.',
-proj_1_tech:'Python · FastAPI · ChromaDB · Ollama · smolagents · Docker',proj_1_link:'Repository ansehen',
-proj_2_title:'Salidas Bot',proj_2_desc:'Agent für Buenos Aires. 8 Tools, persistenter Speicher, Vektor-FAQ, CLI+FastAPI+Gradio.',
-proj_2_tech:'Python · smolagents · Groq · FastAPI · ChromaDB · Gradio',proj_2_link:'Repository ansehen',
-proj_3_title:'ShopAgent',proj_3_desc:'E-Commerce-Assistent mit LangGraph. 49k Produkte, semantische Suche, Empfehlungen.',
-proj_3_tech:'Python · LangChain · LangGraph · ChromaDB · Streamlit',proj_3_link:'Repository ansehen',
-proj_4_title:'SoundGraph DJ',proj_4_desc:'3D-Audio-Visualizer. Verwandelt Songs in interaktive topografische Oberflächen mit WebGL + DSP.',
-proj_4_tech:'Python · Flask · Librosa · Plotly.js · NumPy · DSP',proj_4_link:'Repository ansehen',
 }};
 
 var projects=[
   {id:'p1',emoji:'🤖',gradient:'linear-gradient(135deg,#1a1a2e,#16213e)',repo:'https://github.com/rotpando/indiebot-clean',keys:['proj_1_title','proj_1_desc','proj_1_tech','proj_1_link']},
   {id:'p2',emoji:'🗺️',gradient:'linear-gradient(135deg,#1e1b4b,#312e81)',repo:'https://github.com/rotpando/salidas-bot',keys:['proj_2_title','proj_2_desc','proj_2_tech','proj_2_link']},
   {id:'p3',emoji:'🛒',gradient:'linear-gradient(135deg,#0f172a,#1e293b)',repo:'https://github.com/rotpando/shopagent',keys:['proj_3_title','proj_3_desc','proj_3_tech','proj_3_link']},
-  {id:'p4',emoji:'🎵',gradient:'linear-gradient(135deg,#0c0a1d,#1a0a2e)',repo:'https://github.com/rotpando/soundgraphdj',keys:['proj_4_title','proj_4_desc','proj_4_tech','proj_4_link']}
+    {id:'p4',emoji:'🎵',gradient:'linear-gradient(135deg,#0c0a1d,#1a0a2e)',repo:'https://github.com/rotpando/soundgraphdj',keys:['proj_4_title','proj_4_desc','proj_4_tech','proj_4_link']}
 ];
 
-function renderProjects(lang){
+function buildProjectCards(lang){
   var g=document.getElementById('projectsGrid');if(!g)return;g.innerHTML='';
   projects.forEach(function(p,i){
-    var c=document.createElement('div');c.className='project-card';
-    c.innerHTML='<div class="thumb" style="background:'+p.gradient+'"><div class="bg-pulse"></div><span style="font-size:3.5rem;opacity:.6;position:relative;z-index:1;">'+p.emoji+'</span><div class="overlay"></div></div><div class="body"><div class="cat">'+(i+1).toString().padStart(2,'0')+'</div><h3>'+i18n[lang][p.keys[0]]+'</h3><p>'+i18n[lang][p.keys[1]]+'</p><div class="tech">'+i18n[lang][p.keys[2]].split('·').map(function(t){return '<span>'+t.trim()+'</span>'}).join('')+'</div><div class="links"><a href="'+p.repo+'" target="_blank">→ '+i18n[lang][p.keys[3]]+'</a></div></div>';
+    var c=document.createElement('div');c.className='project-card';c.dataset.pid=p.id;
+    c.innerHTML='<div class="thumb" style="background:'+p.gradient+'"><div class="bg-pulse"></div><span style="font-size:3.5rem;opacity:.6;position:relative;z-index:1;">'+p.emoji+'</span><div class="overlay"></div></div><div class="body"><div class="cat">'+(i+1).toString().padStart(2,'0')+'</div><h3 data-pkey="0"></h3><p data-pkey="1"></p><div class="tech" data-pkey="2"></div><div class="links"><a href="'+p.repo+'" target="_blank" data-pkey="3">→ </a></div></div>';
     g.appendChild(c);
+  });
+  fillProjectText(lang);
+}
+function fillProjectText(lang){
+  document.querySelectorAll('.project-card').forEach(function(card){
+    var p=projects.find(function(x){return x.id===card.dataset.pid});if(!p)return;
+    card.querySelector('[data-pkey="0"]').textContent=i18n[lang][p.keys[0]];
+    card.querySelector('[data-pkey="1"]').textContent=i18n[lang][p.keys[1]];
+    card.querySelector('[data-pkey="2"]').innerHTML=i18n[lang][p.keys[2]].split('·').map(function(t){return '<span>'+t.trim()+'</span>'}).join('');
+    card.querySelector('[data-pkey="3"]').innerHTML='→ '+i18n[lang][p.keys[3]];
   });
 }
 
 var currentLang='es';
 function setLang(lang){
+  if(lang===currentLang)return;
   currentLang=lang;
   document.documentElement.lang=lang;
   document.querySelectorAll('.lang-btn').forEach(function(b){b.classList.toggle('active',b.dataset.lang===lang)});
   document.querySelectorAll('[data-i18n]').forEach(function(el){
     var k=el.dataset.i18n;if(i18n[lang]&&i18n[lang][k])el.innerHTML=i18n[lang][k];
   });
-  renderProjects(lang);
+  fillProjectText(lang);
+  if(typeof ScrollTrigger!=='undefined'){
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        ScrollTrigger.refresh();
+        if(window.lenis) window.lenis.resize();
+      });
+    });
+  }
 }
 document.querySelectorAll('.lang-btn').forEach(function(b){b.addEventListener('click',function(){setLang(b.dataset.lang)})});
-document.addEventListener('keydown',function(e){if(e.key==='1')setLang('es');if(e.key==='2')setLang('en');if(e.key==='3')setLang('de')});
+document.addEventListener('keydown',function(e){if(e.key==='1')setLang('es');if(e.key==='2')setLang('en')});
 
-renderProjects('es');
+buildProjectCards('es');
 document.getElementById('loader').classList.add('hidden');
 
-// ===== GSAP — 3D DISTORTION & PLASTIC EFFECTS =====
+// ===== GSAP — 3D DISTORTION & SMOOTH SCROLL =====
 function initGSAP(){
   if(typeof gsap==='undefined'||window.gsapFail) return;
   if(typeof ScrollTrigger!=='undefined') gsap.registerPlugin(ScrollTrigger);
 
-  // === 1. HERO: cinematic 3D fold-in ===
-  gsap.from('.line-1, .line-2',{rotationX:-120,rotationY:40,z:-120,opacity:0,duration:1.4,stagger:.1,ease:'back.out(1.4)',delay:.1});
+  // === 0. HERO: "Sarasqueta" flies in from outside + shifts to gradient ===
+  gsap.from('.line-2',{
+    x:400,y:-80,rotation:12,scale:1.6,opacity:0,
+    duration:1.2,ease:'power4.out',delay:.15,
+  });
+
+  gsap.from('.line-1',{x:-60,opacity:0,duration:1,ease:'power3.out',delay:.05});
   gsap.from('.hero-left .badge',{y:-30,opacity:0,duration:.8,ease:'power3.out',delay:.3});
-  gsap.from('.hero-left .tagline',{y:30,opacity:0,filter:'blur(10px)',duration:1,ease:'power3.out',delay:.5});
+  gsap.from('.hero-left .tagline',{y:30,opacity:0,duration:1,ease:'power3.out',delay:.5});
   gsap.from('.hero-cta .btn',{y:20,opacity:0,duration:.6,stagger:.1,ease:'power2.out',delay:.7});
 
   if(typeof ScrollTrigger==='undefined') return;
 
-  // === 2. SECTION TITLES — 3D skew + blur reveal ===
+  // === 1. SECTION TITLES ===
   gsap.utils.toArray('.section-title').forEach(function(t){
     gsap.fromTo(t,{skewX:-20,scale:.75,rotationX:25,opacity:0,filter:'blur(8px)'},{skewX:0,scale:1,rotationX:0,opacity:1,filter:'blur(0px)',ease:'power3.out',scrollTrigger:{trigger:t,start:'top 85%',end:'top 35%',scrub:1.5}});
   });
 
-  // === 3. ABOUT TEXT — layered 3D entrance ===
+  // === 2. ABOUT TEXT ===
   gsap.fromTo('.about-text',{rotateX:20,scale:.82,opacity:0,y:80},{rotateX:0,scale:1,opacity:1,y:0,ease:'power3.out',scrollTrigger:{trigger:'#about',start:'top 75%',end:'top 40%',scrub:1.8}});
   gsap.fromTo('.about-text p',{y:30,opacity:0},{y:0,opacity:1,duration:.5,stagger:.12,ease:'power2.out',scrollTrigger:{trigger:'#about',start:'top 70%',end:'top 40%',scrub:1.5}});
   gsap.fromTo('.tag-group .tag',{scale:0,rotation:20,opacity:0},{scale:1,rotation:0,opacity:1,duration:.4,stagger:.03,ease:'back.out(2)',scrollTrigger:{trigger:'#about',start:'top 65%',end:'top 40%',scrub:1.2}});
   gsap.fromTo('.section-label',{opacity:0,x:-20},{opacity:1,x:0,ease:'power2.out',scrollTrigger:{trigger:'.section-label',start:'top 90%',end:'top 60%',scrub:1}});
 
-  // === 4. METHOD CARDS — elastic stagger from below with rotation ===
-  gsap.from('.method-card',{y:120,scale:.7,rotateX:25,rotateY:-15,opacity:0,duration:.6,stagger:.06,ease:'back.out(1.7)',scrollTrigger:{trigger:'#about',start:'bottom 85%',toggleActions:'play none none none'}});
+  // === 3. METHOD CARDS — distorted on entry, settle to legible ===
+  gsap.from('.method-card',{
+    y:80,scale:.7,rotateX:30,rotateY:-20,skewX:12,opacity:0,
+    duration:.5,stagger:.05,ease:'power3.out',
+    scrollTrigger:{trigger:'#work',start:'top 75%',toggleActions:'play none none none'},
+    onComplete:function(){gsap.set('.method-card',{skewX:0,rotateX:0,rotateY:0});}
+  });
 
-  // === 5. STAT CARDS — pop-in ===
+  // === 4. STAT CARDS ===
   gsap.utils.toArray('.stat-card').forEach(function(c,i){
     gsap.fromTo(c,{y:60,scale:.8,opacity:0},{y:0,scale:1,opacity:1,ease:'back.out(1.5)',scrollTrigger:{trigger:'.stats-row',start:'top 80%',end:'bottom 80%',scrub:1.5}});
   });
 
-  // === 6. PROJECTS — HORIZONTAL SCROLL CAROUSEL ===
+  // === 5. PROJECTS — HORIZONTAL SCROLL + distorted cards that align ===
   var isMobile=window.innerWidth<600;
   if(!isMobile){
     var grid=document.getElementById('projectsGrid');
     if(grid&&grid.children.length){
-      var wrap=grid.closest('.projects-track-wrap');
       var sec=document.getElementById('projects');
-      ScrollTrigger.create({
-        trigger:sec,
-        pin:true,
-        pinSpacing:true,
-        start:'top top',
-        end:function(){return '+='+(grid.scrollWidth-window.innerWidth+80)},
-        invalidateOnRefresh:true,
-      });
-      gsap.to(grid,{
-        x:function(){return -(grid.scrollWidth-window.innerWidth+80)},
-        ease:'none',
-        scrollTrigger:{
-          trigger:sec,
-          start:'top top',
-          end:function(){return '+='+(grid.scrollWidth-window.innerWidth+80)},
-          scrub:1.5,
-          invalidateOnRefresh:true,
-        }
-      });
-      // Project cards 3D tilt on scroll
+      var endPx=grid.scrollWidth-window.innerWidth+80;
+      ScrollTrigger.create({trigger:sec,pin:true,pinSpacing:true,start:'top top',end:function(){return '+='+endPx},invalidateOnRefresh:true});
+      gsap.to(grid,{x:-endPx,ease:'none',scrollTrigger:{trigger:sec,start:'top top',end:function(){return '+='+endPx},scrub:1.5,invalidateOnRefresh:true}});
       gsap.utils.toArray('.project-card').forEach(function(c,i){
-        gsap.fromTo(c,{rotationY:25,scale:.88,opacity:0},{rotationY:0,scale:1,opacity:1,ease:'power2.out',scrollTrigger:{trigger:c,start:'left 95%',end:'left 40%',scrub:1.2,horizontal:true}});
+        var dir=i%2===0?1:-1;
+        gsap.fromTo(c,
+          {rotationZ:32*dir,rotationY:35,y:100,scale:.7,skewX:18*dir,opacity:0,transformOrigin:'50% 100%'},
+          {rotationZ:0,rotationY:0,y:0,scale:1,skewX:0,opacity:1,ease:'power3.out',
+           scrollTrigger:{trigger:c,start:'left 95%',end:'left 45%',scrub:1.2,horizontal:true}});
       });
     }
   }else{
-    gsap.utils.toArray('.project-card').forEach(function(c){
-      gsap.fromTo(c,{y:80,scale:.9,opacity:0},{y:0,scale:1,opacity:1,ease:'power3.out',scrollTrigger:{trigger:c,start:'top 85%',end:'top 50%',scrub:1.5}});
+    gsap.utils.toArray('.project-card').forEach(function(c,i){
+      var dir=i%2===0?1:-1;
+      gsap.fromTo(c,{y:80,rotationZ:18*dir,scale:.85,opacity:0,transformOrigin:'50% 100%'},{y:0,rotationZ:0,scale:1,opacity:1,ease:'power3.out',scrollTrigger:{trigger:c,start:'top 85%',end:'top 50%',scrub:1.5}});
     });
   }
 
-  // === 7. PROCESS STEPS — flowing rotation entrance ===
+  // === 6. PROCESS STEPS ===
   gsap.utils.toArray('.process-step').forEach(function(s,i){
     var dir=i%2===0?1:-1;
     gsap.fromTo(s,{x:-60*dir,opacity:0,scale:.8,rotationY:15*dir},{x:0,opacity:1,scale:1,rotationY:0,ease:'power3.out',scrollTrigger:{trigger:'.process-steps',start:'top 80%',end:'bottom 80%',scrub:1.5}});
   });
 
-  // === 8. CONTACT — cinematic slide-up ===
+  // === 7. EXPERIENCE TIMELINE ===
+  gsap.utils.toArray('.exp-step').forEach(function(s,i){
+    var dir=i%2===0?1:-1;
+    gsap.fromTo(s,{x:-70*dir,y:20,opacity:0,scale:.85,rotationX:12,transformOrigin:'left center'},{x:0,y:0,opacity:1,scale:1,rotationX:0,ease:'power3.out',scrollTrigger:{trigger:s,start:'top 88%',end:'top 55%',scrub:1.3}});
+  });
+  gsap.utils.toArray('.exp-dot').forEach(function(d){
+    gsap.fromTo(d,{scale:0},{scale:1,ease:'back.out(3)',scrollTrigger:{trigger:d,start:'top 90%',end:'top 70%',scrub:1}});
+  });
+
+  // === 8. CONTACT ===
   gsap.fromTo('#contact h2',{y:60,opacity:0,filter:'blur(12px)'},{y:0,opacity:1,filter:'blur(0px)',ease:'power3.out',scrollTrigger:{trigger:'#contact',start:'top 80%',end:'top 40%',scrub:1.5}});
   gsap.fromTo('#contact p',{y:30,opacity:0},{y:0,opacity:1,ease:'power2.out',scrollTrigger:{trigger:'#contact',start:'top 75%',end:'top 45%',scrub:1.5}});
   gsap.fromTo('.social-links a',{y:20,opacity:0,scale:.9},{y:0,opacity:1,scale:1,duration:.4,stagger:.06,ease:'back.out(1.5)',scrollTrigger:{trigger:'#contact',start:'top 70%',end:'top 40%',scrub:1.2}});
 
-  // === 9. SECTION EXIT — slide right with 3D flip ===
+  // === 9. SECTION EXIT ===
   gsap.utils.toArray('section').forEach(function(section){
     gsap.to(section,{xPercent:120,rotationY:-35,transformOrigin:'left center',opacity:0,ease:'power2.in',scrollTrigger:{trigger:section,start:'bottom bottom-=15%',end:'bottom top+=10%',scrub:1.5}});
   });
 
   // === 10. 3D EDGE DISTORTION ===
-  gsap.utils.toArray('.method-card, .project-card, .stat-card, .about-text, .process-step').forEach(function(el,i){
+  gsap.utils.toArray('.method-card, .project-card, .stat-card, .about-text, .process-step, .exp-step').forEach(function(el,i){
     var dir=i%2===0?1:-1;
     gsap.fromTo(el,{},{scrollTrigger:{trigger:el,start:'top bottom',end:'bottom top',onUpdate:function(self){var p=self.progress,d=Math.sin(p*Math.PI)*8*dir;gsap.set(el,{skewX:d,rotationY:d*.5});}}});
   });
@@ -558,6 +651,7 @@ function initGSAP(){
     gsap.fromTo(inner,{y:0},{y:(i%2===0?-30:-15),ease:'none',scrollTrigger:{trigger:inner.parentElement,start:'top bottom',end:'bottom top',scrub:2.5}});
   });
 }
+
 function initThree(){
   try{if(typeof THREE==='undefined')return;
   var c=document.getElementById('three-canvas');if(!c)return;
@@ -577,61 +671,57 @@ function initThree(){
   !function animate(){requestAnimationFrame(animate);mx+=(tx-mx)*.04;my+=(ty-my)*.04;p.rotation.x+=.00025+my*.0005;p.rotation.y+=.0004+mx*.0005;r.render(s,cam)}();
   window.addEventListener('resize',function(){cam.aspect=window.innerWidth/window.innerHeight;cam.updateProjectionMatrix();r.setSize(window.innerWidth,window.innerHeight)});
 }catch(e){console.warn('Three:',e)}}
-function boot(){initThree();initGSAP()}
+
+function initLenis(){
+  try{
+    if(typeof Lenis==='undefined'||window.lenisFail)return;
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+    var lenis=new Lenis({duration:1.1,easing:function(t){return Math.min(1,1.001-Math.pow(2,-10*t))},smoothWheel:true,touchMultiplier:1.1});
+    window.lenis=lenis;
+    lenis.on('scroll',function(){if(typeof ScrollTrigger!=='undefined')ScrollTrigger.update();});
+    gsap.ticker.add(function(time){lenis.raf(time*1000)});
+    gsap.ticker.lagSmoothing(0);
+  }catch(e){console.warn('Lenis:',e)}
+}
+
+function boot(){initThree();initGSAP();initLenis()}
 if(document.readyState==='complete') boot();else window.addEventListener('load',boot);
 
-// Top bar hide + magnetic scroll indicator
+// Top bar hide
 var lastS=0,tb=document.getElementById('topBar');
 window.addEventListener('scroll',function(){
   var s=window.scrollY;if(s>lastS&&s>120)tb.classList.add('hidden');else tb.classList.remove('hidden');lastS=s;
 });
 
-// ===== LUSION.INspired Interactive Elements (runs after GSAP loads) =====
+// ===== LUSION.INspired Interactive Elements =====
 window.addEventListener('load',function(){
 try{
-  // Enhanced Card Interactions
+  // Card 3D tilt on mouse
   document.querySelectorAll('.method-card, .project-card').forEach(function(card){
-    card.addEventListener('mouseenter',function(e){
-      gsap.to(card,{scale:1.05,duration:.4,ease:'back.out(1.2)',zIndex:10});
+    card.addEventListener('mouseenter',function(){
+      gsap.to(card,{scale:1.045,y:-8,duration:.5,ease:'back.out(1.4)',zIndex:10});
+    });
+    card.addEventListener('mousemove',function(e){
+      var r=card.getBoundingClientRect();
+      var px=(e.clientX-r.left)/r.width,py=(e.clientY-r.top)/r.height;
+      gsap.to(card,{rotationY:(px-.5)*10,rotationX:(.5-py)*10,duration:.6,ease:'power2.out'});
     });
     card.addEventListener('mouseleave',function(){
-      gsap.to(card,{scale:1,duration:.4,ease:'power2.out',zIndex:1});
+      gsap.to(card,{scale:1,y:0,rotationX:0,rotationY:0,duration:.6,ease:'power3.out',zIndex:1});
     });
   });
 
   // Sticky Section Labels
   gsap.utils.toArray('.section-label').forEach(function(label){
-    gsap.fromTo(label,
-      {opacity:0.3,y:10},
-      {
-        opacity:1,y:0,
-        scrollTrigger:{
-          trigger:label.parentElement,
-          start:'top 80%',
-          end:'top 20%',
-          scrub:1,
-        }
-      }
-    );
+    gsap.fromTo(label,{opacity:0.3,y:10},{opacity:1,y:0,scrollTrigger:{trigger:label.parentElement,start:'top 80%',end:'top 20%',scrub:1}});
   });
 
-  // Sticky Method Cards at Top
+  // Method cards sticky
   document.querySelectorAll('.methods-grid .method-card').forEach(function(card,i){
-    gsap.fromTo(card,
-      {rotateX:10,transformOrigin:'top center'},
-      {
-        rotateX:0,
-        scrollTrigger:{
-          trigger:card,
-          start:'top bottom+=80',
-          end:'top top+=20',
-          scrub:1.2,
-        }
-      }
-    );
+    gsap.fromTo(card,{rotateX:10,transformOrigin:'top center'},{rotateX:0,scrollTrigger:{trigger:card,start:'top bottom+=80',end:'top top+=20',scrub:1.2}});
   });
 
-  // Enhanced 3D Tilt on Mouse Move
+  // Hero 3D Tilt
   document.addEventListener('mousemove',function(e){
     var tiltX=(e.clientY/window.innerHeight-0.5)*8;
     var tiltY=(e.clientX/window.innerWidth-0.5)*-8;
@@ -639,6 +729,62 @@ try{
       gsap.to(span,{rotationX:tiltX*0.1,rotationY:tiltY*0.1,duration:1,ease:'power2.out'});
     });
   });
+
+  // Custom cursor
+  var dot=document.getElementById('cursorDot'),ring=document.getElementById('cursorRing');
+  if(dot&&ring&&window.matchMedia('(hover:hover)').matches){
+    var mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
+    document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;gsap.set(dot,{x:mx,y:my});});
+    gsap.ticker.add(function(){rx+=(mx-rx)*.16;ry+=(my-ry)*.16;gsap.set(ring,{x:rx,y:ry});});
+    document.querySelectorAll('a,button,.project-card,.method-card').forEach(function(el){
+      el.addEventListener('mouseenter',function(){ring.classList.add('big');});
+      el.addEventListener('mouseleave',function(){ring.classList.remove('big');});
+    });
+  }
+
+  // Magnetic buttons
+  document.querySelectorAll('.magnetic').forEach(function(el){
+    el.addEventListener('mousemove',function(e){
+      var r=el.getBoundingClientRect();
+      var mx=(e.clientX-r.left-r.width/2)*.35;
+      var my=(e.clientY-r.top-r.height/2)*.35;
+      gsap.to(el,{x:mx,y:my,duration:.4,ease:'power2.out'});
+    });
+    el.addEventListener('mouseleave',function(){
+      gsap.to(el,{x:0,y:0,duration:.6,ease:'elastic.out(1,.4)'});
+    });
+  });
+
+  // Progress bar
+  var bar=document.getElementById('progressBar');
+  if(bar&&typeof ScrollTrigger!=='undefined'){
+    ScrollTrigger.create({trigger:document.body,start:'top top',end:'bottom bottom',onUpdate:function(self){bar.style.width=(self.progress*100)+'%';}});
+  }
+
+  // Contact form
+  document.querySelectorAll('.contact-form .field').forEach(function(field){
+    var input=field.querySelector('input,textarea');
+    if(!input)return;
+    input.addEventListener('focus',function(){field.classList.add('focused');});
+    input.addEventListener('blur',function(){field.classList.remove('focused');});
+  });
+  if(typeof ScrollTrigger!=='undefined'){
+    gsap.fromTo('.contact-form .field',{y:24,opacity:0},{y:0,opacity:1,duration:.5,stagger:.08,ease:'power2.out',scrollTrigger:{trigger:'.contact-form',start:'top 85%',end:'top 55%',scrub:1.2}});
+  }
+
+  // Form submit → mailto
+  var cform=document.getElementById('contactForm');
+  if(cform){
+    cform.addEventListener('submit',function(e){
+      e.preventDefault();
+      var name=document.getElementById('cf-name').value.trim();
+      var email=document.getElementById('cf-email').value.trim();
+      var msg=document.getElementById('cf-message').value.trim();
+      var subject=encodeURIComponent('Contacto desde el portfolio — '+name);
+      var body=encodeURIComponent(msg+'\n\n— '+name+' ('+email+')');
+      window.location.href='mailto:rodrigo@sarasqueta.dev?subject='+subject+'&body='+body;
+    });
+  }
 
 }catch(e){console.warn('Lusion Effects:',e)}});
 </script>
