@@ -567,35 +567,50 @@ function initGSAP(){
 
   if(typeof ScrollTrigger==='undefined') return;
 
-  // === 1. ABOUT — title slides in, then card appears distorted & settles ===
-  gsap.from('.section-title-wrap',{x:-vw,opacity:0,ease:'power4.out',scrollTrigger:{trigger:'#about',start:'top 85%',end:'top 55%',scrub:1.5}});
-  gsap.from('.about-text',{rotateX:30,rotateY:-20,skewX:15,scale:.7,opacity:0,y:60,transformOrigin:'50% 100%',ease:'power3.out',scrollTrigger:{trigger:'#about',start:'top 73%',end:'top 40%',scrub:1.8}});
-  gsap.fromTo('.tag-group .tag',{scale:0,rotation:20,opacity:0},{scale:1,rotation:0,opacity:1,duration:.4,stagger:.03,ease:'back.out(2)',scrollTrigger:{trigger:'#about',start:'top 68%',end:'top 40%',scrub:1.2}});
-  gsap.fromTo('.section-label',{opacity:0,x:-20},{opacity:1,x:0,ease:'power2.out',scrollTrigger:{trigger:'.section-label',start:'top 90%',end:'top 60%',scrub:1}});
+  // === 1. ABOUT — pinned, title slides in, then card distorts & settles ===
+  var aboutSec=document.getElementById('about');
+  if(aboutSec){
+    ScrollTrigger.create({trigger:aboutSec,pin:true,pinSpacing:true,start:'top top',end:'+=130%',invalidateOnRefresh:true});
+    gsap.from(aboutSec.querySelector('.section-label'),{opacity:0,x:-20,ease:'power2.out',scrollTrigger:{trigger:aboutSec,start:'top top',end:'+=20%',scrub:1}});
+    gsap.from('.section-title-wrap',{x:-vw,opacity:0,ease:'power4.out',scrollTrigger:{trigger:aboutSec,start:'top top',end:'+=45%',scrub:1.5}});
+    gsap.from('.about-text',{rotateX:30,rotateY:-20,skewX:15,scale:.7,opacity:0,y:60,transformOrigin:'50% 100%',ease:'power3.out',scrollTrigger:{trigger:aboutSec,start:'+=15%',end:'+=85%',scrub:1.8}});
+    gsap.fromTo('.tag-group .tag',{scale:0,rotation:20,opacity:0},{scale:1,rotation:0,opacity:1,duration:.4,stagger:.03,ease:'back.out(2)',scrollTrigger:{trigger:aboutSec,start:'+=40%',end:'+=100%',scrub:1.2}});
+    gsap.utils.toArray('.stat-card').forEach(function(c,i){
+      gsap.fromTo(c,{y:40,scale:.8,opacity:0},{y:0,scale:1,opacity:1,ease:'back.out(1.5)',scrollTrigger:{trigger:aboutSec,start:'+=70%',end:'+=120%',scrub:1.5}});
+    });
+  }
 
-  // === 2. WORK — method cards distorted on entry, settle to legible ===
-  gsap.from('.method-card',{
-    y:80,scale:.7,rotateX:30,rotateY:-20,skewX:12,opacity:0,
-    duration:.5,stagger:.05,ease:'power3.out',
-    scrollTrigger:{trigger:'#work',start:'top 75%',toggleActions:'play none none none'},
-    onComplete:function(){gsap.set('.method-card',{skewX:0,rotateX:0,rotateY:0});}
-  });
+  // === 2. WORK — pinned, method cards distorted on entry ===
+  var workSec=document.getElementById('work');
+  if(workSec){
+    ScrollTrigger.create({trigger:workSec,pin:true,pinSpacing:true,start:'top top',end:'+=140%',invalidateOnRefresh:true});
+    gsap.from(workSec.querySelector('.section-label'),{opacity:0,x:-20,ease:'power2.out',scrollTrigger:{trigger:workSec,start:'top top',end:'+=20%',scrub:1}});
+    gsap.from(workSec.querySelector('.section-title'),{x:-vw,opacity:0,ease:'power4.out',scrollTrigger:{trigger:workSec,start:'top top',end:'+=40%',scrub:1.5}});
+    gsap.from(workSec.querySelector('.section-sub'),{y:30,opacity:0,ease:'power2.out',scrollTrigger:{trigger:workSec,start:'+=10%',end:'+=35%',scrub:1.2}});
+    gsap.from('.method-card',{
+      y:80,scale:.7,rotateX:30,rotateY:-20,skewX:12,opacity:0,
+      duration:.5,stagger:.05,ease:'power3.out',
+      scrollTrigger:{trigger:workSec,start:'+=15%',end:'+=70%',scrub:1.5,toggleActions:'play none none none'},
+      onComplete:function(){gsap.set('.method-card',{skewX:0,rotateX:0,rotateY:0});}
+    });
+    gsap.utils.toArray('.process-step').forEach(function(s,i){
+      var dir=i%2===0?1:-1;
+      gsap.fromTo(s,{x:-60*dir,opacity:0,scale:.8,rotationY:15*dir},{x:0,opacity:1,scale:1,rotationY:0,ease:'power3.out',scrollTrigger:{trigger:workSec,start:'+=60%',end:'+=130%',scrub:1.5}});
+    });
+  }
 
-  // === 3. STAT CARDS ===
-  gsap.utils.toArray('.stat-card').forEach(function(c,i){
-    gsap.fromTo(c,{y:60,scale:.8,opacity:0},{y:0,scale:1,opacity:1,ease:'back.out(1.5)',scrollTrigger:{trigger:'.stats-row',start:'top 80%',end:'bottom 80%',scrub:1.5}});
-  });
-
-  // === 4. PROJECTS — title from outside + pinned horizontal scroll ===
-  gsap.from('.projects-header',{x:-vw,opacity:0,ease:'power4.out',scrollTrigger:{trigger:'#projects',start:'top 85%',end:'top 55%',scrub:1.5}});
+  // === 3. PROJECTS — pinned horizontal scroll ===
   var isMobile=window.innerWidth<600;
+  var projSec=document.getElementById('projects');
   if(!isMobile){
     var grid=document.getElementById('projectsGrid');
-    if(grid&&grid.children.length){
-      var sec=document.getElementById('projects');
+    if(grid&&grid.children.length&&projSec){
       var endPx=Math.max(1,grid.scrollWidth-window.innerWidth+80);
-      ScrollTrigger.create({trigger:sec,pin:true,pinSpacing:true,start:'top top',end:function(){return '+='+endPx},invalidateOnRefresh:true});
-      gsap.to(grid,{x:-endPx,ease:'none',scrollTrigger:{trigger:sec,start:'top top',end:function(){return '+='+endPx},scrub:1.5,invalidateOnRefresh:true}});
+      ScrollTrigger.create({trigger:projSec,pin:true,pinSpacing:true,start:'top top',end:function(){return '+='+endPx},invalidateOnRefresh:true});
+      gsap.from(projSec.querySelector('.section-label'),{opacity:0,x:-20,ease:'power2.out',scrollTrigger:{trigger:projSec,start:'top top',end:'+=15%',scrub:1}});
+      gsap.from(projSec.querySelector('.section-title'),{x:-vw,opacity:0,ease:'power4.out',scrollTrigger:{trigger:projSec,start:'top top',end:'+=35%',scrub:1.5}});
+      gsap.from(projSec.querySelector('.section-sub'),{y:30,opacity:0,ease:'power2.out',scrollTrigger:{trigger:projSec,start:'+=8%',end:'+=30%',scrub:1.2}});
+      gsap.to(grid,{x:-endPx,ease:'none',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+endPx},scrub:1.5,invalidateOnRefresh:true}});
       gsap.utils.toArray('.project-card').forEach(function(c,i){
         var dir=i%2===0?1:-1;
         gsap.fromTo(c,
@@ -604,65 +619,67 @@ function initGSAP(){
            scrollTrigger:{trigger:c,start:'left 95%',end:'left 45%',scrub:1.2,horizontal:true}});
       });
     }
-  }else{
+  }else if(projSec){
+    ScrollTrigger.create({trigger:projSec,pin:true,pinSpacing:true,start:'top top',end:'+=120%',invalidateOnRefresh:true});
+    gsap.from(projSec.querySelector('.section-label'),{opacity:0,x:-20,ease:'power2.out',scrollTrigger:{trigger:projSec,start:'top top',end:'+=15%',scrub:1}});
+    gsap.from(projSec.querySelector('.section-title'),{x:-vw,opacity:0,ease:'power4.out',scrollTrigger:{trigger:projSec,start:'top top',end:'+=40%',scrub:1.5}});
+    gsap.from(projSec.querySelector('.section-sub'),{y:30,opacity:0,ease:'power2.out',scrollTrigger:{trigger:projSec,start:'+=10%',end:'+=35%',scrub:1.2}});
     gsap.utils.toArray('.project-card').forEach(function(c,i){
       var dir=i%2===0?1:-1;
-      gsap.fromTo(c,{y:80,rotationZ:18*dir,scale:.85,opacity:0,transformOrigin:'50% 100%'},{y:0,rotationZ:0,scale:1,opacity:1,ease:'power3.out',scrollTrigger:{trigger:c,start:'top 85%',end:'top 50%',scrub:1.5}});
+      gsap.fromTo(c,{y:80,rotationZ:18*dir,scale:.85,opacity:0,transformOrigin:'50% 100%'},{y:0,rotationZ:0,scale:1,opacity:1,ease:'power3.out',scrollTrigger:{trigger:projSec,start:'+=25%',end:'+=100%',scrub:1.5}});
     });
   }
 
-  // === 5. PROCESS STEPS ===
-  gsap.utils.toArray('.process-step').forEach(function(s,i){
-    var dir=i%2===0?1:-1;
-    gsap.fromTo(s,{x:-60*dir,opacity:0,scale:.8,rotationY:15*dir},{x:0,opacity:1,scale:1,rotationY:0,ease:'power3.out',scrollTrigger:{trigger:'.process-steps',start:'top 80%',end:'bottom 80%',scrub:1.5}});
-  });
-
-  // === 6. EXPERIENCE — title from outside + pinned horizontal scroll ===
-  gsap.from('#experience .section-title',{x:-vw,opacity:0,ease:'power4.out',scrollTrigger:{trigger:'#experience',start:'top 85%',end:'top 55%',scrub:1.5}});
+  // === 5. EXPERIENCE — pinned horizontal scroll ===
+  var expSec=document.getElementById('experience');
+  var expSteps=document.querySelector('.exp-steps');
   var expIsMobile=window.innerWidth<768;
-  if(!expIsMobile){
-    var expSteps=document.querySelector('.exp-steps');
-    var expSec=document.getElementById('experience');
-    if(expSteps&&expSteps.children.length&&expSec){
-      var expEndPx=Math.max(1,expSteps.scrollWidth-window.innerWidth+80);
-      ScrollTrigger.create({trigger:expSec,pin:true,pinSpacing:true,start:'top top',end:function(){return '+='+expEndPx},invalidateOnRefresh:true});
-      gsap.to(expSteps,{x:-expEndPx,ease:'none',scrollTrigger:{trigger:expSec,start:'top top',end:function(){return '+='+expEndPx},scrub:1.5,invalidateOnRefresh:true}});
-      gsap.utils.toArray('.exp-step').forEach(function(s,i){
-        var dir=i%2===0?1:-1;
-        gsap.fromTo(s,{x:-70*dir,y:20,opacity:0,scale:.85,rotationX:12,transformOrigin:'left center'},{x:0,y:0,opacity:1,scale:1,rotationX:0,ease:'power3.out',scrollTrigger:{trigger:s,start:'left 90%',end:'left 50%',scrub:1.3,horizontal:true}});
-      });
-      gsap.utils.toArray('.exp-dot').forEach(function(d){
-        gsap.fromTo(d,{scale:0},{scale:1,ease:'back.out(3)',scrollTrigger:{trigger:d,start:'left 90%',end:'left 60%',scrub:1,horizontal:true}});
-      });
-    }
-  }else{
+  if(!expIsMobile&&expSteps&&expSteps.children.length&&expSec){
+    var expEndPx=Math.max(1,expSteps.scrollWidth-window.innerWidth+80);
+    ScrollTrigger.create({trigger:expSec,pin:true,pinSpacing:true,start:'top top',end:function(){return '+='+expEndPx},invalidateOnRefresh:true});
+    gsap.from(expSec.querySelector('.section-label'),{opacity:0,x:-20,ease:'power2.out',scrollTrigger:{trigger:expSec,start:'top top',end:'+=15%',scrub:1}});
+    gsap.from(expSec.querySelector('.section-title'),{x:-vw,opacity:0,ease:'power4.out',scrollTrigger:{trigger:expSec,start:'top top',end:'+=35%',scrub:1.5}});
+    gsap.from(expSec.querySelector('.section-sub'),{y:30,opacity:0,ease:'power2.out',scrollTrigger:{trigger:expSec,start:'+=8%',end:'+=28%',scrub:1.2}});
+    gsap.to(expSteps,{x:-expEndPx,ease:'none',scrollTrigger:{trigger:expSec,start:'top top',end:function(){return '+='+expEndPx},scrub:1.5,invalidateOnRefresh:true}});
     gsap.utils.toArray('.exp-step').forEach(function(s,i){
       var dir=i%2===0?1:-1;
-      gsap.fromTo(s,{x:-70*dir,y:20,opacity:0,scale:.85,rotationX:12,transformOrigin:'left center'},{x:0,y:0,opacity:1,scale:1,rotationX:0,ease:'power3.out',scrollTrigger:{trigger:s,start:'top 88%',end:'top 55%',scrub:1.3}});
+      gsap.fromTo(s,{x:-70*dir,y:20,opacity:0,scale:.85,rotationX:12,transformOrigin:'left center'},{x:0,y:0,opacity:1,scale:1,rotationX:0,ease:'power3.out',scrollTrigger:{trigger:s,start:'left 90%',end:'left 50%',scrub:1.3,horizontal:true}});
     });
     gsap.utils.toArray('.exp-dot').forEach(function(d){
-      gsap.fromTo(d,{scale:0},{scale:1,ease:'back.out(3)',scrollTrigger:{trigger:d,start:'top 90%',end:'top 70%',scrub:1}});
+      gsap.fromTo(d,{scale:0},{scale:1,ease:'back.out(3)',scrollTrigger:{trigger:d,start:'left 90%',end:'left 60%',scrub:1,horizontal:true}});
+    });
+  }else if(expSec){
+    ScrollTrigger.create({trigger:expSec,pin:true,pinSpacing:true,start:'top top',end:'+=130%',invalidateOnRefresh:true});
+    gsap.from(expSec.querySelector('.section-label'),{opacity:0,x:-20,ease:'power2.out',scrollTrigger:{trigger:expSec,start:'top top',end:'+=15%',scrub:1}});
+    gsap.from(expSec.querySelector('.section-title'),{x:-vw,opacity:0,ease:'power4.out',scrollTrigger:{trigger:expSec,start:'top top',end:'+=40%',scrub:1.5}});
+    gsap.from(expSec.querySelector('.section-sub'),{y:30,opacity:0,ease:'power2.out',scrollTrigger:{trigger:expSec,start:'+=10%',end:'+=35%',scrub:1.2}});
+    gsap.utils.toArray('.exp-step').forEach(function(s,i){
+      var dir=i%2===0?1:-1;
+      gsap.fromTo(s,{x:-70*dir,y:20,opacity:0,scale:.85,rotationX:12,transformOrigin:'left center'},{x:0,y:0,opacity:1,scale:1,rotationX:0,ease:'power3.out',scrollTrigger:{trigger:expSec,start:'+=25%',end:'+=110%',scrub:1.3}});
+    });
+    gsap.utils.toArray('.exp-dot').forEach(function(d){
+      gsap.fromTo(d,{scale:0},{scale:1,ease:'back.out(3)',scrollTrigger:{trigger:expSec,start:'+=30%',end:'+=90%',scrub:1}});
     });
   }
 
-  // === 7. CONTACT ===
-  gsap.fromTo('#contact h2',{y:60,opacity:0,filter:'blur(12px)'},{y:0,opacity:1,filter:'blur(0px)',ease:'power3.out',scrollTrigger:{trigger:'#contact',start:'top 80%',end:'top 40%',scrub:1.5}});
-  gsap.fromTo('#contact p',{y:30,opacity:0},{y:0,opacity:1,ease:'power2.out',scrollTrigger:{trigger:'#contact',start:'top 75%',end:'top 45%',scrub:1.5}});
-  gsap.fromTo('.social-links a',{y:20,opacity:0,scale:.9},{y:0,opacity:1,scale:1,duration:.4,stagger:.06,ease:'back.out(1.5)',scrollTrigger:{trigger:'#contact',start:'top 70%',end:'top 40%',scrub:1.2}});
+  // === 6. CONTACT — pinned ===
+  var contactSec=document.getElementById('contact');
+  if(contactSec){
+    ScrollTrigger.create({trigger:contactSec,pin:true,pinSpacing:true,start:'top top',end:'+=90%',invalidateOnRefresh:true});
+    gsap.fromTo('#contact h2',{y:60,opacity:0,filter:'blur(12px)'},{y:0,opacity:1,filter:'blur(0px)',ease:'power3.out',scrollTrigger:{trigger:contactSec,start:'top top',end:'+=35%',scrub:1.5}});
+    gsap.fromTo('#contact p',{y:30,opacity:0},{y:0,opacity:1,ease:'power2.out',scrollTrigger:{trigger:contactSec,start:'+=15%',end:'+=50%',scrub:1.5}});
+    gsap.fromTo('.contact-form .field',{y:24,opacity:0},{y:0,opacity:1,duration:.5,stagger:.08,ease:'power2.out',scrollTrigger:{trigger:contactSec,start:'+=25%',end:'+=65%',scrub:1.2}});
+    gsap.fromTo('.social-links a',{y:20,opacity:0,scale:.9},{y:0,opacity:1,scale:1,duration:.4,stagger:.06,ease:'back.out(1.5)',scrollTrigger:{trigger:contactSec,start:'+=50%',end:'+=85%',scrub:1.2}});
+  }
+  // remove section exit (replaced by pins)
 
-  // === 8. SECTION EXIT (skip pinned sections) ===
-  gsap.utils.toArray('section').forEach(function(section){
-    if(section.id==='projects'||section.id==='experience') return;
-    gsap.to(section,{xPercent:120,rotationY:-35,transformOrigin:'left center',opacity:0,ease:'power2.in',scrollTrigger:{trigger:section,start:'bottom bottom-=15%',end:'bottom top+=10%',scrub:1.5}});
-  });
-
-  // === 10. 3D EDGE DISTORTION ===
+  // === 7. 3D EDGE DISTORTION ===
   gsap.utils.toArray('.method-card, .project-card, .stat-card, .about-text, .process-step, .exp-step').forEach(function(el,i){
     var dir=i%2===0?1:-1;
     gsap.fromTo(el,{},{scrollTrigger:{trigger:el,start:'top bottom',end:'bottom top',onUpdate:function(self){var p=self.progress,d=Math.sin(p*Math.PI)*8*dir;gsap.set(el,{skewX:d,rotationY:d*.5});}}});
   });
 
-  // === 11. PARALLAX ===
+  // === 8. PARALLAX ===
   gsap.utils.toArray('.section-inner').forEach(function(inner,i){
     gsap.fromTo(inner,{y:0},{y:(i%2===0?-30:-15),ease:'none',scrollTrigger:{trigger:inner.parentElement,start:'top bottom',end:'bottom top',scrub:2.5}});
   });
@@ -727,16 +744,6 @@ try{
     });
   });
 
-  // Sticky Section Labels
-  gsap.utils.toArray('.section-label').forEach(function(label){
-    gsap.fromTo(label,{opacity:0.3,y:10},{opacity:1,y:0,scrollTrigger:{trigger:label.parentElement,start:'top 80%',end:'top 20%',scrub:1}});
-  });
-
-  // Method cards sticky
-  document.querySelectorAll('.methods-grid .method-card').forEach(function(card,i){
-    gsap.fromTo(card,{rotateX:10,transformOrigin:'top center'},{rotateX:0,scrollTrigger:{trigger:card,start:'top bottom+=80',end:'top top+=20',scrub:1.2}});
-  });
-
   // Hero 3D Tilt
   document.addEventListener('mousemove',function(e){
     var tiltX=(e.clientY/window.innerHeight-0.5)*8;
@@ -784,10 +791,6 @@ try{
     input.addEventListener('focus',function(){field.classList.add('focused');});
     input.addEventListener('blur',function(){field.classList.remove('focused');});
   });
-  if(typeof ScrollTrigger!=='undefined'){
-    gsap.fromTo('.contact-form .field',{y:24,opacity:0},{y:0,opacity:1,duration:.5,stagger:.08,ease:'power2.out',scrollTrigger:{trigger:'.contact-form',start:'top 85%',end:'top 55%',scrub:1.2}});
-  }
-
   // Form submit → mailto
   var cform=document.getElementById('contactForm');
   if(cform){
