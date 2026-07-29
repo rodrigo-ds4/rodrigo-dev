@@ -195,9 +195,10 @@ footer{text-align:center;padding:30px;color:var(--muted);font-size:.78rem;border
   .hero-left h1{font-size:clamp(2.8rem,10vw,4.2rem);}
   .hero-right{display:none;}
   .hero-cta .btn{padding:10px 22px;font-size:.82rem;}
-  .projects-grid{flex-wrap:wrap;width:100%;gap:14px;}
-  .project-card{min-width:280px;width:100%;}
   .stats-row{grid-template-columns:repeat(3,1fr);}
+}
+@media(max-width:860px) and (min-width:601px){
+  .project-card{min-width:280px;width:280px;}
 }
 @media(max-width:600px){
   section{padding:50px 14px;min-height:auto;}
@@ -638,7 +639,7 @@ function initGSAP(){
   // === 5. EXPERIENCE — pinned horizontal scroll ===
   var expSec=document.getElementById('experience');
   var expSteps=document.querySelector('.exp-steps');
-  var expIsMobile=window.innerWidth<768;
+  var expIsMobile=window.innerWidth<600;
   if(!expIsMobile&&expSteps&&expSteps.children.length&&expSec){
     var expEndPx=Math.max(1,expSteps.scrollWidth-window.innerWidth+80);
     ScrollTrigger.create({trigger:expSec,pin:true,pinSpacing:true,start:'top top',end:function(){return '+='+expEndPx},invalidateOnRefresh:true});
