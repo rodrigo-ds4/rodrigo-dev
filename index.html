@@ -115,7 +115,8 @@ section{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction
 /* projects */
 #projects{overflow:hidden;}
 .projects-header{margin-bottom:32px;flex-shrink:0;}
-.projects-track-wrap{overflow:visible;width:100%;}
+.projects-track-wrap{overflow:visible;width:100%;position:relative;}
+.spotlight-glow{position:fixed;top:50%;left:50%;width:540px;height:440px;transform:translate(-50%,-50%);pointer-events:none;background:radial-gradient(ellipse,rgba(167,139,250,.13),transparent 70%);z-index:0;will-change:opacity;opacity:0;transition:opacity .8s;}
 .projects-grid{display:flex;flex-wrap:nowrap;gap:20px;width:max-content;padding-bottom:16px;will-change:transform;}
 .project-card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;transition:border-color .5s,box-shadow .5s;display:flex;flex-direction:column;transform-style:preserve-3d;min-width:380px;width:380px;flex-shrink:0;will-change:transform,opacity;}
 .project-card:hover{border-color:rgba(167,139,250,.25);box-shadow:0 30px 70px rgba(0,0,0,.55),0 0 0 1px rgba(167,139,250,.08);}
@@ -346,6 +347,7 @@ footer{text-align:center;padding:30px;color:var(--muted);font-size:.78rem;border
       <p class="section-sub" data-i18n="proj_sub">Agentes inteligentes, sistemas RAG y herramientas creativas — cada uno resuelve un problema real.</p>
     </div>
     <div class="projects-track-wrap">
+      <div class="spotlight-glow" id="spotlightGlow"></div>
       <div class="projects-grid" id="projectsGrid"></div>
     </div>
   </div>
@@ -638,19 +640,22 @@ function initGSAP(){
           var ctr=curX+gridNat.left+i*(cardW+gap)+cardW/2;
           var dist=ctr-vpC;
           var absDist=Math.abs(dist);
-          var f=Math.min(1,absDist/(window.innerWidth*0.5));
+          // dead zone ~120px: card at center is perfectly straight
+          var f=absDist>120?Math.min(1,(absDist-120)/(window.innerWidth*0.5)):0;
           var sign=dist>=0?1:-1;
           gsap.set(card,{
             rotationZ:f*25*sign,
             rotationY:f*20,
             skewX:f*14*sign,
             scale:1.06-f*0.36,
-            opacity:1-f*0.55,
+            opacity:1-f*0.6,
             zIndex:Math.round((1-f)*20)+1
           });
         }
       }
     }});
+    // Fade in glow once carousel activates
+    gsap.to('#spotlightGlow',{opacity:1,duration:.8,scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+Math.min(scrollDist*.1,window.innerHeight*.1)},scrub:0}});
   }else if(projSec&&projGrid&&projGrid.children.length){
     // Mobile: simple pin + entrance
     var mEnd=window.innerHeight*1.2;
