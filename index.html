@@ -98,10 +98,10 @@ section{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction
 
 /* methods */
 .methods-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:12px;}
-.method-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;transition:.5s cubic-bezier(.22,1,.36,1);position:relative;overflow:hidden;transform-style:preserve-3d;}
+.method-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;position:relative;overflow:hidden;will-change:transform,opacity;}
 .method-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:.4s;}
 .method-card:hover::before{opacity:1;}
-.method-card:hover{border-color:rgba(167,139,250,.2);transform:translateY(-6px) rotateX(2deg);box-shadow:0 24px 48px rgba(0,0,0,.3);}
+.method-card:hover{border-color:rgba(167,139,250,.2);box-shadow:0 24px 48px rgba(0,0,0,.3);}
 .method-card .icon{font-size:1.6rem;margin-bottom:10px;}
 .method-card h4{font-size:.95rem;font-weight:700;margin-bottom:6px;}
 .method-card p{font-size:.82rem;color:var(--muted);line-height:1.6;}
@@ -594,7 +594,7 @@ function initGSAP(){
     gsap.from(workSec.querySelector('.section-sub'),{y:30,opacity:0,ease:'power2.out',scrollTrigger:{trigger:workSec,start:'top top',end:function(){return '+='+wkEnd*.3},scrub:1.2}});
     gsap.utils.toArray('.method-card').forEach(function(c,i){
       var dir=i%2===0?1:-1;
-      gsap.fromTo(c,{y:60*dir,opacity:0,scale:.85,rotationZ:8*dir,skewX:5*dir},{y:0,opacity:1,scale:1,rotationZ:0,skewX:0,ease:'power3.out',scrollTrigger:{trigger:workSec,start:'top top',end:function(){return '+='+wkEnd*.7},scrub:1.2}});
+      gsap.fromTo(c,{opacity:0,y:40,scale:.88},{opacity:1,y:0,scale:1,ease:'power3.out',scrollTrigger:{trigger:workSec,start:'top top',end:function(){return '+='+wkEnd*.7},scrub:1.2}});
     });
     gsap.utils.toArray('.process-step').forEach(function(s,i){
       var dir=i%2===0?1:-1;
