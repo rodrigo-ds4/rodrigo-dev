@@ -101,8 +101,11 @@ section{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction
 .stat-card .lbl{font-size:.76rem;color:var(--muted);margin-top:2px;}
 
 /* projects */
-.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px;}
-.project-card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;transition:.5s cubic-bezier(.22,1,.36,1);display:flex;flex-direction:column;transform-style:preserve-3d;}
+#projects{overflow:hidden;}
+.projects-header{margin-bottom:32px;flex-shrink:0;}
+.projects-track-wrap{overflow:visible;width:100%;}
+.projects-grid{display:flex;flex-wrap:nowrap;gap:20px;width:max-content;padding-bottom:16px;will-change:transform;}
+.project-card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;transition:.5s cubic-bezier(.22,1,.36,1);display:flex;flex-direction:column;transform-style:preserve-3d;min-width:380px;width:380px;flex-shrink:0;}
 .project-card:hover{transform:translateY(-8px) rotateX(3deg);border-color:rgba(167,139,250,.2);box-shadow:0 30px 60px rgba(0,0,0,.5);}
 .project-card .thumb{height:190px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;}
 .project-card .thumb .overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,var(--card));}
@@ -155,7 +158,8 @@ footer{text-align:center;padding:30px;color:var(--muted);font-size:.78rem;border
   .hero-left h1{font-size:clamp(2.8rem,10vw,4.2rem);}
   .hero-right{display:none;}
   .hero-cta .btn{padding:10px 22px;font-size:.82rem;}
-  .projects-grid{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));}
+  .projects-grid{flex-wrap:wrap;width:100%;gap:14px;}
+  .project-card{min-width:280px;width:100%;}
   .stats-row{grid-template-columns:repeat(3,1fr);}
 }
 @media(max-width:600px){
@@ -176,7 +180,8 @@ footer{text-align:center;padding:30px;color:var(--muted);font-size:.78rem;border
   .methods-grid{grid-template-columns:1fr;}
   .method-card{padding:18px;}
   .stats-row{grid-template-columns:1fr;gap:8px;}
-  .projects-grid{grid-template-columns:1fr;}
+  .projects-grid{flex-wrap:wrap;width:100%;gap:12px;}
+  .project-card{min-width:100%;width:100%;}
   .project-card .thumb{height:140px;}
   .process-steps{padding-left:28px;}
   .process-step{padding:14px 0 14px 22px;}
@@ -273,10 +278,14 @@ footer{text-align:center;padding:30px;color:var(--muted);font-size:.78rem;border
 
 <section id="projects">
   <div class="section-inner">
-    <div class="section-label" data-i18n="proj_label">Proyectos</div>
-    <h2 class="section-title" data-i18n="proj_title">Trabajos <span class="grad">seleccionados</span></h2>
-    <p class="section-sub" data-i18n="proj_sub">Agentes inteligentes, sistemas RAG y herramientas creativas — cada uno resuelve un problema real.</p>
-    <div class="projects-grid" id="projectsGrid"></div>
+    <div class="projects-header">
+      <div class="section-label" data-i18n="proj_label">Proyectos</div>
+      <h2 class="section-title" data-i18n="proj_title">Trabajos <span class="grad">seleccionados</span></h2>
+      <p class="section-sub" data-i18n="proj_sub">Agentes inteligentes, sistemas RAG y herramientas creativas — cada uno resuelve un problema real.</p>
+    </div>
+    <div class="projects-track-wrap">
+      <div class="projects-grid" id="projectsGrid"></div>
+    </div>
   </div>
 </section>
 
@@ -458,108 +467,96 @@ function initGSAP(){
   if(typeof gsap==='undefined'||window.gsapFail) return;
   if(typeof ScrollTrigger!=='undefined') gsap.registerPlugin(ScrollTrigger);
 
-  // === 1. HERO: 3D folding text reveal ===
-  // Each letter of "Rodrigo de" and "Sarasqueta" folds in from 3D space
-  var spans=document.querySelectorAll('.line-1, .line-2');
-  if(spans.length){
-    gsap.from(spans,{
-      rotationX:-120,
-      rotationY:30,
-      z:-100,
-      opacity:0,
-      duration:1.4,
-      stagger:.12,
-      ease:'back.out(1.2)',
-      delay:.1,
-    });
-  }
+  // === 1. HERO: cinematic 3D fold-in ===
+  gsap.from('.line-1, .line-2',{rotationX:-120,rotationY:40,z:-120,opacity:0,duration:1.4,stagger:.1,ease:'back.out(1.4)',delay:.1});
+  gsap.from('.hero-left .badge',{y:-30,opacity:0,duration:.8,ease:'power3.out',delay:.3});
+  gsap.from('.hero-left .tagline',{y:30,opacity:0,filter:'blur(10px)',duration:1,ease:'power3.out',delay:.5});
+  gsap.from('.hero-cta .btn',{y:20,opacity:0,duration:.6,stagger:.1,ease:'power2.out',delay:.7});
 
-  // === 2. ENHANCED SCROLL-TRIGGERED ANIMATIONS ===
-  if(typeof ScrollTrigger!=='undefined'){
-    // Section titles with velocity-based skew and 3D perspective
-    gsap.utils.toArray('.section-title').forEach(function(t,i){
-      gsap.fromTo(t,{skewX:-15,scale:.8,opacity:0,rotationX:20},{skewX:0,scale:1,opacity:1,rotationX:0,ease:'power2.out',
-        scrollTrigger:{trigger:t,start:'top 85%',end:'top 35%',scrub:1.5}});
-    });
+  if(typeof ScrollTrigger==='undefined') return;
 
-    // Hero text reveals with stagger and 3D depth
-    gsap.from('.hero-left h1 .line',{transformStyle:'preserve-3d',rotationX:90,opacity:0,duration:1.2,delay:0.2,stagger:.08,ease:'back.out(1.5)'});
-    gsap.from('.hero-left .tagline',{y:30,opacity:0,duration:.8,ease:'power2.out',scrollTrigger:{trigger:'#hero',start:'top 70%',end:'top 40%',scrub:1.5}});
-    gsap.from('.hero-left .badge',{y:20,opacity:0,duration:.6,ease:'power2.out',scrollTrigger:{trigger:'#hero',start:'top 60%',end:'top 40%',scrub:1.5}});
+  // === 2. SECTION TITLES — 3D skew + blur reveal ===
+  gsap.utils.toArray('.section-title').forEach(function(t){
+    gsap.fromTo(t,{skewX:-20,scale:.75,rotationX:25,opacity:0,filter:'blur(8px)'},{skewX:0,scale:1,rotationX:0,opacity:1,filter:'blur(0px)',ease:'power3.out',scrollTrigger:{trigger:t,start:'top 85%',end:'top 35%',scrub:1.5}});
+  });
 
-    // About text with cinematic entrance
-    gsap.fromTo('.about-text',{rotateX:15,scale:.88,opacity:0,y:60},
-      {rotateX:0,scale:1,opacity:1,y:0,ease:'power2.out',scrollTrigger:{trigger:'#about',start:'top 70%',end:'top 40%',scrub:1.5}});
+  // === 3. ABOUT TEXT — layered 3D entrance ===
+  gsap.fromTo('.about-text',{rotateX:20,scale:.82,opacity:0,y:80},{rotateX:0,scale:1,opacity:1,y:0,ease:'power3.out',scrollTrigger:{trigger:'#about',start:'top 75%',end:'top 40%',scrub:1.8}});
+  gsap.fromTo('.about-text p',{y:30,opacity:0},{y:0,opacity:1,duration:.5,stagger:.12,ease:'power2.out',scrollTrigger:{trigger:'#about',start:'top 70%',end:'top 40%',scrub:1.5}});
+  gsap.fromTo('.tag-group .tag',{scale:0,rotation:20,opacity:0},{scale:1,rotation:0,opacity:1,duration:.4,stagger:.03,ease:'back.out(2)',scrollTrigger:{trigger:'#about',start:'top 65%',end:'top 40%',scrub:1.2}});
+  gsap.fromTo('.section-label',{opacity:0,x:-20},{opacity:1,x:0,ease:'power2.out',scrollTrigger:{trigger:'.section-label',start:'top 90%',end:'top 60%',scrub:1}});
 
-    // Method cards — staggered vertical entrance with elastic
-    gsap.from('.method-card',{y:80,scale:.9,rotateX:10,rotateY:-5,opacity:0,
-      duration:.7,stagger:.05,ease:'back.out(1.5)',
-      scrollTrigger:{trigger:'#about',start:'bottom 85%',toggleActions:'play none none none'}});
+  // === 4. METHOD CARDS — elastic stagger from below with rotation ===
+  gsap.from('.method-card',{y:120,scale:.7,rotateX:25,rotateY:-15,opacity:0,duration:.6,stagger:.06,ease:'back.out(1.7)',scrollTrigger:{trigger:'#about',start:'bottom 85%',toggleActions:'play none none none'}});
 
-    // Stat cards — micro-reveal with detail
-    gsap.utils.toArray('.stat-card').forEach(function(card,i){
-      gsap.fromTo(card,
-        {y:50,scale:.8,opacity:0},
-        {
-          y:0,scale:1,opacity:1,
-          ease:'power2.out',
-          scrollTrigger:{trigger:'.stats-row',start:'top 80%',end:'bottom 80%',scrub:2}
-        }
-      );
-    });
+  // === 5. STAT CARDS — pop-in ===
+  gsap.utils.toArray('.stat-card').forEach(function(c,i){
+    gsap.fromTo(c,{y:60,scale:.8,opacity:0},{y:0,scale:1,opacity:1,ease:'back.out(1.5)',scrollTrigger:{trigger:'.stats-row',start:'top 80%',end:'bottom 80%',scrub:1.5}});
+  });
 
-    // Projects — dynamic staggered reveal with 3D depth
-    gsap.utils.toArray('.project-card').forEach(function(card,i){
-      gsap.fromTo(card,
-        {y:100,scale:.85,rotationX:20,rotationY:-15,opacity:0},
-        {
-          y:0,scale:1,rotationX:0,rotationY:0,opacity:1,
-          ease:'power3.out',
-          scrollTrigger:{trigger:'#projects',start:'top 75%',end:'top 35%',scrub:1.8}
-        }
-      );
-    });
-
-    // Process steps — flowing timeline with velocity
-    gsap.utils.toArray('.process-step').forEach(function(step,i){
-      gsap.fromTo(step,
-        {x:-80,opacity:0,scale:.85,rotationY:10},
-        {
-          x:0,opacity:1,scale:1,rotationY:0,
-          ease:'power2.out',
-          scrollTrigger:{trigger:'.process-steps',start:'top 80%',end:'bottom 80%',scrub:2}
-        }
-      );
-    });
-
-    // Contact — smooth fade and slide up
-    gsap.from('#contact > div',{y:60,opacity:0,duration:.8,ease:'power2.out',
-      scrollTrigger:{trigger:'#contact',start:'top 80%',end:'top 40%',scrub:1.5}});
-
-    // === 4. ENHANCED SECTION EXIT ANIMATIONS ===
-    // Each section slides up, fades, and distorts elegantly when scrolling past
-    gsap.utils.toArray('section').forEach(function(section){
-      gsap.to(section,{
-        yPercent:-40,
-        scale:.95,
-        filter:'blur(2px)',
-        opacity:0,
-        ease:'power2.in',
+  // === 6. PROJECTS — HORIZONTAL SCROLL CAROUSEL ===
+  var isMobile=window.innerWidth<600;
+  if(!isMobile){
+    var grid=document.getElementById('projectsGrid');
+    if(grid&&grid.children.length){
+      var wrap=grid.closest('.projects-track-wrap');
+      var sec=document.getElementById('projects');
+      ScrollTrigger.create({
+        trigger:sec,
+        pin:true,
+        pinSpacing:true,
+        start:'top top',
+        end:function(){return '+='+(grid.scrollWidth-window.innerWidth+80)},
+        invalidateOnRefresh:true,
+      });
+      gsap.to(grid,{
+        x:function(){return -(grid.scrollWidth-window.innerWidth+80)},
+        ease:'none',
         scrollTrigger:{
-          trigger:section,
-          start:'bottom bottom-=15%',
-          end:'bottom top+=10%',
+          trigger:sec,
+          start:'top top',
+          end:function(){return '+='+(grid.scrollWidth-window.innerWidth+80)},
           scrub:1.5,
+          invalidateOnRefresh:true,
         }
       });
-    });
-
-    // === 5. ENHANCED PARALLAX ON SECTION INNER ===
-    gsap.utils.toArray('.section-inner').forEach(function(inner,i){
-      gsap.fromTo(inner,{y:0},{y:(i%2===0?-30:-15),ease:'none',scrollTrigger:{trigger:inner.parentElement,start:'top bottom',end:'bottom top',scrub:2.5}});
+      // Project cards 3D tilt on scroll
+      gsap.utils.toArray('.project-card').forEach(function(c,i){
+        gsap.fromTo(c,{rotationY:25,scale:.88,opacity:0},{rotationY:0,scale:1,opacity:1,ease:'power2.out',scrollTrigger:{trigger:c,start:'left 95%',end:'left 40%',scrub:1.2,horizontal:true}});
+      });
+    }
+  }else{
+    gsap.utils.toArray('.project-card').forEach(function(c){
+      gsap.fromTo(c,{y:80,scale:.9,opacity:0},{y:0,scale:1,opacity:1,ease:'power3.out',scrollTrigger:{trigger:c,start:'top 85%',end:'top 50%',scrub:1.5}});
     });
   }
 
+  // === 7. PROCESS STEPS — flowing rotation entrance ===
+  gsap.utils.toArray('.process-step').forEach(function(s,i){
+    var dir=i%2===0?1:-1;
+    gsap.fromTo(s,{x:-60*dir,opacity:0,scale:.8,rotationY:15*dir},{x:0,opacity:1,scale:1,rotationY:0,ease:'power3.out',scrollTrigger:{trigger:'.process-steps',start:'top 80%',end:'bottom 80%',scrub:1.5}});
+  });
+
+  // === 8. CONTACT — cinematic slide-up ===
+  gsap.fromTo('#contact h2',{y:60,opacity:0,filter:'blur(12px)'},{y:0,opacity:1,filter:'blur(0px)',ease:'power3.out',scrollTrigger:{trigger:'#contact',start:'top 80%',end:'top 40%',scrub:1.5}});
+  gsap.fromTo('#contact p',{y:30,opacity:0},{y:0,opacity:1,ease:'power2.out',scrollTrigger:{trigger:'#contact',start:'top 75%',end:'top 45%',scrub:1.5}});
+  gsap.fromTo('.social-links a',{y:20,opacity:0,scale:.9},{y:0,opacity:1,scale:1,duration:.4,stagger:.06,ease:'back.out(1.5)',scrollTrigger:{trigger:'#contact',start:'top 70%',end:'top 40%',scrub:1.2}});
+
+  // === 9. SECTION EXIT — slide right with 3D flip ===
+  gsap.utils.toArray('section').forEach(function(section){
+    gsap.to(section,{xPercent:120,rotationY:-35,transformOrigin:'left center',opacity:0,ease:'power2.in',scrollTrigger:{trigger:section,start:'bottom bottom-=15%',end:'bottom top+=10%',scrub:1.5}});
+  });
+
+  // === 10. 3D EDGE DISTORTION ===
+  gsap.utils.toArray('.method-card, .project-card, .stat-card, .about-text, .process-step').forEach(function(el,i){
+    var dir=i%2===0?1:-1;
+    gsap.fromTo(el,{},{scrollTrigger:{trigger:el,start:'top bottom',end:'bottom top',onUpdate:function(self){var p=self.progress,d=Math.sin(p*Math.PI)*8*dir;gsap.set(el,{skewX:d,rotationY:d*.5});}}});
+  });
+
+  // === 11. PARALLAX ===
+  gsap.utils.toArray('.section-inner').forEach(function(inner,i){
+    gsap.fromTo(inner,{y:0},{y:(i%2===0?-30:-15),ease:'none',scrollTrigger:{trigger:inner.parentElement,start:'top bottom',end:'bottom top',scrub:2.5}});
+  });
 }
 function initThree(){
   try{if(typeof THREE==='undefined')return;
