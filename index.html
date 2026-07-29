@@ -602,7 +602,7 @@ function initGSAP(){
     });
   }
 
-  // === 3. PROJECTS — carrusel: cards de centro a derecha, scrollear centra cada una ===
+  // === 3. PROJECTS — spotlight carousel: center card straight, sides distorted ===
   var projSec=document.getElementById('projects');
   var projGrid=document.getElementById('projectsGrid');
   if(projSec&&projGrid&&projGrid.children.length&&window.innerWidth>=600){
@@ -611,26 +611,33 @@ function initGSAP(){
     var cardW=cards[0].offsetWidth;
     var gap=20;
     var vpC=window.innerWidth/2;
-    // startX: first card's left edge at viewport center
-    var startX=vpC;
-    // endX: last card centered
-    var endX=vpC-(n-1)*(cardW+gap)-cardW/2;
-    var scrollDist=Math.max(window.innerHeight,startX-endX);
+    // start: first card centered, end: last card centered
+    var startX=vpC-cardW/2;
+    var endX=vpC-cardW/2-(n-1)*(cardW+gap);
+    var travel=startX-endX;
+    var scrollDist=Math.max(window.innerHeight*1.5,travel*1.3);
     ScrollTrigger.create({trigger:projSec,pin:true,pinSpacing:true,start:'top top',end:function(){return '+='+scrollDist},invalidateOnRefresh:true});
-    // Header entrances (first portion of pin)
-    var hEnd=Math.min(scrollDist*.4,window.innerHeight*.4);
-    gsap.from(projSec.querySelector('.section-label'),{opacity:0,x:-20,ease:'power2.out',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+Math.min(scrollDist*.15,hEnd*.37)},scrub:1}});
+    // Headers
+    var hEnd=Math.min(scrollDist*.35,window.innerHeight*.35);
+    gsap.from(projSec.querySelector('.section-label'),{opacity:0,x:-20,ease:'power2.out',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+Math.min(scrollDist*.12,hEnd*.34)},scrub:1}});
     gsap.from(projSec.querySelector('.section-title'),{x:-window.innerWidth,opacity:0,ease:'power4.out',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+hEnd},scrub:1.5}});
-    gsap.from(projSec.querySelector('.section-sub'),{y:30,opacity:0,ease:'power2.out',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+Math.min(scrollDist*.25,hEnd*.62)},scrub:1.2}});
-    // Set initial position: first card starts at viewport center
+    gsap.from(projSec.querySelector('.section-sub'),{y:30,opacity:0,ease:'power2.out',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+Math.min(scrollDist*.22,hEnd*.63)},scrub:1.2}});
+    // Grid animation
     gsap.set(projGrid,{x:startX});
-    // Animate to final position (last card centered)
-    gsap.to(projGrid,{x:endX,ease:'none',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+scrollDist},scrub:1.5,invalidateOnRefresh:true}});
-    // Cards 3D entrance (subtle rotation + scale that resolves as they approach center)
-    cards.forEach(function(c,i){
-      var dir=i%2===0?1:-1;
-      gsap.fromTo(c,{rotationZ:28*dir,rotationY:30,y:80,scale:.65,skewX:15*dir,transformOrigin:'50% 100%'},{rotationZ:0,rotationY:0,y:0,scale:1,skewX:0,ease:'power3.out',scrollTrigger:{trigger:c,start:'left 110%',end:'left 40%',scrub:1.2,horizontal:true}});
-    });
+    gsap.to(projGrid,{x:endX,ease:'none',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+scrollDist},scrub:2,invalidateOnRefresh:true,
+      onUpdate:function(self){
+        var p=self.progress;
+        var curX=startX+(endX-startX)*p;
+        for(var i=0;i<n;i++){
+          var card=cards[i];
+          var ctr=curX+i*(cardW+gap)+cardW/2;
+          var dist=ctr-vpC;
+          var f=Math.min(1,Math.abs(dist)/(window.innerWidth*0.55));
+          var sign=dist>=0?1:-1;
+          gsap.set(card,{rotationZ:f*22*sign,rotationY:f*18,skewX:f*12*sign,scale:1-f*0.22,opacity:1-f*0.35,zIndex:Math.round((1-f)*10)});
+        }
+      }
+    }});
   }else if(projSec&&projGrid&&projGrid.children.length){
     // Mobile: simple pin + entrance
     var mEnd=window.innerHeight*1.2;
