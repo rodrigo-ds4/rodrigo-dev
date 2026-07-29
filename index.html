@@ -618,7 +618,6 @@ function initGSAP(){
     var startX=vpC-(gridNat.left+cardW/2);
     var travel=startX-(vpC-(gridNat.left+(n-1)*step+cardW/2));
     var scrollDist=Math.max(window.innerHeight*2.5,travel*4);
-    ScrollTrigger.create({trigger:projSec,pin:true,pinSpacing:true,start:'top top',end:function(){return '+='+scrollDist},invalidateOnRefresh:true});
     var hEnd=Math.min(scrollDist*.3,window.innerHeight*.35);
     gsap.from(projSec.querySelector('.section-label'),{opacity:0,x:-20,ease:'power2.out',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+Math.min(scrollDist*.12,hEnd*.34)},scrub:1}});
     gsap.from(projSec.querySelector('.section-title'),{x:-window.innerWidth,opacity:0,ease:'power4.out',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+hEnd},scrub:1.5}});
@@ -627,7 +626,7 @@ function initGSAP(){
     gsap.to('#spotlightGlow',{opacity:1,duration:.8,scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+Math.min(scrollDist*.1,window.innerHeight*.1)},scrub:0}});
     // Set initial: card 0 centered
     gsap.set(projGrid,{x:startX});
-    // Stepped scroll: each segment = 1/n of progress; first 60% wait, last 40% transition
+    // Stepped scroll: single ScrollTrigger handles both pin and onUpdate
     ScrollTrigger.create({
       trigger:projSec,pin:true,pinSpacing:true,start:'top top',end:function(){return '+='+scrollDist},invalidateOnRefresh:true,
       onUpdate:function(self){
@@ -676,7 +675,6 @@ function initGSAP(){
         }
       }
     });
-  }else if(projSec&&projGrid&&projGrid.children.length){
   }else if(projSec&&projGrid&&projGrid.children.length){
     // Mobile: simple pin + entrance
     var mEnd=window.innerHeight*1.2;
