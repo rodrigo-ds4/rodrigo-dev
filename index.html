@@ -116,7 +116,7 @@ section{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction
 #projects{overflow:hidden;}
 .projects-header{margin-bottom:32px;flex-shrink:0;}
 .projects-track-wrap{overflow:visible;width:100%;position:relative;}
-.spotlight-glow{position:fixed;top:50%;left:50%;width:540px;height:440px;transform:translate(-50%,-50%);pointer-events:none;background:radial-gradient(ellipse,rgba(167,139,250,.13),transparent 70%);z-index:0;will-change:opacity;opacity:0;transition:opacity .8s;}
+.spotlight-glow{position:fixed;top:50%;left:50%;width:540px;height:440px;transform:translate(-50%,-50%);pointer-events:none;background:radial-gradient(ellipse,rgba(167,139,250,.13),transparent 70%);z-index:0;will-change:opacity;opacity:0;}
 .projects-grid{display:flex;flex-wrap:nowrap;gap:20px;width:max-content;padding-bottom:16px;will-change:transform;}
 .project-card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;transition:border-color .5s,box-shadow .5s;display:flex;flex-direction:column;transform-style:preserve-3d;min-width:380px;width:380px;flex-shrink:0;will-change:transform,opacity;}
 .project-card:hover{border-color:rgba(167,139,250,.25);box-shadow:0 30px 70px rgba(0,0,0,.55),0 0 0 1px rgba(167,139,250,.08);}
@@ -604,7 +604,7 @@ function initGSAP(){
     });
   }
 
-  // === 3. PROJECTS — spotlight carousel: each card gets equal scroll time in center ===
+  // === 3. PROJECTS — stepped spotlight: card central fija, scrolleo se acumula, salta a la siguiente ===
   var projSec=document.getElementById('projects');
   var projGrid=document.getElementById('projectsGrid');
   if(projSec&&projGrid&&projGrid.children.length&&window.innerWidth>=600){
@@ -612,36 +612,46 @@ function initGSAP(){
     var n=cards.length;
     var cardW=cards[0].offsetWidth;
     var gap=20;
+    var step=cardW+gap;
     var vpC=window.innerWidth/2;
-    // Use getBoundingClientRect to get grid's natural position before any transform
     var gridNat=projGrid.getBoundingClientRect();
-    var natCard0Ctr=gridNat.left+cardW/2;
-    var natLastCtr=gridNat.left+(n-1)*(cardW+gap)+cardW/2;
-    var startX=vpC-natCard0Ctr;
-    var endX=vpC-natLastCtr;
-    var travel=startX-endX;
-    // Each card gets equal scroll time: 4x travel => ~1600px per card transition
-    var scrollDist=Math.max(window.innerHeight*3,travel*4);
+    var startX=vpC-(gridNat.left+cardW/2);
+    var travel=startX-(vpC-(gridNat.left+(n-1)*step+cardW/2));
+    var scrollDist=Math.max(window.innerHeight*2.5,travel*4);
     ScrollTrigger.create({trigger:projSec,pin:true,pinSpacing:true,start:'top top',end:function(){return '+='+scrollDist},invalidateOnRefresh:true});
-    // Headers
     var hEnd=Math.min(scrollDist*.3,window.innerHeight*.35);
     gsap.from(projSec.querySelector('.section-label'),{opacity:0,x:-20,ease:'power2.out',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+Math.min(scrollDist*.12,hEnd*.34)},scrub:1}});
     gsap.from(projSec.querySelector('.section-title'),{x:-window.innerWidth,opacity:0,ease:'power4.out',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+hEnd},scrub:1.5}});
     gsap.from(projSec.querySelector('.section-sub'),{y:30,opacity:0,ease:'power2.out',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+Math.min(scrollDist*.22,hEnd*.63)},scrub:1.2}});
-    // Grid animation: move grid left so each card visits center
+    // Fade in glow
+    gsap.to('#spotlightGlow',{opacity:1,duration:.8,scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+Math.min(scrollDist*.1,window.innerHeight*.1)},scrub:0}});
+    // Set initial: card 0 centered
     gsap.set(projGrid,{x:startX});
-    gsap.to(projGrid,{x:endX,ease:'none',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+scrollDist},scrub:2.5,invalidateOnRefresh:true,
+    // Stepped scroll: each segment = 1/n of progress; first 60% wait, last 40% transition
+    ScrollTrigger.create({
+      trigger:projSec,pin:true,pinSpacing:true,start:'top top',end:function(){return '+='+scrollDist},invalidateOnRefresh:true,
       onUpdate:function(self){
         var p=self.progress;
-        var curX=startX+(endX-startX)*p;
+        if(p==null)return;
+        // Stepped grid position
+        var segFloat=p*n;
+        var seg=Math.min(n-2,Math.floor(segFloat));
+        var segT=Math.min(1,segFloat-seg);
+        var t=Math.max(0,(segT-.6)/.4);
+        t=t*t*(3-2*t);
+        var curX=startX-(seg+t)*step;
+        gsap.set(projGrid,{x:curX});
+        // Distortion + glow per card
+        var minDist=Infinity;
+        var centerIdx=-1;
         for(var i=0;i<n;i++){
           var card=cards[i];
           if(!card)continue;
-          var ctr=curX+gridNat.left+i*(cardW+gap)+cardW/2;
+          var ctr=curX+gridNat.left+i*step+cardW/2;
           var dist=ctr-vpC;
           var absDist=Math.abs(dist);
-          // dead zone ~120px: card at center is perfectly straight
-          var f=absDist>120?Math.min(1,(absDist-120)/(window.innerWidth*0.5)):0;
+          if(absDist<minDist){minDist=absDist;centerIdx=i;}
+          var f=absDist>120?Math.min(1,(absDist-120)/(window.innerWidth*.5)):0;
           var sign=dist>=0?1:-1;
           gsap.set(card,{
             rotationZ:f*25*sign,
@@ -652,10 +662,21 @@ function initGSAP(){
             zIndex:Math.round((1-f)*20)+1
           });
         }
+        // Glow border on nearest card to center
+        for(var i=0;i<n;i++){
+          var card=cards[i];
+          if(!card)continue;
+          if(i===centerIdx&&minDist<200){
+            card.style.boxShadow='0 0 25px rgba(167,139,250,.35),0 0 60px rgba(167,139,250,.12)';
+            card.style.borderColor='rgba(167,139,250,.45)';
+          }else{
+            card.style.boxShadow='';
+            card.style.borderColor='';
+          }
+        }
       }
-    }});
-    // Fade in glow once carousel activates
-    gsap.to('#spotlightGlow',{opacity:1,duration:.8,scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+Math.min(scrollDist*.1,window.innerHeight*.1)},scrub:0}});
+    });
+  }else if(projSec&&projGrid&&projGrid.children.length){
   }else if(projSec&&projGrid&&projGrid.children.length){
     // Mobile: simple pin + entrance
     var mEnd=window.innerHeight*1.2;
