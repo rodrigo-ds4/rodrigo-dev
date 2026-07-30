@@ -55,7 +55,7 @@ a{color:inherit;text-decoration:none;}
 .contact-btn{background:linear-gradient(135deg,var(--accent),#7c3aed);color:#fff;border:none;padding:6px 18px;border-radius:8px;font-size:.76rem;font-weight:600;cursor:pointer;transition:.3s;font-family:'Inter',sans-serif;}
 .contact-btn:hover{box-shadow:0 8px 28px rgba(167,139,250,.35);}
 
-section{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:flex-start;padding:100px 28px;isolation:isolate;}
+section{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:flex-start;padding:100px 28px;}
 .section-inner{max-width:1200px;margin:0 auto;width:100%;perspective:1200px;}
 
 /* ===== HERO ===== */
@@ -117,29 +117,44 @@ section{position:relative;min-height:100vh;display:flex;flex-direction:column;ju
 .vine .drv:after{content:"";position:absolute;left:13px;right:25px;top:8px;height:5px;background:#373832}
 .vine .drv .dot{position:absolute;right:10px;top:7px;width:8px;height:8px;background:#53544d;border-radius:50%}
 .vine .kbw{position:absolute;left:35px;top:385px;width:500px;height:155px;transform-style:preserve-3d;transform:translateZ(145px) rotateX(58deg) rotateZ(-1deg);transform-origin:center top}
-.vine .kb{position:relative;width:500px;height:155px;background:linear-gradient(#d5cfb7,#aaa58f);border:7px solid #858274;border-bottom-width:13px;border-radius:9px 9px 14px 14px;box-shadow:0 22px 24px #0003,inset 0 2px #eee9d2}
-.vine .kb:before{content:"";position:absolute;left:10px;right:10px;top:9px;height:18px;border-bottom:2px solid #918d7c;background:linear-gradient(90deg,#a8a38e 0 20%,transparent 20% 82%,#a8a38e 82%)}
+.vine .kb-box{position:absolute;left:0;top:0;width:100%;height:100%;transform-style:preserve-3d}
+.vine .kb-box .face{position:absolute;border:1px solid rgba(40,40,35,.35)}
+.vine .kb-box .f0{width:100%;height:100%;transform:translateZ(11px);background:linear-gradient(#d5cfb7,#aaa58f);border:7px solid #858274;border-radius:9px 9px 14px 14px;box-shadow:0 22px 24px #0003,inset 0 2px #eee9d2;overflow:hidden}
+.vine .kb-box .f1{width:100%;height:100%;transform:rotateY(180deg) translateZ(11px);background:#8f8b79;border:7px solid #777466;border-radius:9px 9px 14px 14px}
+.vine .kb-box .f2,.vine .kb-box .f3{width:22px;height:100%;left:calc(50% - 11px)}
+.vine .kb-box .f2{transform:rotateY(-90deg) translateZ(250px);background:#a8a38e}
+.vine .kb-box .f3{transform:rotateY(90deg) translateZ(250px);background:#a8a38e}
+.vine .kb-box .f4,.vine .kb-box .f5{width:100%;height:22px;top:calc(50% - 11px)}
+.vine .kb-box .f4{transform:rotateX(90deg) translateZ(77.5px);background:#a8a38e}
+.vine .kb-box .f5{transform:rotateX(-90deg) translateZ(77.5px);background:#817e70}
+.vine .kb{position:relative;width:100%;height:100%}
+.vine .kb:before{content:"";position:absolute;left:10px;right:10px;top:9px;height:18px;border-bottom:2px solid #918d7c;background:linear-gradient(90deg,#a8a38e 0 20%,transparent 20% 82%,#a8a38e 82%);z-index:1}
 .vine .kbd{position:absolute;left:15px;right:15px;top:35px;bottom:14px;display:grid;grid-template-columns:repeat(15,1fr);grid-template-rows:repeat(5,1fr);gap:4px}
 .vine .key{position:relative;background:linear-gradient(145deg,#d8d2b9,#aaa58f);border:1px solid #716f63;border-bottom:4px solid #777467;border-radius:3px;min-width:0;box-shadow:inset 1px 1px #f0ead1,1px 2px 1px #0002}
 .vine .key:after{content:attr(data-label);position:absolute;left:3px;top:2px;font:6px/1 monospace;color:#57574f}
 .vine .key.dark{background:linear-gradient(#918e7e,#706e62)}
 .vine .key.space{grid-column:span 6}
-.vine .kb-b{position:absolute;left:0;top:0;width:500px;height:155px;border-radius:9px 9px 14px 14px;border:7px solid #777466;background:#8f8b79}
-.vine .kb-b1{transform:translateZ(-22px) translateY(11px)}
-.vine .kb-b2{transform:translateZ(-11px) translateY(6px);background:linear-gradient(#b0aa94,#817e70)}
 .vine .kbw:after{content:"";position:absolute;left:7px;right:7px;bottom:-17px;height:25px;transform:translateZ(-10px) rotateX(78deg);transform-origin:top;background:#777466;border:1px solid #5e5c53;border-radius:0 0 10px 10px}
 .vine .mw{position:absolute;left:555px;top:438px;width:75px;height:100px;transform-style:preserve-3d;transform:translateZ(150px) rotateX(58deg) rotateZ(-8deg);transform-origin:50% 0%}
-.vine .mouse{position:relative;width:75px;height:100px;background:#c9c4ad;border:3px solid #807d6e;border-radius:35px 35px 25px 25px;box-shadow:0 14px 15px #0002}
-.vine .mouse:before{content:"";position:absolute;left:35px;top:4px;width:2px;height:48px;background:#777}
-.vine .mouse:after{content:"";position:absolute;left:15px;right:15px;top:45px;height:2px;background:#777}
-.vine .md{position:absolute;left:0;top:4px;width:75px;height:100px;border:3px solid #6f6d61;border-radius:35px 35px 25px 25px;background:#8f8b7a}
-.vine .md1{transform:translateZ(-22px) translateY(10px)}
-.vine .md2{transform:translateZ(-11px) translateY(5px);background:linear-gradient(#b6b09a,#858273)}
+.vine .mouse-box{position:absolute;left:0;top:0;width:100%;height:100%;transform-style:preserve-3d}
+.vine .mouse-box .face{position:absolute;border:1px solid rgba(40,40,35,.35)}
+.vine .mouse-box .f0{width:100%;height:100%;transform:translateZ(11px);background:#c9c4ad;border:3px solid #807d6e;border-radius:35px 35px 25px 25px;box-shadow:0 14px 15px #0002;overflow:hidden}
+.vine .mouse-box .f1{width:100%;height:100%;transform:rotateY(180deg) translateZ(11px);background:#8f8b7a;border:3px solid #6f6d61;border-radius:35px 35px 25px 25px}
+.vine .mouse-box .f2,.vine .mouse-box .f3{width:22px;height:100%;left:calc(50% - 11px)}
+.vine .mouse-box .f2{transform:rotateY(-90deg) translateZ(37.5px);background:#a8a38e}
+.vine .mouse-box .f3{transform:rotateY(90deg) translateZ(37.5px);background:#a8a38e}
+.vine .mouse-box .f4,.vine .mouse-box .f5{width:100%;height:22px;top:calc(50% - 11px)}
+.vine .mouse-box .f4{transform:rotateX(90deg) translateZ(50px);background:#a8a38e}
+.vine .mouse-box .f5{transform:rotateX(-90deg) translateZ(50px);background:#817e70}
+.vine .mouse{position:relative;width:100%;height:100%}
+.vine .mouse:before{content:"";position:absolute;left:35px;top:4px;width:2px;height:48px;background:#777;z-index:1}
+.vine .mouse:after{content:"";position:absolute;left:15px;right:15px;top:45px;height:2px;background:#777;z-index:1}
 .vine .mw:after{content:"";position:absolute;left:12px;right:12px;bottom:-15px;height:22px;transform:translateZ(-10px) rotateX(76deg);transform-origin:top;background:#777466;border-radius:0 0 18px 18px}
 .vine .cbl{position:absolute;left:0;top:0;width:650px;height:520px;overflow:visible;pointer-events:none;transform:translateZ(135px)}
 .vine .cbl path{fill:none;stroke:#66665f;stroke-width:5;stroke-linecap:round;filter:drop-shadow(1px 2px 1px #0003)}
 .vine .vshadow{position:absolute;left:75px;top:485px;width:510px;height:120px;background:radial-gradient(ellipse,#0004,transparent 68%);transform:rotateX(78deg) translateZ(-80px);filter:blur(12px)}
 .vine .vsc{transform:rotateX(78deg) translateZ(-80px)}
+
 
 .section-label{font-size:.68rem;text-transform:uppercase;letter-spacing:.25em;color:var(--accent);margin-bottom:6px;font-weight:600;}
 .section-title{font-size:clamp(2.6rem,6vw,4.8rem);font-weight:900;letter-spacing:-.04em;margin-bottom:8px;line-height:1.02;}
@@ -344,15 +359,25 @@ footer{text-align:center;padding:30px;color:var(--muted);font-size:.78rem;border
               <div class="drv d2"><span class="dot"></span></div>
             </div>
             <div class="kbw">
-              <div class="kb-b kb-b1"></div>
-              <div class="kb-b kb-b2"></div>
-              <div class="kb"><div class="kbd" id="vKeys"></div></div>
+              <div class="box kb-box" style="--w:500px;--h:155px;--d:22px">
+                <div class="face f0"><div class="kb"><div class="kbd" id="vKeys"></div></div></div>
+                <div class="face f1"></div>
+                <div class="face f2"></div>
+                <div class="face f3"></div>
+                <div class="face f4"></div>
+                <div class="face f5"></div>
+              </div>
             </div>
             <svg class="cbl" viewBox="0 0 650 520"><path d="M500 335 C565 326 636 338 642 382 C646 414 623 430 592 438"/></svg>
             <div class="mw">
-              <div class="md md1"></div>
-              <div class="md md2"></div>
-              <div class="mouse"></div>
+              <div class="box mouse-box" style="--w:75px;--h:100px;--d:22px">
+                <div class="face f0"><div class="mouse"></div></div>
+                <div class="face f1"></div>
+                <div class="face f2"></div>
+                <div class="face f3"></div>
+                <div class="face f4"></div>
+                <div class="face f5"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -662,175 +687,198 @@ function initGSAP(){
 
   if(typeof ScrollTrigger==='undefined') return;
 
-  // === 2. ABOUT — pinned, title + tags entrance ===
-  var aboutSec=document.getElementById('about');
-  if(aboutSec){
-    var abEnd=window.innerHeight*1.3;
-    ScrollTrigger.create({trigger:aboutSec,pin:true,pinSpacing:true,start:'top top',end:function(){return '+='+abEnd},invalidateOnRefresh:true});
-    gsap.from(aboutSec.querySelector('.section-label'),{opacity:0,x:-20,ease:'power2.out',scrollTrigger:{trigger:aboutSec,start:'top top',end:function(){return '+='+abEnd*.2},scrub:1}});
-    gsap.from('.section-title-wrap',{x:-vw,opacity:0,ease:'power4.out',scrollTrigger:{trigger:aboutSec,start:'top top',end:function(){return '+='+abEnd*.4},scrub:1.5}});
-    gsap.from('.about-text',{rotateX:30,rotateY:-20,skewX:15,scale:.7,opacity:0,y:60,transformOrigin:'50% 100%',ease:'power3.out',scrollTrigger:{trigger:aboutSec,start:'top top',end:function(){return '+='+abEnd*.7},scrub:1.8}});
-    gsap.fromTo('.tag-group .tag',{scale:0,rotation:20,opacity:0},{scale:1,rotation:0,opacity:1,duration:.4,stagger:.03,ease:'back.out(2)',scrollTrigger:{trigger:aboutSec,start:'top top',end:function(){return '+='+abEnd*.85},scrub:1.2}});
-  }
-
-  // === 1. SERVICES — pinned, cards fade+lift on entry ===
-  var servSec=document.getElementById('services');
-  if(servSec){
-    var svEnd=window.innerHeight*1.3;
-    ScrollTrigger.create({trigger:servSec,pin:true,pinSpacing:true,start:'top top',end:function(){return '+='+svEnd},invalidateOnRefresh:true});
-    gsap.from(servSec.querySelector('.section-label'),{opacity:0,x:-20,ease:'power2.out',scrollTrigger:{trigger:servSec,start:'top top',end:function(){return '+='+svEnd*.2},scrub:1}});
-    gsap.from(servSec.querySelector('.section-title'),{x:-vw,opacity:0,ease:'power4.out',scrollTrigger:{trigger:servSec,start:'top top',end:function(){return '+='+svEnd*.35},scrub:1.5}});
-    gsap.from(servSec.querySelector('.section-sub'),{y:30,opacity:0,ease:'power2.out',scrollTrigger:{trigger:servSec,start:'top top',end:function(){return '+='+svEnd*.3},scrub:1.2}});
-    gsap.utils.toArray('.method-card').forEach(function(c,i){
-      gsap.fromTo(c,{opacity:0,y:40,scale:.88},{opacity:1,y:0,scale:1,ease:'power3.out',scrollTrigger:{trigger:servSec,start:'top top',end:function(){return '+='+svEnd*.7},scrub:1.2}});
-    });
-  }
-
-  // === 1. PROJECTS — stepped spotlight: card central fija, scrolleo se acumula, salta a la siguiente ===
-  var projSec=document.getElementById('projects');
-  var projGrid=document.getElementById('projectsGrid');
-  if(projSec&&projGrid&&projGrid.children.length&&window.innerWidth>=600){
-    var cards=gsap.utils.toArray('.project-card');
-    var n=cards.length;
-    var cardW=cards[0].offsetWidth;
-    var gap=20;
-    var step=cardW+gap;
-    var vpC=window.innerWidth/2;
-    var gridNat=projGrid.getBoundingClientRect();
-    var startX=vpC-(gridNat.left+cardW/2);
-    var travel=startX-(vpC-(gridNat.left+(n-1)*step+cardW/2));
-    var scrollDist=Math.max(window.innerHeight*2.5,travel*4);
-    var hEnd=Math.min(scrollDist*.3,window.innerHeight*.35);
-    gsap.from(projSec.querySelector('.section-label'),{opacity:0,x:-20,ease:'power2.out',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+Math.min(scrollDist*.12,hEnd*.34)},scrub:1}});
-    gsap.from(projSec.querySelector('.section-title'),{x:-window.innerWidth,opacity:0,ease:'power4.out',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+hEnd},scrub:1.5}});
-    gsap.from(projSec.querySelector('.section-sub'),{y:30,opacity:0,ease:'power2.out',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+Math.min(scrollDist*.22,hEnd*.63)},scrub:1.2}});
-    // Fade in glow
-    gsap.to('#spotlightGlow',{opacity:1,duration:.8,scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+Math.min(scrollDist*.1,window.innerHeight*.1)},scrub:0}});
-    // Set initial: card 0 centered
-    gsap.set(projGrid,{x:startX});
-    // Stepped scroll: single ScrollTrigger handles both pin and onUpdate
+  // ============================================
+  // HELPER: pin a section with automatic z-index
+  // ============================================
+  function pinSec(sec, dist) {
+    if (!sec) return 0;
     ScrollTrigger.create({
-      trigger:projSec,pin:true,pinSpacing:true,start:'top top',end:function(){return '+='+scrollDist},invalidateOnRefresh:true,
-      onUpdate:function(self){
-        var p=self.progress;
-        if(p==null)return;
-        // Stepped grid position
-        var segFloat=p*n;
-        var seg=Math.min(n-2,Math.floor(segFloat));
-        var segT=Math.min(1,segFloat-seg);
-        var t=Math.max(0,(segT-.6)/.4);
-        t=t*t*(3-2*t);
-        var curX=startX-(seg+t)*step;
-        gsap.set(projGrid,{x:curX});
-        // Distortion + glow per card
-        var minDist=Infinity;
-        var centerIdx=-1;
-        for(var i=0;i<n;i++){
-          var card=cards[i];
-          if(!card)continue;
-          var ctr=curX+gridNat.left+i*step+cardW/2;
-          var dist=ctr-vpC;
-          var absDist=Math.abs(dist);
-          if(absDist<minDist){minDist=absDist;centerIdx=i;}
-          var f=absDist>120?Math.min(1,(absDist-120)/(window.innerWidth*.5)):0;
-          var sign=dist>=0?1:-1;
-          gsap.set(card,{
-            rotationZ:f*25*sign,
-            rotationY:f*20,
-            skewX:f*14*sign,
-            scale:1.06-f*0.36,
-            opacity:1-f*0.6,
-            zIndex:Math.round((1-f)*20)+1
-          });
+      trigger: sec, pin: true, pinSpacing: true,
+      start: 'top top', end: '+=' + dist,
+      invalidateOnRefresh: true,
+      onEnter: function () { sec.style.setProperty('z-index', '5', 'important'); },
+      onLeave: function () { sec.style.removeProperty('z-index'); },
+      onEnterBack: function () { sec.style.setProperty('z-index', '5', 'important'); },
+      onLeaveBack: function () { sec.style.removeProperty('z-index'); }
+    });
+    return dist;
+  }
+
+  function animLabel(sec) {
+    var el = sec.querySelector('.section-label');
+    if (el) gsap.from(el, { opacity: 0, x: -20, ease: 'power2.out', scrollTrigger: { trigger: sec, start: 'top top', end: '+=' + scrollDist * 0.15, scrub: 1 } });
+  }
+
+  function animTitle(sec) {
+    var el = sec.querySelector('.section-title');
+    if (el) gsap.from(el, { x: -vw, opacity: 0, ease: 'power4.out', scrollTrigger: { trigger: sec, start: 'top top', end: '+=' + scrollDist * 0.3, scrub: 1.5 } });
+  }
+
+  function animSub(sec) {
+    var el = sec.querySelector('.section-sub');
+    if (el) gsap.from(el, { y: 30, opacity: 0, ease: 'power2.out', scrollTrigger: { trigger: sec, start: 'top top', end: '+=' + scrollDist * 0.25, scrub: 1.2 } });
+  }
+
+  var scrollDist;
+
+  // ============================================
+  // 1. PROJECTS — stepped spotlight carousel
+  // ============================================
+  var projSec = document.getElementById('projects');
+  var projGrid = document.getElementById('projectsGrid');
+  if (projSec && projGrid && projGrid.children.length && window.innerWidth >= 600) {
+    var cards = gsap.utils.toArray('.project-card');
+    var n = cards.length, cardW = cards[0].offsetWidth, gap = 20, step = cardW + gap;
+    var vpC = window.innerWidth / 2;
+    var gridNat = projGrid.getBoundingClientRect();
+    var startX = vpC - (gridNat.left + cardW / 2);
+    var travel = startX - (vpC - (gridNat.left + (n - 1) * step + cardW / 2));
+    scrollDist = Math.max(window.innerHeight * 2.5, travel * 4);
+    var hEnd = Math.min(scrollDist * 0.3, window.innerHeight * 0.35);
+    animLabel(projSec); animTitle(projSec); animSub(projSec);
+    gsap.to('#spotlightGlow', { opacity: 1, duration: .8, scrollTrigger: { trigger: projSec, start: 'top top', end: '+=' + Math.min(scrollDist * 0.1, window.innerHeight * 0.1), scrub: 0 } });
+    gsap.set(projGrid, { x: startX });
+    ScrollTrigger.create({
+      trigger: projSec, pin: true, pinSpacing: true, start: 'top top', end: '+=' + scrollDist, invalidateOnRefresh: true,
+      onEnter: function () { projSec.style.setProperty('z-index', '5', 'important'); },
+      onLeave: function () { projSec.style.removeProperty('z-index'); },
+      onEnterBack: function () { projSec.style.setProperty('z-index', '5', 'important'); },
+      onLeaveBack: function () { projSec.style.removeProperty('z-index'); },
+      onUpdate: function (self) {
+        var p = self.progress;
+        if (p == null) return;
+        var segFloat = p * n;
+        var seg = Math.min(n - 2, Math.floor(segFloat));
+        var segT = Math.min(1, segFloat - seg);
+        var t = Math.max(0, (segT - 0.6) / 0.4);
+        t = t * t * (3 - 2 * t);
+        var curX = startX - (seg + t) * step;
+        gsap.set(projGrid, { x: curX });
+        var minDist = Infinity, centerIdx = -1;
+        for (var i = 0; i < n; i++) {
+          var card = cards[i];
+          if (!card) continue;
+          var ctr = curX + gridNat.left + i * step + cardW / 2;
+          var dist = ctr - vpC, absDist = Math.abs(dist);
+          if (absDist < minDist) { minDist = absDist; centerIdx = i; }
+          var f = absDist > 120 ? Math.min(1, (absDist - 120) / (window.innerWidth * 0.5)) : 0;
+          var sign = dist >= 0 ? 1 : -1;
+          gsap.set(card, { rotationZ: f * 25 * sign, rotationY: f * 20, skewX: f * 14 * sign, scale: 1.06 - f * 0.36, opacity: 1 - f * 0.6, zIndex: Math.round((1 - f) * 20) + 1 });
         }
-        // Glow border on nearest card to center
-        for(var i=0;i<n;i++){
-          var card=cards[i];
-          if(!card)continue;
-          if(i===centerIdx&&minDist<200){
-            card.style.boxShadow='0 0 25px rgba(167,139,250,.35),0 0 60px rgba(167,139,250,.12)';
-            card.style.borderColor='rgba(167,139,250,.45)';
-          }else{
-            card.style.boxShadow='';
-            card.style.borderColor='';
-          }
+        for (var i = 0; i < n; i++) {
+          var card = cards[i];
+          if (!card) continue;
+          if (i === centerIdx && minDist < 200) {
+            card.style.boxShadow = '0 0 25px rgba(167,139,250,.35),0 0 60px rgba(167,139,250,.12)';
+            card.style.borderColor = 'rgba(167,139,250,.45)';
+          } else { card.style.boxShadow = ''; card.style.borderColor = ''; }
         }
       }
     });
-  }else if(projSec&&projGrid&&projGrid.children.length){
-    // Mobile: simple pin + entrance
-    var mEnd=window.innerHeight*1.2;
-    ScrollTrigger.create({trigger:projSec,pin:true,pinSpacing:true,start:'top top',end:function(){return '+='+mEnd},invalidateOnRefresh:true});
-    gsap.from(projSec.querySelector('.section-label'),{opacity:0,x:-20,ease:'power2.out',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+mEnd*.15},scrub:1}});
-    gsap.from(projSec.querySelector('.section-title'),{x:-vw,opacity:0,ease:'power4.out',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+mEnd*.35},scrub:1.5}});
-    gsap.from(projSec.querySelector('.section-sub'),{y:30,opacity:0,ease:'power2.out',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+mEnd*.28},scrub:1.2}});
-    gsap.utils.toArray('.project-card').forEach(function(c,i){
-      var dir=i%2===0?1:-1;
-      gsap.fromTo(c,{y:80,rotationZ:18*dir,scale:.85,opacity:0,transformOrigin:'50% 100%'},{y:0,rotationZ:0,scale:1,opacity:1,ease:'power3.out',scrollTrigger:{trigger:projSec,start:'top top',end:function(){return '+='+mEnd*.8},scrub:1.5}});
+  } else if (projSec && projGrid && projGrid.children.length) {
+    scrollDist = window.innerHeight * 1.5;
+    pinSec(projSec, scrollDist);
+    animLabel(projSec); animTitle(projSec); animSub(projSec);
+    gsap.utils.toArray('.project-card').forEach(function (c, i) {
+      var dir = i % 2 === 0 ? 1 : -1;
+      gsap.fromTo(c, { y: 80, rotationZ: 18 * dir, scale: 0.85, opacity: 0, transformOrigin: '50% 100%' }, { y: 0, rotationZ: 0, scale: 1, opacity: 1, ease: 'power3.out', scrollTrigger: { trigger: projSec, start: 'top top', end: '+=' + scrollDist * 0.7, scrub: 1.5 } });
     });
   }
 
-  // === 5. EXPERIENCE — pinned horizontal scroll ===
-  var expSec=document.getElementById('experience');
-  var expSteps=document.querySelector('.exp-steps');
-  var expIsMobile=window.innerWidth<600;
-  if(!expIsMobile&&expSteps&&expSteps.children.length&&expSec){
-    var expScrollDist=expSteps.scrollWidth-window.innerWidth+80;
-    var expPinEnd=Math.max(window.innerHeight, expScrollDist);
-    ScrollTrigger.create({trigger:expSec,pin:true,pinSpacing:true,start:'top top',end:function(){return '+='+expPinEnd},invalidateOnRefresh:true});
-    // Header entrances
-    var eH=Math.min(expPinEnd*.45, window.innerHeight*.45);
-    gsap.from(expSec.querySelector('.section-label'),{opacity:0,x:-20,ease:'power2.out',scrollTrigger:{trigger:expSec,start:'top top',end:function(){return '+='+Math.min(expPinEnd*.2,eH*.44)},scrub:1}});
-    gsap.from(expSec.querySelector('.section-title'),{x:-vw,opacity:0,ease:'power4.out',scrollTrigger:{trigger:expSec,start:'top top',end:function(){return '+='+eH},scrub:1.5}});
-    gsap.from(expSec.querySelector('.section-sub'),{y:30,opacity:0,ease:'power2.out',scrollTrigger:{trigger:expSec,start:'top top',end:function(){return '+='+Math.min(expPinEnd*.3,eH*.66)},scrub:1.2}});
-    // Horizontal scroll (only if overflows)
-    if(expScrollDist>100){
-      gsap.to(expSteps,{x:-expScrollDist,ease:'none',scrollTrigger:{trigger:expSec,start:'top top',end:function(){return '+='+expScrollDist},scrub:1.5,invalidateOnRefresh:true}});
-      gsap.utils.toArray('.exp-step').forEach(function(s,i){
-        var dir=i%2===0?1:-1;
-        gsap.fromTo(s,{x:-70*dir,y:20,opacity:0,scale:.85,rotationX:12,transformOrigin:'left center'},{x:0,y:0,opacity:1,scale:1,rotationX:0,ease:'power3.out',scrollTrigger:{trigger:s,start:'left 90%',end:'left 50%',scrub:1.3,horizontal:true}});
+  // ============================================
+  // 2. SERVICES — pinned, cards fade+lift
+  // ============================================
+  var servSec = document.getElementById('services');
+  if (servSec) {
+    scrollDist = window.innerHeight * 1.5;
+    pinSec(servSec, scrollDist);
+    animLabel(servSec); animTitle(servSec); animSub(servSec);
+    gsap.utils.toArray('.method-card').forEach(function (c, i) {
+      gsap.fromTo(c, { opacity: 0, y: 40, scale: 0.88 }, { opacity: 1, y: 0, scale: 1, ease: 'power3.out', scrollTrigger: { trigger: servSec, start: 'top top', end: '+=' + scrollDist * 0.65, scrub: 1.2 } });
+    });
+  }
+
+  // ============================================
+  // 3. ABOUT — pinned, title + tags
+  // ============================================
+  var aboutSec = document.getElementById('about');
+  if (aboutSec) {
+    scrollDist = window.innerHeight * 1.5;
+    pinSec(aboutSec, scrollDist);
+    animLabel(aboutSec);
+    var titleWrap = aboutSec.querySelector('.section-title-wrap');
+    if (titleWrap) gsap.from(titleWrap, { x: -vw, opacity: 0, ease: 'power4.out', scrollTrigger: { trigger: aboutSec, start: 'top top', end: '+=' + scrollDist * 0.35, scrub: 1.5 } });
+    var aboutText = aboutSec.querySelector('.about-text');
+    if (aboutText) gsap.from(aboutText, { rotateX: 30, rotateY: -20, skewX: 15, scale: 0.7, opacity: 0, y: 60, transformOrigin: '50% 100%', ease: 'power3.out', scrollTrigger: { trigger: aboutSec, start: 'top top', end: '+=' + scrollDist * 0.65, scrub: 1.8 } });
+    gsap.fromTo('.tag-group .tag', { scale: 0, rotation: 20, opacity: 0 }, { scale: 1, rotation: 0, opacity: 1, duration: 0.4, stagger: 0.03, ease: 'back.out(2)', scrollTrigger: { trigger: aboutSec, start: 'top top', end: '+=' + scrollDist * 0.8, scrub: 1.2 } });
+  }
+
+  // ============================================
+  // 4. EXPERIENCE — pinned horizontal scroll
+  // ============================================
+  var expSec = document.getElementById('experience');
+  var expSteps = document.querySelector('.exp-steps');
+  var expIsMobile = window.innerWidth < 600;
+  if (!expIsMobile && expSteps && expSteps.children.length && expSec) {
+    var expScrollDist = expSteps.scrollWidth - window.innerWidth + 80;
+    scrollDist = Math.max(window.innerHeight, expScrollDist);
+    pinSec(expSec, scrollDist);
+    var eH = Math.min(scrollDist * 0.4, window.innerHeight * 0.4);
+    animLabel(expSec);
+    var exTitle = expSec.querySelector('.section-title');
+    if (exTitle) gsap.from(exTitle, { x: -vw, opacity: 0, ease: 'power4.out', scrollTrigger: { trigger: expSec, start: 'top top', end: '+=' + eH, scrub: 1.5 } });
+    animSub(expSec);
+    if (expScrollDist > 100) {
+      gsap.to(expSteps, { x: -expScrollDist, ease: 'none', scrollTrigger: { trigger: expSec, start: 'top top', end: '+=' + expScrollDist, scrub: 1.5, invalidateOnRefresh: true } });
+      gsap.utils.toArray('.exp-step').forEach(function (s, i) {
+        var dir = i % 2 === 0 ? 1 : -1;
+        gsap.fromTo(s, { x: -70 * dir, y: 20, opacity: 0, scale: 0.85, rotationX: 12, transformOrigin: 'left center' }, { x: 0, y: 0, opacity: 1, scale: 1, rotationX: 0, ease: 'power3.out', scrollTrigger: { trigger: s, start: 'left 90%', end: 'left 50%', scrub: 1.3, horizontal: true } });
       });
-      gsap.utils.toArray('.exp-dot').forEach(function(d){
-        gsap.fromTo(d,{scale:0},{scale:1,ease:'back.out(3)',scrollTrigger:{trigger:d,start:'left 90%',end:'left 60%',scrub:1,horizontal:true}});
+      gsap.utils.toArray('.exp-dot').forEach(function (d) {
+        gsap.fromTo(d, { scale: 0 }, { scale: 1, ease: 'back.out(3)', scrollTrigger: { trigger: d, start: 'left 90%', end: 'left 60%', scrub: 1, horizontal: true } });
       });
-    }else{
-      gsap.utils.toArray('.exp-step').forEach(function(s,i){
-        var dir=i%2===0?1:-1;
-        gsap.fromTo(s,{x:-70*dir,y:20,opacity:0,scale:.85,rotationX:12,transformOrigin:'left center'},{x:0,y:0,opacity:1,scale:1,rotationX:0,ease:'power3.out',scrollTrigger:{trigger:expSec,start:'top top',end:function(){return '+='+expPinEnd*.7},scrub:1.3}});
+    } else {
+      gsap.utils.toArray('.exp-step').forEach(function (s, i) {
+        var dir = i % 2 === 0 ? 1 : -1;
+        gsap.fromTo(s, { x: -70 * dir, y: 20, opacity: 0, scale: 0.85, rotationX: 12, transformOrigin: 'left center' }, { x: 0, y: 0, opacity: 1, scale: 1, rotationX: 0, ease: 'power3.out', scrollTrigger: { trigger: expSec, start: 'top top', end: '+=' + scrollDist * 0.7, scrub: 1.3 } });
       });
-      gsap.utils.toArray('.exp-dot').forEach(function(d){
-        gsap.fromTo(d,{scale:0},{scale:1,ease:'back.out(3)',scrollTrigger:{trigger:expSec,start:'top top',end:function(){return '+='+expPinEnd*.5},scrub:1}});
+      gsap.utils.toArray('.exp-dot').forEach(function (d) {
+        gsap.fromTo(d, { scale: 0 }, { scale: 1, ease: 'back.out(3)', scrollTrigger: { trigger: expSec, start: 'top top', end: '+=' + scrollDist * 0.5, scrub: 1 } });
       });
     }
-  }else if(expSec){
-    var eEnd=window.innerHeight*1.3;
-    ScrollTrigger.create({trigger:expSec,pin:true,pinSpacing:true,start:'top top',end:function(){return '+='+eEnd},invalidateOnRefresh:true});
-    gsap.from(expSec.querySelector('.section-label'),{opacity:0,x:-20,ease:'power2.out',scrollTrigger:{trigger:expSec,start:'top top',end:function(){return '+='+eEnd*.15},scrub:1}});
-    gsap.from(expSec.querySelector('.section-title'),{x:-vw,opacity:0,ease:'power4.out',scrollTrigger:{trigger:expSec,start:'top top',end:function(){return '+='+eEnd*.35},scrub:1.5}});
-    gsap.from(expSec.querySelector('.section-sub'),{y:30,opacity:0,ease:'power2.out',scrollTrigger:{trigger:expSec,start:'top top',end:function(){return '+='+eEnd*.28},scrub:1.2}});
-    gsap.utils.toArray('.exp-step').forEach(function(s,i){
-      var dir=i%2===0?1:-1;
-      gsap.fromTo(s,{x:-70*dir,y:20,opacity:0,scale:.85,rotationX:12,transformOrigin:'left center'},{x:0,y:0,opacity:1,scale:1,rotationX:0,ease:'power3.out',scrollTrigger:{trigger:expSec,start:'top top',end:function(){return '+='+eEnd*1.0},scrub:1.3}});
+  } else if (expSec) {
+    scrollDist = window.innerHeight * 1.5;
+    pinSec(expSec, scrollDist);
+    animLabel(expSec); animTitle(expSec); animSub(expSec);
+    gsap.utils.toArray('.exp-step').forEach(function (s, i) {
+      var dir = i % 2 === 0 ? 1 : -1;
+      gsap.fromTo(s, { x: -70 * dir, y: 20, opacity: 0, scale: 0.85, rotationX: 12, transformOrigin: 'left center' }, { x: 0, y: 0, opacity: 1, scale: 1, rotationX: 0, ease: 'power3.out', scrollTrigger: { trigger: expSec, start: 'top top', end: '+=' + scrollDist * 0.85, scrub: 1.3 } });
     });
-    gsap.utils.toArray('.exp-dot').forEach(function(d){
-      gsap.fromTo(d,{scale:0},{scale:1,ease:'back.out(3)',scrollTrigger:{trigger:expSec,start:'top top',end:function(){return '+='+eEnd*.8},scrub:1}});
+    gsap.utils.toArray('.exp-dot').forEach(function (d) {
+      gsap.fromTo(d, { scale: 0 }, { scale: 1, ease: 'back.out(3)', scrollTrigger: { trigger: expSec, start: 'top top', end: '+=' + scrollDist * 0.7, scrub: 1 } });
     });
   }
 
-  // === 6. CONTACT — simple entrance (no pin, last section) ===
-  gsap.fromTo('#contact h2',{y:60,opacity:0,filter:'blur(12px)'},{y:0,opacity:1,filter:'blur(0px)',ease:'power3.out',scrollTrigger:{trigger:'#contact',start:'top 80%',end:'top 40%',scrub:1.5}});
-  gsap.fromTo('#contact p',{y:30,opacity:0},{y:0,opacity:1,ease:'power2.out',scrollTrigger:{trigger:'#contact',start:'top 75%',end:'top 45%',scrub:1.5}});
-  gsap.fromTo('.social-links a',{y:20,opacity:0,scale:.9},{y:0,opacity:1,scale:1,duration:.4,stagger:.06,ease:'back.out(1.5)',scrollTrigger:{trigger:'#contact',start:'top 70%',end:'top 40%',scrub:1.2}});
+  // ============================================
+  // 5. CONTACT — entrance (no pin)
+  // ============================================
+  gsap.fromTo('#contact h2', { y: 60, opacity: 0, filter: 'blur(12px)' }, { y: 0, opacity: 1, filter: 'blur(0px)', ease: 'power3.out', scrollTrigger: { trigger: '#contact', start: 'top 80%', end: 'top 40%', scrub: 1.5 } });
+  gsap.fromTo('#contact p', { y: 30, opacity: 0 }, { y: 0, opacity: 1, ease: 'power2.out', scrollTrigger: { trigger: '#contact', start: 'top 75%', end: 'top 45%', scrub: 1.5 } });
+  gsap.fromTo('.social-links a', { y: 20, opacity: 0, scale: .9 }, { y: 0, opacity: 1, scale: 1, duration: 0.4, stagger: 0.06, ease: 'back.out(1.5)', scrollTrigger: { trigger: '#contact', start: 'top 70%', end: 'top 40%', scrub: 1.2 } });
 
-  // === 7. 3D EDGE DISTORTION ===
-  gsap.utils.toArray('.method-card, .project-card, .about-text, .exp-step').forEach(function(el,i){
-    var dir=i%2===0?1:-1;
-    gsap.fromTo(el,{},{scrollTrigger:{trigger:el,start:'top bottom',end:'bottom top',onUpdate:function(self){var p=self.progress,d=Math.sin(p*Math.PI)*8*dir;gsap.set(el,{skewX:d,rotationY:d*.5});}}});
+  // ============================================
+  // 6. EDGE DISTORTION (cards while scrolling)
+  // ============================================
+  gsap.utils.toArray('.method-card, .project-card, .about-text, .exp-step').forEach(function (el, i) {
+    var dir = i % 2 === 0 ? 1 : -1;
+    gsap.fromTo(el, {}, { scrollTrigger: { trigger: el, start: 'top bottom', end: 'bottom top', onUpdate: function (self) { var p = self.progress, d = Math.sin(p * Math.PI) * 8 * dir; gsap.set(el, { skewX: d, rotationY: d * 0.5 }); } } });
   });
 
-  // === 8. PARALLAX ===
-  gsap.utils.toArray('.section-inner').forEach(function(inner,i){
-    gsap.fromTo(inner,{y:0},{y:(i%2===0?-30:-15),ease:'none',scrollTrigger:{trigger:inner.parentElement,start:'top bottom',end:'bottom top',scrub:2.5}});
+  // ============================================
+  // 7. PARALLAX (section-inner gentle float)
+  // ============================================
+  gsap.utils.toArray('.section-inner').forEach(function (inner, i) {
+    gsap.fromTo(inner, { y: 0 }, { y: (i % 2 === 0 ? -30 : -15), ease: 'none', scrollTrigger: { trigger: inner.parentElement, start: 'top bottom', end: 'bottom top', scrub: 2.5 } });
   });
 }
 
