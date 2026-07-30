@@ -576,20 +576,21 @@ proj_4_tech:'Python · Flask · Librosa · Plotly.js · NumPy · DSP',proj_4_lin
 }};
 
 var projects=[
-  {id:'p1',emoji:'🤖',gradient:'linear-gradient(135deg,#1a1a2e,#16213e)',repo:'https://github.com/rotpando/indiebot-clean',keys:['proj_1_title','proj_1_desc','proj_1_tech','proj_1_link']},
-  {id:'p2',emoji:'🗺️',gradient:'linear-gradient(135deg,#1e1b4b,#312e81)',repo:'https://github.com/rotpando/salidas-bot',keys:['proj_2_title','proj_2_desc','proj_2_tech','proj_2_link']},
-  {id:'p3',emoji:'🛒',gradient:'linear-gradient(135deg,#0f172a,#1e293b)',repo:'https://github.com/rotpando/shopagent',keys:['proj_3_title','proj_3_desc','proj_3_tech','proj_3_link']},
-    {id:'p4',emoji:'🎵',gradient:'linear-gradient(135deg,#0c0a1d,#1a0a2e)',repo:'https://github.com/rotpando/soundgraphdj',keys:['proj_4_title','proj_4_desc','proj_4_tech','proj_4_link']}
+  {id:'p1',icon:'bot',gradient:'linear-gradient(135deg,#1a1a2e,#16213e)',repo:'https://github.com/rotpando/indiebot-clean',keys:['proj_1_title','proj_1_desc','proj_1_tech','proj_1_link']},
+  {id:'p2',icon:'map',gradient:'linear-gradient(135deg,#1e1b4b,#312e81)',repo:'https://github.com/rotpando/salidas-bot',keys:['proj_2_title','proj_2_desc','proj_2_tech','proj_2_link']},
+  {id:'p3',icon:'shopping-cart',gradient:'linear-gradient(135deg,#0f172a,#1e293b)',repo:'https://github.com/rotpando/shopagent',keys:['proj_3_title','proj_3_desc','proj_3_tech','proj_3_link']},
+    {id:'p4',icon:'music',gradient:'linear-gradient(135deg,#0c0a1d,#1a0a2e)',repo:'https://github.com/rotpando/soundgraphdj',keys:['proj_4_title','proj_4_desc','proj_4_tech','proj_4_link']}
 ];
 
 function buildProjectCards(lang){
   var g=document.getElementById('projectsGrid');if(!g)return;g.innerHTML='';
   projects.forEach(function(p,i){
     var c=document.createElement('div');c.className='project-card';c.dataset.pid=p.id;
-    c.innerHTML='<div class="thumb" style="background:'+p.gradient+'"><div class="bg-pulse"></div><span style="font-size:3.5rem;opacity:.6;position:relative;z-index:1;">'+p.emoji+'</span><div class="overlay"></div></div><div class="body"><div class="cat">'+(i+1).toString().padStart(2,'0')+'</div><h3 data-pkey="0"></h3><p data-pkey="1"></p><div class="tech" data-pkey="2"></div><div class="links"><a href="'+p.repo+'" target="_blank" data-pkey="3">→ </a></div></div>';
+    c.innerHTML='<div class="thumb" style="background:'+p.gradient+'"><div class="bg-pulse"></div><i data-lucide="'+p.icon+'" style="width:3.5rem;height:3.5rem;opacity:.6;position:relative;z-index:1;stroke-width:1;color:var(--accent2)"></i><div class="overlay"></div></div><div class="body"><div class="cat">'+(i+1).toString().padStart(2,'0')+'</div><h3 data-pkey="0"></h3><p data-pkey="1"></p><div class="tech" data-pkey="2"></div><div class="links"><a href="'+p.repo+'" target="_blank" data-pkey="3">→ </a></div></div>';
     g.appendChild(c);
   });
   fillProjectText(lang);
+  if(typeof lucide!=='undefined') try{lucide.createIcons()}catch(e){}
 }
 function fillProjectText(lang){
   document.querySelectorAll('.project-card').forEach(function(card){
@@ -715,17 +716,17 @@ function initGSAP(){
 
   function animLabel(sec) {
     var el = sec.querySelector('.section-label');
-    if (el) gsap.from(el, { opacity: 0, x: -20, duration: 0.5, ease: 'power2.out', scrollTrigger: { trigger: sec, start: 'top top', toggleActions: 'play none none none' } });
+    if (el) gsap.from(el, { opacity: 0, x: -20, duration: 0.5, ease: 'power2.out', scrollTrigger: { trigger: sec, start: 'top top', toggleActions: 'play none reverse none' } });
   }
 
   function animTitle(sec) {
     var el = sec.querySelector('.section-title');
-    if (el) gsap.from(el, { x: -vw, opacity: 0, duration: 0.7, ease: 'power4.out', scrollTrigger: { trigger: sec, start: 'top top', toggleActions: 'play none none none' } });
+    if (el) gsap.from(el, { x: -vw, opacity: 0, duration: 0.7, ease: 'power4.out', scrollTrigger: { trigger: sec, start: 'top top', toggleActions: 'play none reverse none' } });
   }
 
   function animSub(sec) {
     var el = sec.querySelector('.section-sub');
-    if (el) gsap.from(el, { y: 30, opacity: 0, duration: 0.6, ease: 'power3.out', scrollTrigger: { trigger: sec, start: 'top top', toggleActions: 'play none none none' } });
+    if (el) gsap.from(el, { y: 30, opacity: 0, duration: 0.6, ease: 'power3.out', scrollTrigger: { trigger: sec, start: 'top top', toggleActions: 'play none reverse none' } });
   }
 
   var scrollDist;
@@ -790,7 +791,7 @@ function initGSAP(){
     animLabel(projSec); animTitle(projSec); animSub(projSec);
     gsap.utils.toArray('.project-card').forEach(function (c, i) {
       var dir = i % 2 === 0 ? 1 : -1;
-      gsap.fromTo(c, { y: 80, rotationZ: 18 * dir, scale: 0.85, opacity: 0, transformOrigin: '50% 100%' }, { y: 0, rotationZ: 0, scale: 1, opacity: 1, duration: 0.6, delay: i * 0.1, ease: 'power3.out', scrollTrigger: { trigger: projSec, start: 'top top', toggleActions: 'play none none none' } });
+      gsap.fromTo(c, { y: 80, rotationZ: 18 * dir, scale: 0.85, opacity: 0, transformOrigin: '50% 100%' }, { y: 0, rotationZ: 0, scale: 1, opacity: 1, duration: 0.6, delay: i * 0.1, ease: 'power3.out', scrollTrigger: { trigger: projSec, start: 'top top', toggleActions: 'play none reverse none' } });
     });
   }
 
@@ -803,7 +804,7 @@ function initGSAP(){
     pinSec(servSec, scrollDist);
     animLabel(servSec); animTitle(servSec); animSub(servSec);
     gsap.utils.toArray('.method-card').forEach(function (c, i) {
-      gsap.fromTo(c, { opacity: 0, y: 40, scale: 0.88 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, delay: i * 0.12, ease: 'power3.out', scrollTrigger: { trigger: servSec, start: 'top top', toggleActions: 'play none none none' } });
+      gsap.fromTo(c, { opacity: 0, y: 40, scale: 0.88 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, delay: i * 0.12, ease: 'power3.out', scrollTrigger: { trigger: servSec, start: 'top top', toggleActions: 'play none reverse none' } });
     });
   }
 
@@ -816,10 +817,10 @@ function initGSAP(){
     pinSec(aboutSec, scrollDist);
     animLabel(aboutSec);
     var titleWrap = aboutSec.querySelector('.section-title-wrap');
-    if (titleWrap) gsap.from(titleWrap, { x: -vw, opacity: 0, duration: 0.7, ease: 'power4.out', scrollTrigger: { trigger: aboutSec, start: 'top top', toggleActions: 'play none none none' } });
+    if (titleWrap) gsap.from(titleWrap, { x: -vw, opacity: 0, duration: 0.7, ease: 'power4.out', scrollTrigger: { trigger: aboutSec, start: 'top top', toggleActions: 'play none reverse none' } });
     var aboutText = aboutSec.querySelector('.about-text');
-    if (aboutText) gsap.from(aboutText, { rotateX: 30, rotateY: -20, skewX: 15, scale: 0.7, opacity: 0, y: 60, transformOrigin: '50% 100%', duration: 0.8, ease: 'power3.out', scrollTrigger: { trigger: aboutSec, start: 'top top', toggleActions: 'play none none none' } });
-    gsap.fromTo('.tag-group .tag', { scale: 0, rotation: 20, opacity: 0 }, { scale: 1, rotation: 0, opacity: 1, duration: 0.4, stagger: 0.03, ease: 'back.out(2)', scrollTrigger: { trigger: aboutSec, start: 'top top', toggleActions: 'play none none none' } });
+    if (aboutText) gsap.from(aboutText, { rotateX: 30, rotateY: -20, skewX: 15, scale: 0.7, opacity: 0, y: 60, transformOrigin: '50% 100%', duration: 0.8, ease: 'power3.out', scrollTrigger: { trigger: aboutSec, start: 'top top', toggleActions: 'play none reverse none' } });
+    gsap.fromTo('.tag-group .tag', { scale: 0, rotation: 20, opacity: 0 }, { scale: 1, rotation: 0, opacity: 1, duration: 0.4, stagger: 0.03, ease: 'back.out(2)', scrollTrigger: { trigger: aboutSec, start: 'top top', toggleActions: 'play none reverse none' } });
   }
 
   // ============================================
@@ -835,7 +836,7 @@ function initGSAP(){
     var eH = Math.min(scrollDist * 0.4, window.innerHeight * 0.4);
     animLabel(expSec);
     var exTitle = expSec.querySelector('.section-title');
-    if (exTitle) gsap.from(exTitle, { x: -vw, opacity: 0, duration: 0.7, ease: 'power4.out', scrollTrigger: { trigger: expSec, start: 'top top', toggleActions: 'play none none none' } });
+    if (exTitle) gsap.from(exTitle, { x: -vw, opacity: 0, duration: 0.7, ease: 'power4.out', scrollTrigger: { trigger: expSec, start: 'top top', toggleActions: 'play none reverse none' } });
     animSub(expSec);
     if (expScrollDist > 100) {
       gsap.to(expSteps, { x: -expScrollDist, ease: 'none', scrollTrigger: { trigger: expSec, start: 'top top', end: '+=' + expScrollDist, scrub: 1.5, invalidateOnRefresh: true } });
@@ -849,10 +850,10 @@ function initGSAP(){
     } else {
       gsap.utils.toArray('.exp-step').forEach(function (s, i) {
         var dir = i % 2 === 0 ? 1 : -1;
-        gsap.fromTo(s, { x: -70 * dir, y: 20, opacity: 0, scale: 0.85, rotationX: 12, transformOrigin: 'left center' }, { x: 0, y: 0, opacity: 1, scale: 1, rotationX: 0, duration: 0.6, delay: i * 0.08, ease: 'power3.out', scrollTrigger: { trigger: expSec, start: 'top top', toggleActions: 'play none none none' } });
+        gsap.fromTo(s, { x: -70 * dir, y: 20, opacity: 0, scale: 0.85, rotationX: 12, transformOrigin: 'left center' }, { x: 0, y: 0, opacity: 1, scale: 1, rotationX: 0, duration: 0.6, delay: i * 0.08, ease: 'power3.out', scrollTrigger: { trigger: expSec, start: 'top top', toggleActions: 'play none reverse none' } });
       });
       gsap.utils.toArray('.exp-dot').forEach(function (d) {
-        gsap.fromTo(d, { scale: 0 }, { scale: 1, duration: 0.5, ease: 'back.out(3)', scrollTrigger: { trigger: expSec, start: 'top top', toggleActions: 'play none none none' } });
+        gsap.fromTo(d, { scale: 0 }, { scale: 1, duration: 0.5, ease: 'back.out(3)', scrollTrigger: { trigger: expSec, start: 'top top', toggleActions: 'play none reverse none' } });
       });
     }
   } else if (expSec) {
@@ -861,10 +862,10 @@ function initGSAP(){
     animLabel(expSec); animTitle(expSec); animSub(expSec);
     gsap.utils.toArray('.exp-step').forEach(function (s, i) {
       var dir = i % 2 === 0 ? 1 : -1;
-      gsap.fromTo(s, { x: -70 * dir, y: 20, opacity: 0, scale: 0.85, rotationX: 12, transformOrigin: 'left center' }, { x: 0, y: 0, opacity: 1, scale: 1, rotationX: 0, duration: 0.6, delay: i * 0.08, ease: 'power3.out', scrollTrigger: { trigger: expSec, start: 'top top', toggleActions: 'play none none none' } });
+      gsap.fromTo(s, { x: -70 * dir, y: 20, opacity: 0, scale: 0.85, rotationX: 12, transformOrigin: 'left center' }, { x: 0, y: 0, opacity: 1, scale: 1, rotationX: 0, duration: 0.6, delay: i * 0.08, ease: 'power3.out', scrollTrigger: { trigger: expSec, start: 'top top', toggleActions: 'play none reverse none' } });
     });
     gsap.utils.toArray('.exp-dot').forEach(function (d) {
-      gsap.fromTo(d, { scale: 0 }, { scale: 1, duration: 0.5, ease: 'back.out(3)', scrollTrigger: { trigger: expSec, start: 'top top', toggleActions: 'play none none none' } });
+      gsap.fromTo(d, { scale: 0 }, { scale: 1, duration: 0.5, ease: 'back.out(3)', scrollTrigger: { trigger: expSec, start: 'top top', toggleActions: 'play none reverse none' } });
     });
   }
 
