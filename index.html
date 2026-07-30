@@ -80,10 +80,6 @@ section{position:relative;min-height:100vh;display:flex;flex-direction:column;ju
 @keyframes orb-pulse{0%,100%{transform:scale(1) rotate(0deg);opacity:.7;}50%{transform:scale(1.08) rotate(4deg);opacity:1;}}
 @media(min-width:861px){.computer-float{scale:.42}}
 @media(max-width:860px){.computer-float{scale:.38}}
-
-/* ---- vintage computer ---- */
-
-/* ---- vintage computer ---- */
 .vine *{box-sizing:border-box}
 .vine{position:relative;width:650px;height:520px;transform-style:preserve-3d;flex-shrink:0;pointer-events:auto}
 .vine .box{position:absolute;transform-style:preserve-3d}
@@ -158,7 +154,6 @@ section{position:relative;min-height:100vh;display:flex;flex-direction:column;ju
 .vine .cbl{position:absolute;left:0;top:0;width:650px;height:520px;overflow:visible;pointer-events:none;transform:translateZ(135px)}
 .vine .cbl path{fill:none;stroke:#66665f;stroke-width:5;stroke-linecap:round;filter:drop-shadow(1px 2px 1px #0003)}
 .vine .vshadow{position:absolute;left:75px;top:485px;width:510px;height:120px;background:radial-gradient(ellipse,#0004,transparent 68%);transform:rotateX(78deg) translateZ(-80px);filter:blur(12px)}
-.vine .vsc{transform:rotateX(78deg) translateZ(-80px)}
 
 
 .section-label{font-size:.68rem;text-transform:uppercase;letter-spacing:.25em;color:var(--accent);margin-bottom:6px;font-weight:600;}
@@ -188,8 +183,6 @@ section{position:relative;min-height:100vh;display:flex;flex-direction:column;ju
 .method-card .icon .si{width:1.6rem;height:1.6rem;stroke-width:1.5;color:var(--accent);}
 .method-card h4{font-size:.95rem;font-weight:700;margin-bottom:6px;}
 .method-card p{font-size:.82rem;color:var(--muted);line-height:1.6;}
-
-/* empty */
 
 /* projects */
 #projects{overflow:hidden;}
@@ -310,6 +303,40 @@ footer{text-align:center;padding:30px;color:var(--muted);font-size:.78rem;border
 @media(min-width:401px) and (max-width:600px){
   .computer-float{scale:.4;}
 }
+
+/* ---- unesco chat ---- */
+.chat-toggle{position:fixed;bottom:28px;right:28px;z-index:200;width:56px;height:56px;border-radius:50%;border:none;background:var(--accent);color:#fff;font-size:1.4rem;cursor:pointer;box-shadow:0 4px 20px rgba(167,139,250,.4);transition:.3s;display:flex;align-items:center;justify-content:center}
+.chat-toggle:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(167,139,250,.55)}
+.chat-toggle .chat-ico{width:24px;height:24px}
+.chat-panel{position:fixed;bottom:96px;right:28px;z-index:199;width:380px;max-height:560px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 24px 64px rgba(0,0,0,.5);display:none;flex-direction:column;overflow:hidden;font-size:.85rem}
+.chat-panel.open{display:flex}
+.chat-head{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+.chat-head h3{font-size:.9rem;font-weight:700}
+.chat-head .chat-status{width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;margin-right:6px}
+.chat-msgs{flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:10px;min-height:200px;max-height:340px}
+.chat-msg{padding:10px 14px;border-radius:12px;max-width:88%;line-height:1.5;font-size:.82rem;animation:msgIn .25s ease}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px)}}
+.chat-msg.user{background:var(--accent);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.chat-msg.bot{background:var(--card);border:1px solid var(--line);align-self:flex-start;border-bottom-left-radius:4px}
+.chat-msg .meta{font-size:.65rem;color:var(--muted);margin-top:6px;display:flex;gap:10px;flex-wrap:wrap}
+.chat-msg .meta .tag{padding:1px 6px;border-radius:4px;font-size:.6rem;font-weight:600}
+.chat-msg .meta .tag.local{background:rgba(110,231,183,.15);color:var(--green)}
+.chat-msg .meta .tag.cloud{background:rgba(251,191,36,.15);color:var(--accent3)}
+.chat-msg .meta .tag.high{background:rgba(110,231,183,.15);color:var(--green)}
+.chat-msg .meta .tag.med{background:rgba(251,191,36,.15);color:var(--accent3)}
+.chat-msg .meta .tag.low{background:rgba(248,113,113,.15);color:#f87171}
+.chat-inp-wrap{display:flex;border-top:1px solid var(--line);padding:12px;gap:8px}
+.chat-inp-wrap input{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-size:.85rem;padding:8px 4px}
+.chat-inp-wrap input::placeholder{color:var(--muted)}
+.chat-inp-wrap button{background:var(--accent);border:none;border-radius:8px;color:#fff;padding:8px 16px;cursor:pointer;font-size:.8rem;transition:.2s}
+.chat-inp-wrap button:hover{opacity:.85}
+.chat-inp-wrap button:disabled{opacity:.4;cursor:default}
+.chat-loading{display:flex;gap:4px;padding:10px 14px}
+.chat-loading span{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:dotPulse .8s infinite alternate}
+.chat-loading span:nth-child(2){animation-delay:.2s}
+.chat-loading span:nth-child(3){animation-delay:.4s}
+@keyframes dotPulse{to{opacity:.3;transform:scale(.7)}}
+@media(max-width:600px){.chat-toggle{right:16px;bottom:16px;width:48px;height:48px}.chat-panel{right:8px;left:8px;width:auto;bottom:76px;max-height:70vh}}
 </style>
 </head>
 <body>
@@ -492,12 +519,29 @@ footer{text-align:center;padding:30px;color:var(--muted);font-size:.78rem;border
   </div>
 </section>
 
+<button class="chat-toggle" id="chatToggle" aria-label="UNESCO Chat">
+  <svg class="chat-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+</button>
+<div class="chat-panel" id="chatPanel">
+  <div class="chat-head">
+    <h3 data-i18n="unesco_title">WorldHeritage<br><span class="grad">Assistant</span></h3>
+    <div><span class="chat-status"></span></div>
+  </div>
+  <div class="chat-msgs" id="chatMsgs">
+    <div class="chat-msg bot" data-i18n="unesco_welcome">¡Hola! Pregúntame sobre cualquier sitio del Patrimonio Mundial UNESCO.</div>
+  </div>
+  <div class="chat-inp-wrap">
+    <input type="text" id="chatInput" data-i18n-placeholder="unesco_placeholder" placeholder="Pregunta sobre Machu Picchu, Angkor Wat...">
+    <button id="chatSend">↵</button>
+  </div>
+</div>
+
 <footer><span data-i18n="footer">© 2026 Rodrigo de Sarasqueta — Hecho con propósito</span></footer>
 
 <script>setTimeout(function(){var l=document.getElementById('loader');if(l)l.classList.add('hidden')},2500);</script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" onerror="window.gsapFail=1"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" onerror="console.warn('ScrollTrigger fail')"></script>
-<script defer src="https://unpkg.com/lucide@latest" onload="lucide.createIcons()"></script>
+<script defer src="https://unpkg.com/lucide@0.344.0" onload="lucide.createIcons()"></script>
 <script defer src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js" onerror="window.lenisFail=1"></script>
 <script>
 // ===== I18N =====
@@ -529,6 +573,13 @@ contact_title:'¿Hablamos?',contact_sub:'Estoy abierto a proyectos freelance, co
 form_name:'Nombre',form_email:'Email',form_message:'Mensaje',form_submit:'Enviar mensaje',
 form_note:'Se abre tu cliente de mail con todo esto ya escrito.',
 footer:'© 2026 Rodrigo de Sarasqueta — Hecho con propósito',
+unesco_badge:'UNESCO RAG · Chat',
+unesco_title:'WorldHeritage<br><span class="grad">Assistant</span>',
+unesco_sub:'Sistema RAG con control de alucinaciones, routing inteligente y métricas en tiempo real.',
+unesco_placeholder:'Pregunta sobre Machu Picchu, Angkor Wat...',
+unesco_local:'Modelo local',unesco_cloud:'Modelo cloud',
+unesco_confidence:'Confianza',unesco_grounding:'Grounding',
+unesco_welcome:'¡Hola! Pregúntame sobre cualquier sitio del Patrimonio Mundial UNESCO.',
 proj_1_title:'IndieBot',proj_1_desc:'Agente RAG multi-LLM con Ollama, OpenAI y DeepSeek. Memoria dual, PDFs, ChromaDB, evaluación integrada.',
 proj_1_tech:'Python · FastAPI · ChromaDB · Ollama · smolagents · Docker',proj_1_link:'Ver repositorio',
 proj_2_title:'Salidas Bot',proj_2_desc:'Agente para descubrir lugares en Buenos Aires. 8 tools, memoria persistente, FAQ vectorial, CLI+FastAPI+Gradio.',
@@ -537,6 +588,8 @@ proj_3_title:'ShopAgent',proj_3_desc:'Asistente e-commerce con LangGraph. 49k pr
 proj_3_tech:'Python · LangChain · LangGraph · ChromaDB · Streamlit',proj_3_link:'Ver repositorio',
 proj_4_title:'SoundGraph DJ',proj_4_desc:'Visualizador 3D de audio. Transforma canciones en superficie topográfica interactiva con WebGL + DSP.',
 proj_4_tech:'Python · Flask · Librosa · Plotly.js · NumPy · DSP',proj_4_link:'Ver repositorio',
+unesco_title:'WorldHeritage Assistant',unesco_desc:'RAG con routing inteligente, judge NLI, control de alucinaciones y dashboard de metricas.',
+unesco_tech:'Python · FastAPI · ChromaDB · Mistral-Nemo · HF Inference API · LangGraph',unesco_link:'Ver repositorio',
 },en:{
 nav_contact:'Contact',nav_cv:'CV',
 hero_badge:'AI Engineer · Agents, RAG & Automation',
@@ -565,6 +618,13 @@ contact_title:"Let's talk?",contact_sub:'Open to freelance, collaborations, and 
 form_name:'Name',form_email:'Email',form_message:'Message',form_submit:'Send message',
 form_note:'This opens your email client with everything pre-filled.',
 footer:'© 2026 Rodrigo de Sarasqueta — Built with purpose',
+unesco_badge:'UNESCO RAG · Chat',
+unesco_title:'WorldHeritage<br><span class="grad">Assistant</span>',
+unesco_sub:'RAG system with hallucination control, smart routing, and real-time metrics.',
+unesco_placeholder:'Ask about Machu Picchu, Angkor Wat...',
+unesco_local:'Local model',unesco_cloud:'Cloud model',
+unesco_confidence:'Confidence',unesco_grounding:'Grounding',
+unesco_welcome:'Hi! Ask me about any UNESCO World Heritage site.',
 proj_1_title:'IndieBot',proj_1_desc:'Multi-LLM RAG agent with Ollama, OpenAI, DeepSeek. Dual memory, PDFs, ChromaDB, built-in eval.',
 proj_1_tech:'Python · FastAPI · ChromaDB · Ollama · smolagents · Docker',proj_1_link:'View repository',
 proj_2_title:'Salidas Bot',proj_2_desc:'Smart agent for Buenos Aires places. 8 tools, persistent memory, vector FAQ, CLI+FastAPI+Gradio.',
@@ -573,13 +633,16 @@ proj_3_title:'ShopAgent',proj_3_desc:'E-commerce assistant with LangGraph. 49k p
 proj_3_tech:'Python · LangChain · LangGraph · ChromaDB · Streamlit',proj_3_link:'View repository',
 proj_4_title:'SoundGraph DJ',proj_4_desc:'Real-time 3D audio visualizer. Turns songs into interactive topographic surfaces via WebGL + DSP.',
 proj_4_tech:'Python · Flask · Librosa · Plotly.js · NumPy · DSP',proj_4_link:'View repository',
+unesco_title:'WorldHeritage Assistant',unesco_desc:'RAG with smart routing, NLI judge, hallucination control, and real-time metrics.',
+unesco_tech:'Python · FastAPI · ChromaDB · Mistral-Nemo · HF Inference API · LangGraph',unesco_link:'View repository',
 }};
 
 var projects=[
   {id:'p1',icon:'bot',gradient:'linear-gradient(135deg,#1a1a2e,#16213e)',repo:'https://github.com/rotpando/indiebot-clean',keys:['proj_1_title','proj_1_desc','proj_1_tech','proj_1_link']},
   {id:'p2',icon:'map',gradient:'linear-gradient(135deg,#1e1b4b,#312e81)',repo:'https://github.com/rotpando/salidas-bot',keys:['proj_2_title','proj_2_desc','proj_2_tech','proj_2_link']},
   {id:'p3',icon:'shopping-cart',gradient:'linear-gradient(135deg,#0f172a,#1e293b)',repo:'https://github.com/rotpando/shopagent',keys:['proj_3_title','proj_3_desc','proj_3_tech','proj_3_link']},
-    {id:'p4',icon:'music',gradient:'linear-gradient(135deg,#0c0a1d,#1a0a2e)',repo:'https://github.com/rotpando/soundgraphdj',keys:['proj_4_title','proj_4_desc','proj_4_tech','proj_4_link']}
+    {id:'p4',icon:'music',gradient:'linear-gradient(135deg,#0c0a1d,#1a0a2e)',repo:'https://github.com/rotpando/soundgraphdj',keys:['proj_4_title','proj_4_desc','proj_4_tech','proj_4_link']},
+  {id:'p5',icon:'globe',gradient:'linear-gradient(135deg,#0f1a2e,#1a2e3e)',repo:'https://github.com/rotpando/unesco-rag',keys:['unesco_title','unesco_desc','unesco_tech','unesco_link']}
 ];
 
 function buildProjectCards(lang){
@@ -774,13 +837,13 @@ function initGSAP(){
           var sign = dist >= 0 ? 1 : -1;
           gsap.set(card, { rotationZ: f * 25 * sign, rotationY: f * 20, skewX: f * 14 * sign, scale: 1.06 - f * 0.36, opacity: 1 - f * 0.6, zIndex: Math.round((1 - f) * 20) + 1 });
         }
-        for (var i = 0; i < n; i++) {
-          var card = cards[i];
-          if (!card) continue;
-          if (i === centerIdx && minDist < 200) {
-            card.style.boxShadow = '0 0 25px rgba(167,139,250,.35),0 0 60px rgba(167,139,250,.12)';
-            card.style.borderColor = 'rgba(167,139,250,.45)';
-          } else { card.style.boxShadow = ''; card.style.borderColor = ''; }
+        for (var j = 0; j < n; j++) {
+          var cardJ = cards[j];
+          if (!cardJ) continue;
+          if (j === centerIdx && minDist < 200) {
+            cardJ.style.boxShadow = '0 0 25px rgba(167,139,250,.35),0 0 60px rgba(167,139,250,.12)';
+            cardJ.style.borderColor = 'rgba(167,139,250,.45)';
+          } else { cardJ.style.boxShadow = ''; cardJ.style.borderColor = ''; }
         }
       }
     });
@@ -828,7 +891,6 @@ function initGSAP(){
     var expTravel = oldestCentX + expScrollDist;
     scrollDist = Math.max(window.innerHeight, expTravel);
     pinSec(expSec, scrollDist);
-    var eH = Math.min(scrollDist * 0.4, window.innerHeight * 0.4);
     animLabel(expSec);
     var exTitle = expSec.querySelector('.section-title');
     if (exTitle) gsap.from(exTitle, { x: -vw, opacity: 0, duration: 0.7, ease: 'power4.out', scrollTrigger: { trigger: expSec, start: 'top 90%', toggleActions: 'play none none none' } });
@@ -902,7 +964,7 @@ window.addEventListener('scroll',function(){
   var s=window.scrollY;if(s>lastS&&s>120)tb.classList.add('hidden');else tb.classList.remove('hidden');lastS=s;
 });
 
-// ===== LUSION.INspired Interactive Elements =====
+// ===== Interactive Elements =====
 window.addEventListener('load',function(){
 try{
   if(typeof lucide!=='undefined') try{lucide.createIcons()}catch(e){}
@@ -983,6 +1045,104 @@ try{
   }
 
 }catch(e){console.warn('Lusion Effects:',e)}});
+
+// ===== UNESCO Chat =====
+(function(){
+  var API_URL = 'http://localhost:8000';
+  var toggle = document.getElementById('chatToggle');
+  var panel = document.getElementById('chatPanel');
+  var msgs = document.getElementById('chatMsgs');
+  var input = document.getElementById('chatInput');
+  var sendBtn = document.getElementById('chatSend');
+  if(!toggle||!panel||!msgs||!input||!sendBtn) return;
+
+  var langBtn = document.querySelector('.lang-btn.active');
+  var lang = langBtn ? langBtn.dataset.lang : currentLang || 'es';
+
+  document.querySelectorAll('.lang-btn').forEach(function(b){
+    b.addEventListener('click',function(){
+      lang = b.dataset.lang;
+      input.placeholder = i18n[lang] && i18n[lang].unesco_placeholder ? i18n[lang].unesco_placeholder : input.placeholder;
+    });
+  });
+
+  toggle.addEventListener('click',function(){panel.classList.toggle('open');});
+
+  function addMsg(text, role, meta){
+    var d = document.createElement('div');
+    d.className = 'chat-msg ' + role;
+    d.textContent = text;
+    if(meta){
+      var m = document.createElement('div');
+      m.className = 'meta';
+      if(meta.model_used && meta.model_used !== 'blocked'){
+        var tagM = document.createElement('span');
+        tagM.className = 'tag ' + (meta.model_used === 'local' ? 'local' : 'cloud');
+        tagM.textContent = meta.model_used === 'local' ? (lang === 'en' ? 'LOCAL' : 'LOCAL') : 'CLOUD';
+        m.appendChild(tagM);
+      }
+      if(meta.confidence_score !== undefined){
+        var tagC = document.createElement('span');
+        var cLevel = meta.confidence_score > 0.7 ? 'high' : (meta.confidence_score > 0.4 ? 'med' : 'low');
+        tagC.className = 'tag ' + cLevel;
+        var prefix = i18n[lang] && i18n[lang].unesco_confidence ? i18n[lang].unesco_confidence : 'Conf';
+        tagC.textContent = prefix + ': ' + (meta.confidence_score * 100).toFixed(0) + '%';
+        m.appendChild(tagC);
+      }
+      d.appendChild(m);
+    }
+    msgs.appendChild(d);
+    msgs.scrollTop = msgs.scrollHeight;
+    return d;
+  }
+
+  function showLoading(){
+    var d = document.createElement('div');
+    d.className = 'chat-loading';
+    d.id = 'chatLoading';
+    for(var i=0;i<3;i++){var s=document.createElement('span');d.appendChild(s);}
+    msgs.appendChild(d);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function hideLoading(){var l=document.getElementById('chatLoading');if(l)l.remove();}
+
+  function send(){
+    var q = input.value.trim();
+    if(!q) return;
+    input.value = '';
+    sendBtn.disabled = true;
+    addMsg(q, 'user');
+    showLoading();
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', API_URL + '/chat', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = function(){
+      hideLoading();
+      sendBtn.disabled = false;
+      if(xhr.status === 200){
+        var data = JSON.parse(xhr.responseText);
+        if(data.injection_blocked){
+          addMsg('⛔ ' + (lang === 'en' ? 'Request blocked for security reasons.' : 'Solicitud bloqueada por seguridad.'), 'bot');
+        } else {
+          addMsg(data.answer, 'bot', data);
+        }
+      } else {
+        addMsg('⚠️ ' + (lang === 'en' ? 'Error connecting to the assistant.' : 'Error conectando al asistente.'), 'bot');
+      }
+    };
+    xhr.onerror = function(){
+      hideLoading();
+      sendBtn.disabled = false;
+      addMsg('⚠️ ' + (lang === 'en' ? 'Cannot reach the server. Is it running?' : 'No se puede conectar al servidor. Esta corriendo?'), 'bot');
+    };
+    xhr.send(JSON.stringify({query: q}));
+  }
+
+  sendBtn.addEventListener('click', send);
+  input.addEventListener('keydown', function(e){if(e.key === 'Enter') send();});
+})();
 </script>
 </body>
 </html>
