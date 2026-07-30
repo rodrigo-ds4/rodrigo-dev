@@ -74,10 +74,32 @@ section{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction
 .hero-cta .btn.primary:hover{box-shadow:0 16px 40px rgba(167,139,250,.4);}
 .hero-cta .btn.secondary{background:var(--card);color:var(--text);border:1px solid var(--line);}
 .hero-cta .btn.secondary:hover{background:var(--card-hi);}
-.hero-right{display:flex;justify-content:center;align-items:center;}
+.hero-right{display:flex;justify-content:center;align-items:center;position:relative;}
 .hero-orb{width:clamp(200px,26vw,400px);height:clamp(200px,26vw,400px);border-radius:50%;background:radial-gradient(circle at 35% 35%,rgba(167,139,250,.3),rgba(103,232,249,.1),transparent 70%);animation:orb-pulse 5s ease-in-out infinite;filter:blur(3px);position:relative;}
 .hero-orb::after{content:'';position:absolute;inset:-20%;border-radius:50%;background:radial-gradient(circle at 65% 65%,rgba(251,191,36,.06),transparent 60%);animation:orb-pulse 7s ease-in-out infinite reverse;}
+.computer-float{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;animation:float 3.5s ease-in-out infinite;perspective:800px;z-index:2;}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 @keyframes orb-pulse{0%,100%{transform:scale(1) rotate(0deg);opacity:.7;}50%{transform:scale(1.08) rotate(4deg);opacity:1;}}
+
+/* vintage computer */
+.computer-float{animation:float 3.5s ease-in-out infinite;perspective:800px;}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.computer-3d{width:150px;height:112px;position:relative;transform-style:preserve-3d;margin:0 auto;}
+.computer-3d .f{position:absolute;backface-visibility:hidden;}
+.computer-3d .front{width:150px;height:112px;transform:translateZ(42px);background:#ddd0bc;border-radius:5px;border:1px solid #c4b89e;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.computer-3d .back{width:150px;height:112px;transform:translateZ(-42px) rotateY(180deg);background:#c8bcac;border-radius:5px;}
+.computer-3d .top{width:150px;height:84px;transform:rotateX(90deg) translateZ(56px);background:#d4c8b4;}
+.computer-3d .bottom{width:150px;height:84px;transform:rotateX(-90deg) translateZ(56px);background:#ccc0ac;}
+.computer-3d .left{width:84px;height:112px;transform:rotateY(-90deg) translateZ(75px);background:#ccc0b0;}
+.computer-3d .right{width:84px;height:112px;transform:rotateY(90deg) translateZ(75px);background:#ccc0b0;}
+.crt{width:100px;height:76px;background:#0a2e0a;border-radius:3px;border:3px solid #b8a88c;position:relative;overflow:hidden;box-shadow:inset 0 0 30px rgba(0,255,65,.08);}
+.crt-scan{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,65,.03) 2px,rgba(0,255,65,.03) 4px);}
+.crt-glow{position:absolute;inset:-10%;background:radial-gradient(ellipse at 50% 50%,rgba(0,255,65,.12),transparent 60%);}
+.crt-cursor{position:absolute;bottom:12px;left:14px;font-family:monospace;font-size:13px;color:#00ff41;text-shadow:0 0 8px #00ff41,0 0 20px rgba(0,255,65,.3);animation:blink 1.2s step-end infinite;}
+@keyframes blink{50%{opacity:0}}
+.computer-stand{width:70px;height:24px;background:linear-gradient(180deg,#c0b4a0,#a89c88);margin:-2px auto 0;border-radius:0 0 6px 6px;transform:rotateX(15deg);position:relative;z-index:-1;}
+.computer-stand::before{content:'';position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);width:90px;height:10px;background:rgba(0,0,0,.12);border-radius:50%;filter:blur(6px);}
+@media(max-width:860px){.computer-3d{width:110px;height:82px;}.computer-3d .front{width:110px;height:82px;}.computer-3d .back{width:110px;height:82px;}.computer-3d .top,.computer-3d .bottom{width:110px;height:62px;}.computer-3d .left,.computer-3d .right{width:62px;height:82px;}.computer-3d .front{transform:translateZ(32px);}.computer-3d .back{transform:translateZ(-32px) rotateY(180deg);}.computer-3d .top{transform:rotateX(90deg) translateZ(41px);}.computer-3d .bottom{transform:rotateX(-90deg) translateZ(41px);}.computer-3d .left{transform:rotateY(-90deg) translateZ(55px);}.computer-3d .right{transform:rotateY(90deg) translateZ(55px);}.crt{width:72px;height:54px;}.crt-cursor{font-size:10px;bottom:9px;left:10px;}.computer-stand{width:52px;height:18px;}}
 
 .section-label{font-size:.68rem;text-transform:uppercase;letter-spacing:.25em;color:var(--accent);margin-bottom:6px;font-weight:600;}
 .section-title{font-size:clamp(2.6rem,6vw,4.8rem);font-weight:900;letter-spacing:-.04em;margin-bottom:8px;line-height:1.02;}
@@ -279,7 +301,20 @@ footer{text-align:center;padding:30px;color:var(--muted);font-size:.78rem;border
           <a href="/cv.pdf" target="_blank" class="btn secondary magnetic" data-i18n="hero_cv">Descargar CV</a>
         </div>
       </div>
-      <div class="hero-right"><div class="hero-orb"></div></div>
+      <div class="hero-right">
+        <div class="hero-orb"></div>
+        <div class="computer-float">
+          <div class="computer-3d" id="computer3d">
+            <div class="f front"><div class="crt"><div class="crt-scan"></div><div class="crt-glow"></div><div class="crt-cursor">_</div></div></div>
+            <div class="f back"></div>
+            <div class="f top"></div>
+            <div class="f bottom"></div>
+            <div class="f left"></div>
+            <div class="f right"></div>
+          </div>
+          <div class="computer-stand"></div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -390,9 +425,9 @@ footer{text-align:center;padding:30px;color:var(--muted);font-size:.78rem;border
       <p class="form-note" data-i18n="form_note">Se abre tu cliente de mail con todo esto ya escrito.</p>
     </form>
     <div class="social-links">
-      <a href="mailto:rodrigo@sarasqueta.dev" target="_blank" class="magnetic"><span class="ico">✉️</span> rodrigo@sarasqueta.dev</a>
-      <a href="https://github.com/rotpando" target="_blank" class="magnetic"><span class="ico">🐙</span> GitHub</a>
-      <a href="https://linkedin.com/in/rodrigo-sarasqueta" target="_blank" class="magnetic"><span class="ico">💼</span> LinkedIn</a>
+      <a href="mailto:rod.desarasqueta@gmail.com" target="_blank" class="magnetic"><span class="ico">✉️</span> rod.desarasqueta@gmail.com</a>
+      <a href="https://github.com/rodrigo-ds4" target="_blank" class="magnetic"><span class="ico">🐙</span> GitHub</a>
+      <a href="https://linkedin.com/in/rodrigo-dev/" target="_blank" class="magnetic"><span class="ico">💼</span> LinkedIn</a>
     </div>
   </div>
 </section>
@@ -567,6 +602,14 @@ function initGSAP(){
   gsap.from('.hero-left .badge',{y:-30,opacity:0,duration:.8,ease:'power3.out',delay:.3});
   gsap.from('.hero-left .tagline',{y:30,opacity:0,duration:1,ease:'power3.out',delay:.5});
   gsap.from('.hero-cta .btn',{y:20,opacity:0,duration:.6,stagger:.1,ease:'power2.out',delay:.7});
+
+  // Spin 3D computer
+  requestAnimationFrame(function(){
+    var el=document.getElementById('computer3d');
+    if(!el)return;
+    var a=0;
+    !function raf(){a+=.35;el.style.transform='rotateY('+a+'deg)';requestAnimationFrame(raf)}();
+  });
 
   if(typeof ScrollTrigger==='undefined') return;
 
@@ -866,7 +909,7 @@ try{
       var msg=document.getElementById('cf-message').value.trim();
       var subject=encodeURIComponent('Contacto desde el portfolio — '+name);
       var body=encodeURIComponent(msg+'\n\n— '+name+' ('+email+')');
-      window.location.href='mailto:rodrigo@sarasqueta.dev?subject='+subject+'&body='+body;
+      window.location.href='mailto:rod.desarasqueta@gmail.com?subject='+subject+'&body='+body;
     });
   }
 
