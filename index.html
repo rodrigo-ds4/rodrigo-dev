@@ -700,8 +700,14 @@ function initGSAP(){
   // ============================================
   // HELPER: pin a section with automatic z-index
   // ============================================
+  function calcDist(sec) {
+    var inner = sec.querySelector('.section-inner');
+    return Math.max(inner ? inner.scrollHeight + 200 : 0, window.innerHeight);
+  }
+
   function pinSec(sec, dist) {
     if (!sec) return 0;
+    dist = dist || calcDist(sec);
     ScrollTrigger.create({
       trigger: sec, pin: true, pinSpacing: true,
       start: 'top top', end: '+=' + dist,
@@ -748,6 +754,7 @@ function initGSAP(){
     animLabel(projSec); animTitle(projSec); animSub(projSec);
     gsap.to('#spotlightGlow', { opacity: 1, duration: .8, scrollTrigger: { trigger: projSec, start: 'top top', end: '+=' + Math.min(scrollDist * 0.1, window.innerHeight * 0.1), scrub: 0 } });
     gsap.set(projGrid, { x: startX });
+    gsap.from('.projects-track-wrap', { opacity: 0, duration: 0.4, ease: 'power2.out', scrollTrigger: { trigger: projSec, start: 'top top', toggleActions: 'play none reverse none' } });
     ScrollTrigger.create({
       trigger: projSec, pin: true, pinSpacing: true, start: 'top top', end: '+=' + scrollDist, invalidateOnRefresh: true,
       onEnter: function () { projSec.style.setProperty('z-index', '5', 'important'); },
@@ -786,8 +793,7 @@ function initGSAP(){
       }
     });
   } else if (projSec && projGrid && projGrid.children.length) {
-    scrollDist = window.innerHeight * 1.5;
-    pinSec(projSec, scrollDist);
+    scrollDist = pinSec(projSec);
     animLabel(projSec); animTitle(projSec); animSub(projSec);
     gsap.utils.toArray('.project-card').forEach(function (c, i) {
       var dir = i % 2 === 0 ? 1 : -1;
@@ -800,8 +806,7 @@ function initGSAP(){
   // ============================================
   var servSec = document.getElementById('services');
   if (servSec) {
-    scrollDist = window.innerHeight * 1.5;
-    pinSec(servSec, scrollDist);
+    scrollDist = pinSec(servSec);
     animLabel(servSec); animTitle(servSec); animSub(servSec);
     gsap.utils.toArray('.method-card').forEach(function (c, i) {
       gsap.fromTo(c, { opacity: 0, y: 40, scale: 0.88 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, delay: i * 0.12, ease: 'power3.out', scrollTrigger: { trigger: servSec, start: 'top top', toggleActions: 'play none reverse none' } });
@@ -813,8 +818,7 @@ function initGSAP(){
   // ============================================
   var aboutSec = document.getElementById('about');
   if (aboutSec) {
-    scrollDist = window.innerHeight * 1.5;
-    pinSec(aboutSec, scrollDist);
+    scrollDist = pinSec(aboutSec);
     animLabel(aboutSec);
     var titleWrap = aboutSec.querySelector('.section-title-wrap');
     if (titleWrap) gsap.from(titleWrap, { x: -vw, opacity: 0, duration: 0.7, ease: 'power4.out', scrollTrigger: { trigger: aboutSec, start: 'top top', toggleActions: 'play none reverse none' } });
@@ -857,8 +861,7 @@ function initGSAP(){
       });
     }
   } else if (expSec) {
-    scrollDist = window.innerHeight * 1.5;
-    pinSec(expSec, scrollDist);
+    scrollDist = pinSec(expSec);
     animLabel(expSec); animTitle(expSec); animSub(expSec);
     gsap.utils.toArray('.exp-step').forEach(function (s, i) {
       var dir = i % 2 === 0 ? 1 : -1;
@@ -879,7 +882,7 @@ function initGSAP(){
   // ============================================
   // 6. EDGE DISTORTION (cards while scrolling)
   // ============================================
-  gsap.utils.toArray('.method-card, .project-card, .about-text, .exp-step').forEach(function (el, i) {
+  gsap.utils.toArray('.method-card, .about-text, .exp-step').forEach(function (el, i) {
     var dir = i % 2 === 0 ? 1 : -1;
     gsap.fromTo(el, {}, { scrollTrigger: { trigger: el, start: 'top bottom', end: 'bottom top', onUpdate: function (self) { var p = self.progress, d = Math.sin(p * Math.PI) * 8 * dir; gsap.set(el, { skewX: d, rotationY: d * 0.5 }); } } });
   });
