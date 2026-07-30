@@ -935,6 +935,7 @@ window.addEventListener('scroll',function(){
 // ===== LUSION.INspired Interactive Elements =====
 window.addEventListener('load',function(){
 try{
+  if(typeof lucide!=='undefined') try{lucide.createIcons()}catch(e){}
   // Card 3D tilt on mouse
   document.querySelectorAll('.method-card, .project-card').forEach(function(card){
     card.addEventListener('mouseenter',function(){
