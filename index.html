@@ -211,6 +211,8 @@ section{position:relative;min-height:100vh;display:flex;flex-direction:column;ju
 .exp-steps{display:flex;flex-direction:row;gap:0;position:relative;padding:50px 0 20px;width:max-content;will-change:transform;}
 .exp-steps::before{content:'';position:absolute;left:0;top:18px;width:100%;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent3));}
 .exp-step{position:relative;padding:0 40px 0 0;min-width:320px;width:320px;flex-shrink:0;transform-origin:left;transform-style:preserve-3d;padding-top:36px;}
+.exp-step.current{padding-top:44px;}
+.exp-now{position:absolute;left:0;top:0;font-size:.55rem;font-weight:700;letter-spacing:.18em;color:var(--green);border:1px solid rgba(110,231,183,.4);background:rgba(110,231,183,.1);padding:2px 10px;border-radius:999px;}
 .exp-dot{position:absolute;left:0;top:-26px;width:12px;height:12px;border-radius:50%;background:var(--accent);border:3px solid var(--bg);box-shadow:0 0 20px rgba(167,139,250,.25);}
 .exp-dot.alt{background:var(--accent2);box-shadow:0 0 20px rgba(103,232,249,.25);}
 .exp-dot.alt2{background:var(--accent3);box-shadow:0 0 20px rgba(251,191,36,.25);}
@@ -362,12 +364,12 @@ footer{text-align:center;padding:30px;color:var(--muted);font-size:.78rem;border
   <div class="section-inner">
     <div class="hero-grid">
       <div class="hero-left">
-        <div class="badge" data-i18n="hero_badge">AI Engineer · Agents, RAG &amp; Automation</div>
+        <div class="badge" data-i18n="hero_badge">Ingeniero de IA · Agentes, RAG y Automatización</div>
         <h1>
           <div class="line"><span class="line-1" data-i18n="hero_hi">Rodrigo de</span></div>
           <div class="line"><span class="line-2" data-i18n="hero_name">Sarasqueta</span></div>
         </h1>
-        <p class="tagline" data-i18n="hero_tagline">I build production-ready AI systems for startups and businesses.<br>RAG · AI Agents · LLM Evaluation · Python APIs · Automation</p>
+        <p class="tagline" data-i18n="hero_tagline">Construyo sistemas de IA listos para producción para startups y empresas.<br>RAG · Agentes IA · Evaluación de LLMs · APIs Python · Automatización</p>
         <div class="hero-cta">
           <a href="#projects" class="btn primary magnetic" data-i18n="hero_work">Ver proyectos</a>
           <a href="https://upwork.com/freelancers/rodrigods4" target="_blank" class="btn secondary magnetic" data-i18n="hero_upwork">Contratar en Upwork</a>
@@ -445,6 +447,7 @@ footer{text-align:center;padding:30px;color:var(--muted);font-size:.78rem;border
       <div class="method-card"><div class="icon"><i data-lucide="search" class="si"></i></div><h4 data-i18n="s1_title">RAG en Producción</h4><p data-i18n="s1_desc">Sistemas de recuperación con chunking semántico, reranking, control de alucinaciones y evaluación continua. Sobre tu documentación, no un demo genérico.</p></div>
       <div class="method-card"><div class="icon"><i data-lucide="brain" class="si"></i></div><h4 data-i18n="s2_title">Agentes Autónomos</h4><p data-i18n="s2_desc">Agentes con herramientas reales (APIs, bases de datos, CRMs), routing inteligente, trazabilidad y escalamiento a humano. LangGraph + FastAPI + Docker.</p></div>
       <div class="method-card"><div class="icon"><i data-lucide="cog" class="si"></i></div><h4 data-i18n="s3_title">Automatización IA</h4><p data-i18n="s3_desc">Pipelines que clasifican, enriquecen y accionan. Leads, tickets, documentos — datos crudos entran, decisiones listas salen. Evaluación de costo por operación.</p></div>
+      <div class="method-card"><div class="icon"><i data-lucide="gauge" class="si"></i></div><h4 data-i18n="s4_title">Evaluación de LLMs</h4><p data-i18n="s4_desc">Frameworks LLM-as-a-judge, RAGAS y guardrails determinísticos. Métricas de fidelidad, alucinaciones y costo por respuesta para optimizar cada modelo.</p></div>
     </div>
   </div>
 </section>
@@ -459,17 +462,17 @@ footer{text-align:center;padding:30px;color:var(--muted);font-size:.78rem;border
       <div class="tag-group">
         <span class="tag">Agentes IA</span>
         <span class="tag">RAG</span>
-        <span class="tag green">Ollama</span>
-        <span class="tag blue">Microservicios</span>
-        <span class="tag gold">End-to-End</span>
+        <span class="tag green">Modelos locales</span>
+        <span class="tag blue">Routing por costo</span>
+        <span class="tag gold">LLM-as-a-Judge</span>
+        <span class="tag">RAGAS</span>
+        <span class="tag green">Guardrails</span>
         <span class="tag">ChromaDB</span>
-        <span class="tag green">FastAPI</span>
-        <span class="tag">LangChain</span>
-        <span class="tag blue">LangGraph</span>
-        <span class="tag gold">smolagents</span>
-        <span class="tag">Testing</span>
-        <span class="tag green">Frontend</span>
-        <span class="tag">Optimización Tokens</span>
+        <span class="tag blue">FastAPI</span>
+        <span class="tag gold">LangGraph</span>
+        <span class="tag">smolagents</span>
+        <span class="tag green">Evaluación</span>
+        <span class="tag">Métricas</span>
       </div>
     </div>
   </div>
@@ -477,16 +480,16 @@ footer{text-align:center;padding:30px;color:var(--muted);font-size:.78rem;border
 
 <section id="experience">
   <div class="section-inner">
-    <div class="section-label" data-i18n="exp_label">Experiencia previa</div>
-    <h2 class="section-title" data-i18n="exp_title">Antes de <span class="grad">llegar acá</span></h2>
-    <p class="section-sub" data-i18n="exp_sub">De mentor técnico a ingeniero de IA en producción — el camino recorrido.</p>
+    <div class="section-label" data-i18n="exp_label">Experiencia</div>
+    <h2 class="section-title" data-i18n="exp_title">Mi <span class="grad">recorrido</span></h2>
+    <p class="section-sub" data-i18n="exp_sub">Del aula a producción — mentor, ingeniero y profesor en IA. Actualmente en Sitch y EducaciónIT.</p>
     <div class="exp-steps">
-      <div class="exp-step"><div class="exp-dot"></div><div class="exp-period" data-i18n="exp1_period">2021 — 2022</div><h4 data-i18n="exp1_role">Mentor técnico</h4><div class="exp-company">CoderHouse &amp; Plataforma5</div><p data-i18n="exp1_desc">Guié a estudiantes en fullstack y backend (Node.js, Python). Revisé proyectos productivos y co-desarrollé material de curso.</p></div>
-      <div class="exp-step"><div class="exp-dot alt"></div><div class="exp-period" data-i18n="exp2_period">2022 — 2023</div><h4 data-i18n="exp2_role">Frontend &amp; Backend Developer</h4><div class="exp-company">Monytize · Pagie Portal · TotalAbogados</div><p data-i18n="exp2_desc">Reconstruí una app multimedia en React Native, diseñé APIs REST con Django y SQL, y migré frontends legacy a React para automatización legal.</p></div>
-      <div class="exp-step"><div class="exp-dot alt2"></div><div class="exp-period" data-i18n="exp3_period">Ene 2023 — Jul 2023</div><h4 data-i18n="exp3_role">Machine Learning Engineer</h4><div class="exp-company">AnyoneAI</div><p data-i18n="exp3_desc">Prompt engineering y análisis de datos para una app conversacional de seguros con GPT. Backend y frontend de un motor de riesgo crediticio (Python, Flask, Docker).</p></div>
-      <div class="exp-step"><div class="exp-dot"></div><div class="exp-period" data-i18n="exp4_period">Ago 2023 — Nov 2025</div><h4 data-i18n="exp4_role">Contributor &amp; Team Leader</h4><div class="exp-company">Scale AI</div><p data-i18n="exp4_desc">Lideré equipos de RLHF y evaluación para LLMs de punta. Auditoría técnica, escritura de rúbricas y evaluación de agentes conversacionales multi-turno.</p></div>
-      <div class="exp-step"><div class="exp-dot alt"></div><div class="exp-period" data-i18n="exp5_period">2025 — Presente</div><h4 data-i18n="exp5_role">Profesor de Machine Learning</h4><div class="exp-company">EducaciónIT</div><p data-i18n="exp5_desc">Dicto la 4ª cohorte de la especialización en Machine Learning: arquitecturas, pipelines de datos y evaluación de modelos.</p></div>
-      <div class="exp-step"><div class="exp-dot alt2"></div><div class="exp-period" data-i18n="exp6_period">2026 — Presente</div><h4 data-i18n="exp6_role">AI Engineer</h4><div class="exp-company">Sitch</div><p data-i18n="exp6_desc">Transformé un chatbot estándar en un agente autónomo con function calling. Diseñé un framework de evaluación LLM-as-a-judge y optimicé prompts contra alucinaciones.</p></div>
+      <div class="exp-step current"><div class="exp-dot alt2"></div><span class="exp-now" data-i18n="exp_now">ACTUAL</span><div class="exp-period" data-i18n="exp1_period">2026 — Presente</div><h4 data-i18n="exp1_role">AI Engineer</h4><div class="exp-company">Sitch</div><p data-i18n="exp1_desc">Transformé un chatbot estándar en un agente autónomo con function calling y routing de modelos por costo. Construí un framework de evaluación LLM-as-a-judge, capas determinísticas contra alucinaciones y métricas de confianza y grounding.</p></div>
+      <div class="exp-step current"><div class="exp-dot"></div><span class="exp-now" data-i18n="exp_now">ACTUAL</span><div class="exp-period" data-i18n="exp2_period">2025 — Presente</div><h4 data-i18n="exp2_role">Profesor de Machine Learning</h4><div class="exp-company">EducaciónIT</div><p data-i18n="exp2_desc">Dicto la 4ª cohorte de la especialización en Machine Learning: arquitecturas de LLMs, pipelines de datos, RAG y evaluación de modelos.</p></div>
+      <div class="exp-step"><div class="exp-dot alt"></div><div class="exp-period" data-i18n="exp3_period">Ago 2023 — Nov 2025</div><h4 data-i18n="exp3_role">Contributor &amp; Team Leader</h4><div class="exp-company">Scale AI</div><p data-i18n="exp3_desc">Lideré equipos de RLHF y evaluación para LLMs de punta. Auditoría técnica, escritura de rúbricas y evaluación de agentes conversacionales multi-turno.</p></div>
+      <div class="exp-step"><div class="exp-dot alt2"></div><div class="exp-period" data-i18n="exp4_period">Ene 2023 — Jul 2023</div><h4 data-i18n="exp4_role">Machine Learning Engineer</h4><div class="exp-company">AnyoneAI</div><p data-i18n="exp4_desc">Prompt engineering y análisis de datos para una app conversacional de seguros con GPT. Backend y frontend de un motor de riesgo crediticio (Python, Flask, Docker).</p></div>
+      <div class="exp-step"><div class="exp-dot"></div><div class="exp-period" data-i18n="exp5_period">2022 — 2023</div><h4 data-i18n="exp5_role">Frontend &amp; Backend Developer</h4><div class="exp-company">Monytize · TotalAbogados</div><p data-i18n="exp5_desc">Reconstruí una app multimedia en React Native, diseñé APIs REST con Django y SQL, y migré frontends legacy a React para automatización legal.</p></div>
+      <div class="exp-step"><div class="exp-dot alt"></div><div class="exp-period" data-i18n="exp6_period">2021 — 2022</div><h4 data-i18n="exp6_role">Mentor técnico</h4><div class="exp-company">CoderHouse &amp; Plataforma5</div><p data-i18n="exp6_desc">Guié a estudiantes en fullstack y backend (Node.js, Python). Revisé proyectos productivos y co-desarrollé material de curso.</p></div>
     </div>
   </div>
 </section>
@@ -494,7 +497,7 @@ footer{text-align:center;padding:30px;color:var(--muted);font-size:.78rem;border
 <section id="contact">
   <div class="section-inner">
     <h2 data-i18n="contact_title">¿Hablamos?</h2>
-    <p data-i18n="contact_sub">Estoy abierto a proyectos freelance, colaboraciones y roles desafiantes.</p>
+    <p data-i18n="contact_sub">Abierto a <strong>freelance</strong> y <strong>roles desafiantes</strong>. Con base en LATAM: flexible con horarios y zonas horarias — nunca es un problema.</p>
     <form class="contact-form" id="contactForm">
       <div class="field">
         <input type="text" id="cf-name" required autocomplete="name" placeholder=" ">
@@ -546,92 +549,97 @@ footer{text-align:center;padding:30px;color:var(--muted);font-size:.78rem;border
 <script>
 // ===== I18N =====
 var i18n={es:{
-nav_contact:'Contacto',nav_cv:'CV',
-hero_badge:'AI Engineer · Agents, RAG & Automation',
-hero_hi:'Rodrigo de',hero_name:'Sarasqueta',
-hero_tagline:'I build production-ready AI systems for startups and businesses.<br>RAG · AI Agents · LLM Evaluation · Python APIs · Automation',
-hero_work:'Ver proyectos',hero_upwork:'Contratar en Upwork',
-about_label:'Acerca',about_title:'Ingeniería con propósito',
-about_p1:'Diseño y construyo <strong>agentes de IA</strong> que resuelven problemas reales. Mi stack combina <strong>modelos locales (Ollama)</strong> con proveedores cloud para optimizar costos — cada token cuenta. Implemento <strong>sistemas RAG extremo a extremo</strong> con control de alucinaciones, chunking semántico y recuperación híbrida.',
-about_p2:'Creo en la <strong>creatividad para tiempos cambiantes</strong>: elegir la herramienta correcta para el objetivo, no por moda. Mis sistemas priorizan <strong>fiabilidad, estabilidad y uso inteligente de datos</strong>. Cada solución pasa por <strong>testing riguroso de agentes</strong> y validación continua.',
-services_label:'Servicios',services_title:'Lo que construyo',
-services_sub:'Tres áreas donde entrego valor medible desde la semana 1.',
-s1_title:'RAG en Producción',s1_desc:'Sistemas de recuperación con chunking semántico, reranking, control de alucinaciones y evaluación continua. Sobre tu documentación, no un demo genérico.',
-s2_title:'Agentes Autónomos',s2_desc:'Agentes con herramientas reales (APIs, bases de datos, CRMs), routing inteligente, trazabilidad y escalamiento a humano. LangGraph + FastAPI + Docker.',
-s3_title:'Automatización IA',s3_desc:'Pipelines que clasifican, enriquecen y accionan. Leads, tickets, documentos — datos crudos entran, decisiones listas salen. Evaluación de costo por operación.',
-proj_label:'Proyectos',proj_title:'Trabajos seleccionados',
-proj_sub:'Sistemas RAG, agentes autónomos y pipelines de automatización — cada uno con arquitectura documentada y resultados medibles.',
-exp_label:'Experiencia previa',exp_title:'Antes de llegar acá',
-exp_sub:'De mentor técnico a ingeniero de IA en producción — el camino recorrido.',
-exp1_period:'2021 — 2022',exp1_role:'Mentor técnico',exp1_desc:'Guié a estudiantes en fullstack y backend (Node.js, Python). Revisé proyectos productivos y co-desarrollé material de curso.',
-exp2_period:'2022 — 2023',exp2_role:'Frontend & Backend Developer',exp2_desc:'Reconstruí una app multimedia en React Native, diseñé APIs REST con Django y SQL, y migré frontends legacy a React para automatización legal.',
-exp3_period:'Ene 2023 — Jul 2023',exp3_role:'Machine Learning Engineer',exp3_desc:'Prompt engineering y análisis de datos para una app conversacional de seguros con GPT. Backend y frontend de un motor de riesgo crediticio (Python, Flask, Docker).',
-exp4_period:'Ago 2023 — Nov 2025',exp4_role:'Contributor & Team Leader',exp4_desc:'Lideré equipos de RLHF y evaluación para LLMs de punta. Auditoría técnica, escritura de rúbricas y evaluación de agentes conversacionales multi-turno.',
-exp5_period:'2025 — Presente',exp5_role:'Profesor de Machine Learning',exp5_desc:'Dicto la 4ª cohorte de la especialización en Machine Learning: arquitecturas, pipelines de datos y evaluación de modelos.',
-exp6_period:'2026 — Presente',exp6_role:'AI Engineer',exp6_desc:'Transformé un chatbot estándar en un agente autónomo con function calling. Diseñé un framework de evaluación LLM-as-a-judge y optimicé prompts contra alucinaciones.',
-contact_title:'¿Hablamos?',contact_sub:'Estoy abierto a proyectos freelance, colaboraciones y roles desafiantes.',
-form_name:'Nombre',form_email:'Email',form_message:'Mensaje',form_submit:'Enviar mensaje',
-form_note:'Se abre tu cliente de mail con todo esto ya escrito.',
-footer:'© 2026 Rodrigo de Sarasqueta — Hecho con propósito',
-unesco_badge:'UNESCO RAG · Chat',
-unesco_title:'WorldHeritage<br><span class="grad">Assistant</span>',
-unesco_sub:'Sistema RAG con control de alucinaciones, routing inteligente y métricas en tiempo real.',
-unesco_placeholder:'Pregunta sobre Machu Picchu, Angkor Wat...',
-unesco_local:'Modelo local',unesco_cloud:'Modelo cloud',
-unesco_confidence:'Confianza',unesco_grounding:'Grounding',
-unesco_welcome:'¡Hola! Pregúntame sobre cualquier sitio del Patrimonio Mundial UNESCO.',
-proj_1_title:'IndieBot',proj_1_desc:'Agente RAG multi-LLM con Ollama, OpenAI y DeepSeek. Memoria dual, PDFs, ChromaDB, evaluación integrada.',
-proj_1_tech:'Python · FastAPI · ChromaDB · Ollama · smolagents · Docker',proj_1_link:'Ver repositorio',
-proj_2_title:'Salidas Bot',proj_2_desc:'Agente para descubrir lugares en Buenos Aires. 8 tools, memoria persistente, FAQ vectorial, CLI+FastAPI+Gradio.',
-proj_2_tech:'Python · smolagents · Groq · FastAPI · ChromaDB · Gradio',proj_2_link:'Ver repositorio',
-proj_3_title:'ShopAgent',proj_3_desc:'Asistente e-commerce con LangGraph. 49k productos, búsqueda semántica, recomendaciones contextuales.',
-proj_3_tech:'Python · LangChain · LangGraph · ChromaDB · Streamlit',proj_3_link:'Ver repositorio',
-proj_4_title:'SoundGraph DJ',proj_4_desc:'Visualizador 3D de audio. Transforma canciones en superficie topográfica interactiva con WebGL + DSP.',
-proj_4_tech:'Python · Flask · Librosa · Plotly.js · NumPy · DSP',proj_4_link:'Ver repositorio',
-},en:{
-nav_contact:'Contact',nav_cv:'CV',
-hero_badge:'AI Engineer · Agents, RAG & Automation',
-hero_hi:'Rodrigo de',hero_name:'Sarasqueta',
-hero_tagline:'I build production-ready AI systems for startups and businesses.<br>RAG · AI Agents · LLM Evaluation · Python APIs · Automation',
-hero_work:'View projects',hero_upwork:'Hire me on Upwork',
-about_label:'About',about_title:'Engineering with purpose',
-about_p1:'I design and build <strong>AI agents</strong> that solve real problems. My stack combines <strong>local models (Ollama)</strong> with cloud providers to optimize costs. I build <strong>end-to-end RAG systems</strong> with hallucination control, semantic chunking, and hybrid retrieval.',
-about_p2:'I believe in <strong>creativity for changing times</strong>: the right tool for the goal, not the trend. My systems prioritize <strong>reliability, stability, and intelligent data use</strong>. Every solution undergoes <strong>rigorous agent testing</strong> and continuous validation.',
-services_label:'Services',services_title:'What I build',
-services_sub:'Three areas where I deliver measurable value from week one.',
-s1_title:'RAG in Production',s1_desc:'Enterprise retrieval systems with semantic chunking, reranking, hallucination control, and ongoing eval. On your docs, not a generic demo.',
-s2_title:'Autonomous Agents',s2_desc:'Agents with real tools (APIs, databases, CRMs), intelligent routing, tracing, and human escalation. LangGraph + FastAPI + Docker.',
-s3_title:'AI Automation',s3_desc:'Pipelines that classify, enrich, and trigger. Leads, tickets, documents — raw data in, decisions out. Per-operation cost tracking.',
-proj_label:'Projects',proj_title:'Selected work',
-proj_sub:'RAG systems, autonomous agents, and automation pipelines — each with documented architecture and measurable results.',
-exp_label:'Previous experience',exp_title:'Before getting here',
-exp_sub:'From technical mentor to production AI engineer — the path so far.',
-exp1_period:'2021 — 2022',exp1_role:'Technical Mentor',exp1_desc:'Guided students through fullstack and backend paths (Node.js, Python). Reviewed production-ready projects and co-built curriculum.',
-exp2_period:'2022 — 2023',exp2_role:'Frontend & Backend Developer',exp2_desc:'Rebuilt a multimedia app in React Native, designed REST APIs with Django and SQL, and migrated legacy frontends to React for legal-tech automation.',
-exp3_period:'Jan 2023 — Jul 2023',exp3_role:'Machine Learning Engineer',exp3_desc:'Prompt engineering and data analysis for a GPT-powered insurance app. Built the backend and frontend of a credit-risk engine (Python, Flask, Docker).',
-exp4_period:'Aug 2023 — Nov 2025',exp4_role:'Contributor & Team Leader',exp4_desc:'Led RLHF and evaluation pipeline teams for frontier LLMs. Technical auditing, rubric writing, and multi-turn agent evaluation.',
-exp5_period:'2025 — Present',exp5_role:'Machine Learning Professor',exp5_desc:'Teaching the 4th cohort of the ML specialization: architectures, data pipelines, and model evaluation.',
-exp6_period:'2026 — Present',exp6_role:'AI Engineer',exp6_desc:'Turned a standard chatbot into an autonomous agent with function calling. Built an LLM-as-a-judge evaluation framework and optimized prompts against hallucinations.',
-contact_title:"Let's talk?",contact_sub:'Open to freelance, collaborations, and challenging roles.',
-form_name:'Name',form_email:'Email',form_message:'Message',form_submit:'Send message',
-form_note:'This opens your email client with everything pre-filled.',
-footer:'© 2026 Rodrigo de Sarasqueta — Built with purpose',
-unesco_badge:'UNESCO RAG · Chat',
-unesco_title:'WorldHeritage<br><span class="grad">Assistant</span>',
-unesco_sub:'RAG system with hallucination control, smart routing, and real-time metrics.',
-unesco_placeholder:'Ask about Machu Picchu, Angkor Wat...',
-unesco_local:'Local model',unesco_cloud:'Cloud model',
-unesco_confidence:'Confidence',unesco_grounding:'Grounding',
-unesco_welcome:'Hi! Ask me about any UNESCO World Heritage site.',
-proj_1_title:'IndieBot',proj_1_desc:'Multi-LLM RAG agent with Ollama, OpenAI, DeepSeek. Dual memory, PDFs, ChromaDB, built-in eval.',
-proj_1_tech:'Python · FastAPI · ChromaDB · Ollama · smolagents · Docker',proj_1_link:'View repository',
-proj_2_title:'Salidas Bot',proj_2_desc:'Smart agent for Buenos Aires places. 8 tools, persistent memory, vector FAQ, CLI+FastAPI+Gradio.',
-proj_2_tech:'Python · smolagents · Groq · FastAPI · ChromaDB · Gradio',proj_2_link:'View repository',
-proj_3_title:'ShopAgent',proj_3_desc:'E-commerce assistant with LangGraph. 49k products, semantic search, contextual recommendations.',
-proj_3_tech:'Python · LangChain · LangGraph · ChromaDB · Streamlit',proj_3_link:'View repository',
-proj_4_title:'SoundGraph DJ',proj_4_desc:'Real-time 3D audio visualizer. Turns songs into interactive topographic surfaces via WebGL + DSP.',
-proj_4_tech:'Python · Flask · Librosa · Plotly.js · NumPy · DSP',proj_4_link:'View repository',
-}};
+ nav_contact:'Contacto',nav_cv:'CV',
+ hero_badge:'Ingeniero de IA · Agentes, RAG y Automatización',
+ hero_hi:'Rodrigo de',hero_name:'Sarasqueta',
+ hero_tagline:'Construyo sistemas de IA listos para producción para startups y empresas.<br>RAG · Agentes IA · Evaluación de LLMs · APIs Python · Automatización',
+ hero_work:'Ver proyectos',hero_upwork:'Contratar en Upwork',
+ about_label:'Acerca',about_title:'Ingeniería con propósito',
+ about_p1:'Diseño y construyo <strong>agentes de IA</strong> que resuelven problemas reales. Mi stack combina <strong>modelos locales</strong> de bajo costo con proveedores cloud mediante <strong>routing por costo</strong>: el modelo barato responde por defecto y solo se llama a uno caro cuando la fidelidad es baja. Implemento <strong>sistemas RAG extremo a extremo</strong> con control de alucinaciones, chunking semántico y recuperación híbrida.',
+ about_p2:'Creo en la <strong>creatividad para tiempos cambiantes</strong>: elegir la herramienta correcta para el objetivo, no por moda. Mis sistemas priorizan <strong>fiabilidad, estabilidad y uso inteligente de datos</strong>. Cada solución combina <strong>capas determinísticas</strong> con evaluación <strong>LLM-as-a-judge</strong> y métricas continuas para medir resultados y evitar alucinaciones.',
+ services_label:'Servicios',services_title:'Lo que construyo',
+ services_sub:'Cuatro áreas donde entrego valor medible desde la semana 1.',
+ s1_title:'RAG en Producción',s1_desc:'Sistemas de recuperación con chunking semántico, reranking, routing por costo y evaluación continua. Control de alucinaciones con capas determinísticas. Sobre tu documentación, no un demo genérico.',
+ s2_title:'Agentes Autónomos',s2_desc:'Agentes con herramientas reales (APIs, bases de datos, CRMs), routing inteligente, trazabilidad y escalamiento a humano. LangGraph + FastAPI + Docker.',
+ s3_title:'Automatización IA',s3_desc:'Pipelines que clasifican, enriquecen y accionan. Leads, tickets, documentos — datos crudos entran, decisiones listas salen. Evaluación de costo por operación.',
+ s4_title:'Evaluación de LLMs',s4_desc:'Frameworks LLM-as-a-judge, RAGAS y guardrails determinísticos. Métricas de fidelidad, alucinaciones y costo por respuesta para optimizar cada modelo.',
+ proj_label:'Proyectos',proj_title:'Trabajos seleccionados',
+ proj_sub:'Sistemas RAG, agentes autónomos y pipelines de automatización — cada uno con arquitectura documentada y resultados medibles.',
+ exp_label:'Experiencia',exp_title:'Mi recorrido',
+ exp_sub:'Del aula a producción — mentor, ingeniero y profesor en IA. Actualmente en Sitch y EducaciónIT.',
+ exp_now:'ACTUAL',
+ exp1_period:'2026 — Presente',exp1_role:'AI Engineer',exp1_desc:'Transformé un chatbot estándar en un agente autónomo con function calling y routing de modelos por costo. Construí un framework de evaluación LLM-as-a-judge, capas determinísticas contra alucinaciones y métricas de confianza y grounding.',
+ exp2_period:'2025 — Presente',exp2_role:'Profesor de Machine Learning',exp2_desc:'Dicto la 4ª cohorte de la especialización en Machine Learning: arquitecturas de LLMs, pipelines de datos, RAG y evaluación de modelos.',
+ exp3_period:'Ago 2023 — Nov 2025',exp3_role:'Contributor & Team Leader',exp3_desc:'Lideré equipos de RLHF y evaluación para LLMs de punta. Auditoría técnica, escritura de rúbricas y evaluación de agentes conversacionales multi-turno.',
+ exp4_period:'Ene 2023 — Jul 2023',exp4_role:'Machine Learning Engineer',exp4_desc:'Prompt engineering y análisis de datos para una app conversacional de seguros con GPT. Backend y frontend de un motor de riesgo crediticio (Python, Flask, Docker).',
+ exp5_period:'2022 — 2023',exp5_role:'Frontend & Backend Developer',exp5_desc:'Reconstruí una app multimedia en React Native, diseñé APIs REST con Django y SQL, y migré frontends legacy a React para automatización legal.',
+ exp6_period:'2021 — 2022',exp6_role:'Mentor técnico',exp6_desc:'Guié a estudiantes en fullstack y backend (Node.js, Python). Revisé proyectos productivos y co-desarrollé material de curso.',
+ contact_title:'¿Hablamos?',contact_sub:'Abierto a <strong>freelance</strong> y <strong>roles desafiantes</strong>. Con base en LATAM: flexible con horarios y zonas horarias — nunca es un problema.',
+ form_name:'Nombre',form_email:'Email',form_message:'Mensaje',form_submit:'Enviar mensaje',
+ form_note:'Se abre tu cliente de mail con todo esto ya escrito.',
+ footer:'© 2026 Rodrigo de Sarasqueta — Hecho con propósito',
+ unesco_badge:'UNESCO RAG · Chat',
+ unesco_title:'WorldHeritage<br><span class="grad">Assistant</span>',
+ unesco_sub:'Sistema RAG con control de alucinaciones, routing inteligente y métricas en tiempo real.',
+ unesco_placeholder:'Pregunta sobre Machu Picchu, Angkor Wat...',
+ unesco_local:'Modelo local',unesco_cloud:'Modelo cloud',
+ unesco_confidence:'Confianza',unesco_grounding:'Grounding',
+ unesco_welcome:'¡Hola! Pregúntame sobre cualquier sitio del Patrimonio Mundial UNESCO.',
+ proj_1_title:'IndieBot',proj_1_desc:'Agente RAG multi-LLM con Ollama, OpenAI y DeepSeek. Routing por costo, memoria dual, PDFs, ChromaDB y evaluación LLM-as-a-judge integrada.',
+ proj_1_tech:'Python · FastAPI · ChromaDB · Ollama · smolagents · Docker',proj_1_link:'Ver repositorio',
+ proj_2_title:'Salidas Bot',proj_2_desc:'Agente para descubrir lugares en Buenos Aires. 8 tools, memoria persistente, FAQ vectorial, CLI+FastAPI+Gradio.',
+ proj_2_tech:'Python · smolagents · Groq · FastAPI · ChromaDB · Gradio',proj_2_link:'Ver repositorio',
+ proj_3_title:'ShopAgent',proj_3_desc:'Asistente e-commerce con LangGraph. 49k productos, búsqueda semántica, recomendaciones contextuales.',
+ proj_3_tech:'Python · LangChain · LangGraph · ChromaDB · Streamlit',proj_3_link:'Ver repositorio',
+ proj_4_title:'SoundGraph DJ',proj_4_desc:'Visualizador 3D de audio. Transforma canciones en superficie topográfica interactiva con WebGL + DSP.',
+ proj_4_tech:'Python · Flask · Librosa · Plotly.js · NumPy · DSP',proj_4_link:'Ver repositorio',
+ },en:{
+ nav_contact:'Contact',nav_cv:'CV',
+ hero_badge:'AI Engineer · Agents, RAG & Automation',
+ hero_hi:'Rodrigo de',hero_name:'Sarasqueta',
+ hero_tagline:'I build production-ready AI systems for startups and businesses.<br>RAG · AI Agents · LLM Evaluation · Python APIs · Automation',
+ hero_work:'View projects',hero_upwork:'Hire me on Upwork',
+ about_label:'About',about_title:'Engineering with purpose',
+ about_p1:'I design and build <strong>AI agents</strong> that solve real problems. My stack combines <strong>low-cost local models</strong> with cloud providers using <strong>cost-aware routing</strong>: the cheap model answers by default and only escalates to a premium one when faithfulness is low. I build <strong>end-to-end RAG systems</strong> with hallucination control, semantic chunking, and hybrid retrieval.',
+ about_p2:'I believe in <strong>creativity for changing times</strong>: the right tool for the goal, not the trend. My systems prioritize <strong>reliability, stability, and intelligent data use</strong>. Every solution combines <strong>deterministic layers</strong> with <strong>LLM-as-a-judge</strong> evaluation and continuous metrics to measure results and prevent hallucinations.',
+ services_label:'Services',services_title:'What I build',
+ services_sub:'Four areas where I deliver measurable value from week one.',
+ s1_title:'RAG in Production',s1_desc:'Enterprise retrieval systems with semantic chunking, reranking, cost-aware routing, and ongoing eval. Hallucination control with deterministic guardrails. On your docs, not a generic demo.',
+ s2_title:'Autonomous Agents',s2_desc:'Agents with real tools (APIs, databases, CRMs), intelligent routing, tracing, and human escalation. LangGraph + FastAPI + Docker.',
+ s3_title:'AI Automation',s3_desc:'Pipelines that classify, enrich, and trigger. Leads, tickets, documents — raw data in, decisions out. Per-operation cost tracking.',
+ s4_title:'LLM Evaluation',s4_desc:'LLM-as-a-judge frameworks, RAGAS, and deterministic guardrails. Metrics for faithfulness, hallucinations, and cost-per-answer to optimize every model.',
+ proj_label:'Projects',proj_title:'Selected work',
+ proj_sub:'RAG systems, autonomous agents, and automation pipelines — each with documented architecture and measurable results.',
+ exp_label:'Experience',exp_title:'My journey',
+ exp_sub:'From the classroom to production — mentor, engineer, and professor in AI. Currently at Sitch and EducaciónIT.',
+ exp_now:'CURRENT',
+ exp1_period:'2026 — Present',exp1_role:'AI Engineer',exp1_desc:'Turned a standard chatbot into an autonomous agent with function calling and cost-aware model routing. Built an LLM-as-a-judge evaluation framework, deterministic anti-hallucination layers, and confidence/grounding metrics.',
+ exp2_period:'2025 — Present',exp2_role:'Machine Learning Professor',exp2_desc:'Teaching the 4th cohort of the ML specialization: LLM architectures, data pipelines, RAG, and model evaluation.',
+ exp3_period:'Aug 2023 — Nov 2025',exp3_role:'Contributor & Team Leader',exp3_desc:'Led RLHF and evaluation pipeline teams for frontier LLMs. Technical auditing, rubric writing, and multi-turn agent evaluation.',
+ exp4_period:'Jan 2023 — Jul 2023',exp4_role:'Machine Learning Engineer',exp4_desc:'Prompt engineering and data analysis for a GPT-powered insurance app. Built the backend and frontend of a credit-risk engine (Python, Flask, Docker).',
+ exp5_period:'2022 — 2023',exp5_role:'Frontend & Backend Developer',exp5_desc:'Rebuilt a multimedia app in React Native, designed REST APIs with Django and SQL, and migrated legacy frontends to React for legal-tech automation.',
+ exp6_period:'2021 — 2022',exp6_role:'Technical Mentor',exp6_desc:'Guided students through fullstack and backend paths (Node.js, Python). Reviewed production-ready projects and co-built curriculum.',
+ contact_title:"Let's talk?",contact_sub:'Open to <strong>freelance</strong> and <strong>challenging roles</strong>. Based in LATAM: flexible with schedules and time zones — never an issue.',
+ form_name:'Name',form_email:'Email',form_message:'Message',form_submit:'Send message',
+ form_note:'This opens your email client with everything pre-filled.',
+ footer:'© 2026 Rodrigo de Sarasqueta — Built with purpose',
+ unesco_badge:'UNESCO RAG · Chat',
+ unesco_title:'WorldHeritage<br><span class="grad">Assistant</span>',
+ unesco_sub:'RAG system with hallucination control, smart routing, and real-time metrics.',
+ unesco_placeholder:'Ask about Machu Picchu, Angkor Wat...',
+ unesco_local:'Local model',unesco_cloud:'Cloud model',
+ unesco_confidence:'Confidence',unesco_grounding:'Grounding',
+ unesco_welcome:'Hi! Ask me about any UNESCO World Heritage site.',
+ proj_1_title:'IndieBot',proj_1_desc:'Multi-LLM RAG agent with Ollama, OpenAI, DeepSeek. Cost-aware routing, dual memory, PDFs, ChromaDB, built-in LLM-as-a-judge eval.',
+ proj_1_tech:'Python · FastAPI · ChromaDB · Ollama · smolagents · Docker',proj_1_link:'View repository',
+ proj_2_title:'Salidas Bot',proj_2_desc:'Smart agent for Buenos Aires places. 8 tools, persistent memory, vector FAQ, CLI+FastAPI+Gradio.',
+ proj_2_tech:'Python · smolagents · Groq · FastAPI · ChromaDB · Gradio',proj_2_link:'View repository',
+ proj_3_title:'ShopAgent',proj_3_desc:'E-commerce assistant with LangGraph. 49k products, semantic search, contextual recommendations.',
+ proj_3_tech:'Python · LangChain · LangGraph · ChromaDB · Streamlit',proj_3_link:'View repository',
+ proj_4_title:'SoundGraph DJ',proj_4_desc:'Real-time 3D audio visualizer. Turns songs into interactive topographic surfaces via WebGL + DSP.',
+ proj_4_tech:'Python · Flask · Librosa · Plotly.js · NumPy · DSP',proj_4_link:'View repository',
+ }};
+
 
 var projects=[
   {id:'p1',icon:'bot',gradient:'linear-gradient(135deg,#1a1a2e,#16213e)',repo:'https://github.com/rotpando/indiebot-clean',keys:['proj_1_title','proj_1_desc','proj_1_tech','proj_1_link']},
