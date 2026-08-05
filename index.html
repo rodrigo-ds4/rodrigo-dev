@@ -68,12 +68,6 @@ section{position:relative;min-height:100vh;display:flex;flex-direction:column;ju
 .hero-left h1 .line span{display:inline-block;transform-style:preserve-3d;}
 .hero-left h1 .grad{background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 50%,var(--accent3) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
 .hero-left .tagline{font-size:clamp(.95rem,1.4vw,1.1rem);color:var(--muted);max-width:540px;line-height:1.7;margin-bottom:28px;}
-.hero-cta{display:flex;gap:12px;flex-wrap:wrap;}
-.hero-cta .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 30px;border-radius:14px;font-weight:600;font-size:.88rem;transition:.4s cubic-bezier(.22,1,.36,1);cursor:pointer;border:none;font-family:'Inter',sans-serif;}
-.hero-cta .btn.primary{background:linear-gradient(135deg,var(--accent),#7c3aed);color:#fff;box-shadow:0 4px 24px rgba(167,139,250,.25);}
-.hero-cta .btn.primary:hover{box-shadow:0 16px 40px rgba(167,139,250,.4);}
-.hero-cta .btn.secondary{background:var(--card);color:var(--text);border:1px solid var(--line);}
-.hero-cta .btn.secondary:hover{background:var(--card-hi);}
 .hero-right{display:flex;justify-content:center;align-items:center;position:relative;overflow:visible}
 .hero-orb{width:clamp(200px,26vw,400px);height:clamp(200px,26vw,400px);border-radius:50%;background:radial-gradient(circle at 35% 35%,rgba(167,139,250,.3),rgba(103,232,249,.1),transparent 70%);animation:orb-pulse 5s ease-in-out infinite;filter:blur(3px);position:relative;}
 .hero-orb::after{content:'';position:absolute;inset:-20%;border-radius:50%;background:radial-gradient(circle at 65% 65%,rgba(251,191,36,.06),transparent 60%);animation:orb-pulse 7s ease-in-out infinite reverse;}
@@ -270,7 +264,6 @@ footer{text-align:center;padding:30px;color:var(--muted);font-size:.78rem;border
   #hero{padding-top:110px;}
   .hero-left .badge{margin-bottom:12px;}
   .hero-left h1{font-size:clamp(2.8rem,10vw,4.2rem);}
-  .hero-cta .btn{padding:10px 22px;font-size:.82rem;}
 }
 @media(max-width:860px) and (min-width:601px){
   .project-card{min-width:280px;width:280px;}
@@ -280,8 +273,6 @@ footer{text-align:center;padding:30px;color:var(--muted);font-size:.78rem;border
   #hero{padding-top:90px;min-height:100vh;}
   .hero-left h1{font-size:clamp(2.2rem,13vw,2.8rem);}
   .hero-left .tagline{font-size:.88rem;}
-  .hero-cta{flex-direction:column;}
-  .hero-cta .btn{width:100%;justify-content:center;}
   .top-bar{padding:10px 14px;}
   .top-bar .logo{font-size:.72rem;}
   .lang-btn{padding:3px 7px;font-size:.62rem;}
@@ -381,10 +372,6 @@ footer{text-align:center;padding:30px;color:var(--muted);font-size:.78rem;border
           <div class="line"><span class="line-2" data-i18n="hero_name">Sarasqueta</span></div>
         </h1>
         <p class="tagline" data-i18n="hero_tagline">Construyo sistemas de IA listos para producción para startups y empresas.<br>RAG · Agentes IA · Evaluación de LLMs · APIs Python · Automatización</p>
-        <div class="hero-cta">
-          <a href="#projects" class="btn primary magnetic" data-i18n="hero_work">Ver proyectos</a>
-          <a href="https://upwork.com/freelancers/rodrigods4" target="_blank" class="btn secondary magnetic" data-i18n="hero_upwork">Contratar en Upwork</a>
-        </div>
       </div>
       <div class="hero-right">
         <div class="hero-orb"></div>
@@ -566,8 +553,7 @@ var i18n={es:{
  nav_contact:'Contacto',nav_cv:'CV',
  hero_badge:'Ingeniero de IA · Agentes, RAG y Automatización',
  hero_hi:'Rodrigo de',hero_name:'Sarasqueta',
- hero_tagline:'Construyo sistemas de IA listos para producción para startups y empresas.<br>RAG · Agentes IA · Evaluación de LLMs · APIs Python · Automatización',
- hero_work:'Ver proyectos',hero_upwork:'Contratar en Upwork',
+hero_tagline:'Construyo sistemas de IA listos para producción para startups y empresas.<br>RAG · Agentes IA · Evaluación de LLMs · APIs Python · Automatización',
  about_label:'Acerca',about_title:'Ingeniería con propósito',
  about_p1:'Diseño y construyo <strong>agentes de IA</strong> que resuelven problemas reales. Mi stack combina <strong>modelos locales</strong> de bajo costo con proveedores cloud mediante <strong>routing por costo</strong>: el modelo barato responde por defecto y solo se llama a uno caro cuando la fidelidad es baja. Implemento <strong>sistemas RAG extremo a extremo</strong> con control de alucinaciones, chunking semántico y recuperación híbrida.',
  about_p2:'Creo en la <strong>creatividad para tiempos cambiantes</strong>: elegir la herramienta correcta para el objetivo, no por moda. Mis sistemas priorizan <strong>fiabilidad, estabilidad y uso inteligente de datos</strong>. Cada solución combina <strong>capas determinísticas</strong> con evaluación <strong>LLM-as-a-judge</strong> y métricas continuas para medir resultados y evitar alucinaciones.',
@@ -614,9 +600,8 @@ var i18n={es:{
  nav_contact:'Contact',nav_cv:'CV',
  hero_badge:'AI Engineer · Agents, RAG & Automation',
  hero_hi:'Rodrigo de',hero_name:'Sarasqueta',
- hero_tagline:'I build production-ready AI systems for startups and businesses.<br>RAG · AI Agents · LLM Evaluation · Python APIs · Automation',
- hero_work:'View projects',hero_upwork:'Hire me on Upwork',
- about_label:'About',about_title:'Engineering with purpose',
+hero_tagline:'I build production-ready AI systems for startups and businesses.<br>RAG · AI Agents · LLM Evaluation · Python APIs · Automation',
+  about_label:'About',about_title:'Engineering with purpose',
  about_p1:'I design and build <strong>AI agents</strong> that solve real problems. My stack combines <strong>low-cost local models</strong> with cloud providers using <strong>cost-aware routing</strong>: the cheap model answers by default and only escalates to a premium one when faithfulness is low. I build <strong>end-to-end RAG systems</strong> with hallucination control, semantic chunking, and hybrid retrieval.',
  about_p2:'I believe in <strong>creativity for changing times</strong>: the right tool for the goal, not the trend. My systems prioritize <strong>reliability, stability, and intelligent data use</strong>. Every solution combines <strong>deterministic layers</strong> with <strong>LLM-as-a-judge</strong> evaluation and continuous metrics to measure results and prevent hallucinations.',
  services_label:'Services',services_title:'What I build',
@@ -726,7 +711,6 @@ function initGSAP(){
   });
   gsap.from('.hero-left .badge',{y:-30,opacity:0,duration:.8,ease:'power3.out',delay:.3});
   gsap.from('.hero-left .tagline',{y:30,opacity:0,duration:1,ease:'power3.out',delay:.5});
-  gsap.from('.hero-cta .btn',{y:20,opacity:0,duration:.6,stagger:.1,ease:'power2.out',delay:.7});
 
   // Vintage computer: keys + power + drag-to-rotate
   requestAnimationFrame(function(){
@@ -943,9 +927,9 @@ function initGSAP(){
   var expSteps = document.querySelector('.exp-steps');
   var expIsMobile = window.innerWidth < 600;
   if (!expIsMobile && expSteps && expSteps.children.length && expSec) {
-    var expScrollDist = expSteps.scrollWidth - window.innerWidth + 80;
     var firstStep = expSteps.querySelector('.exp-step');
     var stepW = firstStep ? firstStep.offsetWidth : 320;
+    var expScrollDist = Math.max(0, expSteps.scrollWidth - stepW);
     var oldestCentX = (window.innerWidth / 2) - (stepW / 2);
     var expTravel = oldestCentX + expScrollDist;
     scrollDist = Math.max(window.innerHeight, expTravel);
@@ -956,7 +940,7 @@ function initGSAP(){
     animSub(expSec);
     if (expScrollDist > 100) {
       gsap.set(expSteps, { x: oldestCentX });
-      gsap.fromTo(expSteps, { x: oldestCentX }, { x: -expScrollDist, ease: 'none', scrollTrigger: { trigger: expSec, start: 'top top', end: '+=' + expTravel, scrub: 1.5, invalidateOnRefresh: true } });
+      gsap.fromTo(expSteps, { x: oldestCentX }, { x: oldestCentX - expScrollDist, ease: 'none', scrollTrigger: { trigger: expSec, start: 'top top', end: '+=' + expTravel, scrub: 1.5, invalidateOnRefresh: true } });
       gsap.utils.toArray('.exp-step').forEach(function (s, i) {
         var dir = i % 2 === 0 ? 1 : -1;
         gsap.fromTo(s, { x: -40 * dir, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, delay: i * 0.06, ease: 'power2.out', scrollTrigger: { trigger: expSec, start: 'top 85%', toggleActions: 'play none none none' } });
